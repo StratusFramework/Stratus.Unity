@@ -1,13 +1,17 @@
-﻿using System;
-using System.Reflection;
-using UnityEditor;
-using UnityEngine;
-using System.Collections.Generic;
-using UnityEditor.AnimatedValues;
-using Stratus.Collections;
+﻿using Stratus.Collections;
+using Stratus.Editor;
 using Stratus.Utilities;
 
-namespace Stratus.Editor
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+
+using UnityEditor;
+using UnityEditor.AnimatedValues;
+
+using UnityEngine;
+
+namespace Stratus.Unity.Editor
 {
 	/// <summary>
 	/// Provides methods using Unity's <see cref="GUILayout"/> and <see cref="EditorGUILayout"/>
@@ -23,7 +27,7 @@ namespace Stratus.Editor
 
 		#region Properties
 		private static TextAlignment currentAlignGroup { get; set; }
-		private static bool alignGroupActive { get; set; } 
+		private static bool alignGroupActive { get; set; }
 		#endregion
 
 		public static void BeginAligned(TextAlignment alignment)
@@ -71,19 +75,19 @@ namespace Stratus.Editor
 			alignGroupActive = false;
 		}
 
-		public static void Popup(string label, int selectedindex, string[] displayedOptions, System.Action<int> onSelected)
+		public static void Popup(string label, int selectedindex, string[] displayedOptions, Action<int> onSelected)
 		{
-			StratusSearchablePopup.Popup(label, selectedindex, displayedOptions, onSelected);
+			SearchablePopup.Popup(label, selectedindex, displayedOptions, onSelected);
 		}
 
 		public static void Popup(string label, DropdownList dropdownList)
 		{
-			StratusSearchablePopup.Popup(label, dropdownList.selectedIndex, dropdownList.displayedOptions, (int index) => dropdownList.selectedIndex = index);
+			SearchablePopup.Popup(label, dropdownList.selectedIndex, dropdownList.displayedOptions, (index) => dropdownList.selectedIndex = index);
 		}
 
 		public static void Popup(DropdownList dropdownList)
 		{
-			StratusSearchablePopup.Popup(dropdownList.selectedIndex, dropdownList.displayedOptions, (int index) => dropdownList.selectedIndex = index);
+			SearchablePopup.Popup(dropdownList.selectedIndex, dropdownList.displayedOptions, (index) => dropdownList.selectedIndex = index);
 		}
 
 		public static int Popup(string label, int selectedindex, string[] displayedOptions)
@@ -165,7 +169,7 @@ namespace Stratus.Editor
 			return EditorGUI.EndChangeCheck();
 		}
 
-		public static bool Button(string label, System.Action onClick)
+		public static bool Button(string label, Action onClick)
 		{
 			if (GUILayout.Button(label, StratusGUIStyles.button))
 			{
@@ -397,7 +401,7 @@ namespace Stratus.Editor
 			ContextMenu(menuFunction(), context);
 		}
 
-		public static void FadeGroup(AnimBool show, string label, System.Action drawFunction)
+		public static void FadeGroup(AnimBool show, string label, Action drawFunction)
 		{
 			show.target = EditorGUILayout.Foldout(show.target, label);
 			if (EditorGUILayout.BeginFadeGroup(show.faded))
@@ -407,7 +411,7 @@ namespace Stratus.Editor
 			EditorGUILayout.EndFadeGroup();
 		}
 
-		public static void VerticalFadeGroup(AnimBool show, string label, System.Action drawFunction, GUIStyle verticalStyle = null, bool validate = true)
+		public static void VerticalFadeGroup(AnimBool show, string label, Action drawFunction, GUIStyle verticalStyle = null, bool validate = true)
 		{
 			show.target = EditorGUILayout.Foldout(show.target, label) && validate;
 			if (EditorGUILayout.BeginFadeGroup(show.faded))
@@ -419,7 +423,7 @@ namespace Stratus.Editor
 			EditorGUILayout.EndFadeGroup();
 		}
 
-		public static void VerticalFadeGroup<T>(AnimBool show, string label, System.Action<T> drawFunction, T argument, GUIStyle verticalStyle = null, bool validate = true)
+		public static void VerticalFadeGroup<T>(AnimBool show, string label, Action<T> drawFunction, T argument, GUIStyle verticalStyle = null, bool validate = true)
 		{
 			show.target = EditorGUILayout.Foldout(show.target, label) && validate;
 			if (EditorGUILayout.BeginFadeGroup(show.faded))
@@ -482,7 +486,7 @@ namespace Stratus.Editor
 				Rect row = rows[i];
 				Action<Rect> action = onRow[i];
 				Debug.Log($"{i} : {row}");
-				
+
 				//GUILayout.BeginArea(row);
 				action(row);
 				//GUILayout.EndArea();

@@ -1,13 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-using System.Reflection;
-using UnityEditor;
-using Stratus.Extensions;
+﻿using Stratus.Extensions;
 using Stratus.Reflection;
 
-namespace Stratus.Editor
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+
+using UnityEditor;
+
+using UnityEngine;
+
+namespace Stratus.Unity.Editor
 {
 	public partial class StratusSerializedEditorObject
 	{
@@ -145,7 +148,7 @@ namespace Stratus.Editor
 						value = EditorGUI.LayerField(position, name, GetValue<LayerMask>(target));
 						break;
 					case StratusSerializedFieldType.Enum:
-						StratusSearchableEnum.EnumPopup(position, name, GetValue<Enum>(target), (Enum selected) => SetValue(target, selected));
+						SearchableEnum.EnumPopup(position, name, GetValue<Enum>(target), (Enum selected) => SetValue(target, selected));
 						break;
 					case StratusSerializedFieldType.Vector2:
 						value = EditorGUI.Vector2Field(position, name, GetValue<Vector2>(target));

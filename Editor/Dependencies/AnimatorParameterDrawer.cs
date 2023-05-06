@@ -4,6 +4,7 @@ using System.Linq;
 using Stratus.Dependencies.Ludiq.Controls.Editor;
 using Stratus.Dependencies.Ludiq.Reflection.Internal;
 using Stratus.Extensions;
+using Stratus.Unity.Editor;
 
 using UnityEditor;
 using UnityEditor.Animations;

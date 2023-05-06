@@ -1,15 +1,16 @@
 #define STRATUS_CORE
 
-using System.Collections.Generic;
-
+using Stratus.Editor;
 using Stratus.Extensions;
 using Stratus.OdinSerializer;
+
+using System.Collections.Generic;
 
 using UnityEditor;
 
 using UnityEngine;
 
-namespace Stratus.Editor
+namespace Stratus.Unity.Editor
 {
 	/// <summary>
 	/// The main data asset containing all the saved settings present among the Stratus framework's utilities
@@ -32,14 +33,14 @@ namespace Stratus.Editor
 		/// Allows objects in the scene and project to be bookmarked for quick access
 		/// </summary>
 		[HideInInspector]
-		public StratusObjectBookmarksEditorWindow.ObjectBookmarks objectBookmarks = new StratusObjectBookmarksEditorWindow.ObjectBookmarks();
+		public ObjectBookmarksEditorWindow.ObjectBookmarks objectBookmarks = new ObjectBookmarksEditorWindow.ObjectBookmarks();
 
 		/// <summary>
 		/// Object references to store...
 		/// </summary>
 		[OdinSerialize]
 		[HideInInspector]
-		public Dictionary<string, UnityEngine.Object> objectReferences = new Dictionary<string, Object>();
+		public Dictionary<string, Object> objectReferences = new Dictionary<string, Object>();
 
 		/// <summary>
 		/// An audio clip to be played whenever the editor reloads scripts
@@ -54,7 +55,7 @@ namespace Stratus.Editor
 		/// <summary>
 		/// Automatically isolate Stratus Canvas Windows
 		/// </summary>
-		public bool isolateCanvases = true; 
+		public bool isolateCanvases = true;
 		#endregion
 
 		//------------------------------------------------------------------------/
@@ -79,7 +80,7 @@ namespace Stratus.Editor
 			this.bookmarkedScenes.Clear();
 		}
 
-		public static void SaveObjectReference(string name, UnityEngine.Object reference)
+		public static void SaveObjectReference(string name, Object reference)
 		{
 			if (instance.objectReferences == null)
 			{
@@ -90,7 +91,7 @@ namespace Stratus.Editor
 		}
 
 		public static T GetObjectReference<T>(string name)
-			where T : UnityEngine.Object
+			where T : Object
 		{
 			if (instance.objectReferences == null)
 			{
@@ -129,8 +130,4 @@ namespace Stratus.Editor
 			return provider;
 		}
 	}
-
-
-
-
 }

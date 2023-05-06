@@ -1,16 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-
 using Stratus.Reflection;
 using Stratus.Types;
+
+using System;
+using System.Reflection;
 
 using UnityEditor;
 
 using UnityEngine;
 
-namespace Stratus.Editor
+namespace Stratus.Unity.Editor
 {
 	/// <summary>
 	/// Edits System.Object types in a completely generic way

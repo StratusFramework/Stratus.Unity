@@ -12,9 +12,9 @@ using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Stratus.Editor
+namespace Stratus.Unity.Editor
 {
-	public abstract class StratusMultiColumnTreeView<TreeElementType, ColumnType> 
+	public abstract class StratusMultiColumnTreeView<TreeElementType, ColumnType>
 		: StratusTreeViewWithTreeModel<TreeElementType>
 		where TreeElementType : TreeElement
 		where ColumnType : Enum
@@ -256,7 +256,7 @@ namespace Stratus.Editor
 		}
 
 		public void SortByColumn(ColumnType column, bool ascending = false)
-		{			
+		{
 			this.stratusMultiColumnHeader.SetSorting(GetColumnIndex(column), ascending);
 		}
 

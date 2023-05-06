@@ -1,4 +1,5 @@
 ﻿using Stratus.Logging;
+using Stratus.Unity.Editor;
 
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace Stratus.Editor
 		/// <summary>
 		/// A drawer for an optional menu bar
 		/// </summary>
-		protected StratusMenuBarGUIObject menuBarDrawer { get; set; }
+		protected MenuBarGUIObject menuBarDrawer { get; set; }
 
 		/// <summary>
 		/// A map of all objects currently being inspected
@@ -82,7 +83,7 @@ namespace Stratus.Editor
 		//------------------------------------------------------------------------/
 		protected abstract void OnWindowEnable();
 		protected abstract void OnWindowGUI();
-		protected virtual StratusMenuBarGUIObject OnSetMenuBar()
+		protected virtual MenuBarGUIObject OnSetMenuBar()
 		{
 			return null;
 		}

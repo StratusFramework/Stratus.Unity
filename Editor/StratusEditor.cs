@@ -1,6 +1,7 @@
 using Stratus.Extensions;
 using Stratus.Reflection;
 using Stratus.Unity;
+using Stratus.Unity.Editor;
 
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-namespace Stratus.Editor
+namespace Stratus.Unity.Editor
 {
 	/// <summary>
 	/// Base editor for all Stratus components.

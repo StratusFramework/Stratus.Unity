@@ -1,15 +1,17 @@
+using Stratus.Editor;
+using Stratus.Models;
+using Stratus.OdinSerializer.Utilities;
+using Stratus.Serialization;
+
+using System;
+using System.Linq;
+
 using UnityEditor;
+
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
-using System.Linq;
-using System.IO;
-using Stratus.OdinSerializer.Utilities;
-using System;
-using Stratus.Serialization;
-using Stratus.Models;
 
-namespace Stratus.Editor.Windows
+namespace Stratus.Unity.Editor
 {
 	public class StratusSerializedAssetEditorWindow : StratusEditorWindow
 	{

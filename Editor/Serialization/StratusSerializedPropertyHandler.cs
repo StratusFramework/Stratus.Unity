@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Stratus.Extensions;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using UnityEngine;
-using UnityEditor;
-using Stratus.Extensions;
 
-namespace Stratus.Editor
+using UnityEditor;
+
+using UnityEngine;
+
+namespace Stratus.Unity.Editor
 {
 	/// <summary>
 	/// Handles drawing a serialized property: keeping track of property and decorator drawers
@@ -41,7 +44,7 @@ namespace Stratus.Editor
 		{
 			get
 			{
-				return propertyDrawer != null && StratusScriptAttributeUtility.s_DrawerStack.Any() && propertyDrawer == StratusScriptAttributeUtility.s_DrawerStack.Peek();
+				return propertyDrawer != null && ScriptAttributeUtility.s_DrawerStack.Any() && propertyDrawer == ScriptAttributeUtility.s_DrawerStack.Peek();
 			}
 		}
 
@@ -84,7 +87,7 @@ namespace Stratus.Editor
 		/// </summary>
 		public void HandleDrawnType(Type drawnType, Type propertyType, FieldInfo field, PropertyAttribute attribute)
 		{
-			Type drawerTypeForType = StratusScriptAttributeUtility.GetDrawerTypeForType(drawnType);
+			Type drawerTypeForType = ScriptAttributeUtility.GetDrawerTypeForType(drawnType);
 			if (drawerTypeForType != null)
 			{
 				if (typeof(PropertyDrawer).IsAssignableFrom(drawerTypeForType))
@@ -320,7 +323,7 @@ namespace Stratus.Editor
 				EditorGUI.indentLevel = cur.depth + indentOffset;
 				position.y += PROPERTY_MARGIN;
 
-				StratusSerializedPropertyHandler curHandler = StratusScriptAttributeUtility.GetHandler(cur);
+				StratusSerializedPropertyHandler curHandler = ScriptAttributeUtility.GetHandler(cur);
 				position.height = curHandler.GetHeight(cur, StratusEditorUtility.TempContent(cur.displayName), cur.isExpanded);
 
 				EditorGUI.BeginChangeCheck();
@@ -348,7 +351,7 @@ namespace Stratus.Editor
 
 			while (!SerializedProperty.EqualContents(cur, end))
 			{
-				StratusSerializedPropertyHandler curHandler = StratusScriptAttributeUtility.GetHandler(cur);
+				StratusSerializedPropertyHandler curHandler = ScriptAttributeUtility.GetHandler(cur);
 				float curHeight = curHandler.GetHeight(cur, StratusEditorUtility.TempContent(cur.displayName), cur.isExpanded);
 				height += curHeight + PROPERTY_MARGIN;
 				cur.NextVisible(false);

@@ -2,7 +2,7 @@ using System;
 
 using UnityEngine;
 
-namespace Stratus
+namespace Stratus.Unity.Editor
 {
 	public static class ScriptableObjectExtensions
 	{

@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
 
-namespace Stratus
+using UnityEngine;
+
+namespace Stratus.Unity.Editor
 {
 	/// <summary>
 	/// Supports listening to the hierarchy window's hierarchyWindowItemOnGUI delegate
@@ -15,7 +14,7 @@ namespace Stratus
 
 	public interface IUnityGUIEventListener
 	{
-		UnityEngine.Event currentEvent { get; set; }
+		Event currentEvent { get; set; }
 		Vector2 mousePosition { get; set; }
 	}
 
@@ -29,7 +28,7 @@ namespace Stratus
 		protected abstract void OnInspect(T behaviour);
 
 		protected Vector2 mousePosition;
-		protected UnityEngine.Event currentEvent;
+		protected Event currentEvent;
 
 		protected override void OnInitializeState()
 		{

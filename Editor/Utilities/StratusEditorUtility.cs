@@ -1,17 +1,17 @@
+using Stratus.Extensions;
+using Stratus.Reflection;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-using Stratus.Extensions;
-using Stratus.Reflection;
-
 using UnityEditor;
 
 using UnityEngine;
 
-namespace Stratus.Editor
+namespace Stratus.Unity.Editor
 {
 	public static partial class StratusEditorUtility
 	{
@@ -24,7 +24,7 @@ namespace Stratus.Editor
 		//------------------------------------------------------------------------/
 		// Properties
 		//------------------------------------------------------------------------/
-		public static UnityEngine.Event currentEvent => UnityEngine.Event.current;
+		public static Event currentEvent => Event.current;
 		public static bool currentEventUsed => currentEvent.type == EventType.Used;
 		public static bool onRepaint => currentEvent.type == EventType.Repaint;
 		public static Rect lastRect => GUILayoutUtility.GetLastRect();
@@ -35,8 +35,8 @@ namespace Stratus.Editor
 		private static Dictionary<int, float> abstractListHeights { get; set; } = new Dictionary<int, float>();
 		public static Rect lastEditorGUILayoutRect
 		{
-			get => ReflectionUtility.GetField<Rect>("s_LastRect", typeof(UnityEditor.EditorGUILayout));
-			set => ReflectionUtility.SetField<Rect>("s_LastRect", typeof(UnityEditor.EditorGUILayout), value);
+			get => ReflectionUtility.GetField<Rect>("s_LastRect", typeof(EditorGUILayout));
+			set => ReflectionUtility.SetField("s_LastRect", typeof(EditorGUILayout), value);
 		}
 
 		private static Assembly _unityEditorAssembly;
@@ -46,7 +46,7 @@ namespace Stratus.Editor
 			{
 				if (_unityEditorAssembly == null)
 				{
-					_unityEditorAssembly = System.Reflection.Assembly.GetAssembly(typeof(UnityEditor.Editor));
+					_unityEditorAssembly = Assembly.GetAssembly(typeof(UnityEditor.Editor));
 				}
 
 				return _unityEditorAssembly;
@@ -118,7 +118,7 @@ namespace Stratus.Editor
 			Type t = typeof(EditorGUI);
 			Type delegateType = typeof(DefaultPropertyFieldDelegate);
 			MethodInfo m = t.GetMethod("DefaultPropertyField", BindingFlags.Static | BindingFlags.NonPublic);
-			defaultPropertyField = (DefaultPropertyFieldDelegate)System.Delegate.CreateDelegate(delegateType, m);
+			defaultPropertyField = (DefaultPropertyFieldDelegate)Delegate.CreateDelegate(delegateType, m);
 		}
 
 		public static void UseDefaultDrawer(Rect position, SerializedProperty property, GUIContent label, Type type)
@@ -266,7 +266,7 @@ namespace Stratus.Editor
 			PlayerSettings.SetScriptingDefineSymbolsForGroup(
 				EditorUserBuildSettings.selectedBuildTargetGroup,
 				string.Join(";", allDefines.ToArray()));
-		}				
+		}
 
 		public static Rect Pad(Rect rect)
 		{
@@ -322,29 +322,69 @@ namespace Stratus.Editor
 
 		public static float GetSinglePropertyHeight(SerializedProperty property, GUIContent label)
 		{
-			return (float)ReflectionUtility.GetReflectedMethod("GetSinglePropertyHeight", typeof(UnityEditor.EditorGUI)).Invoke(null, new object[] { property, label });
+			return (float)ReflectionUtility.GetReflectedMethod("GetSinglePropertyHeight", typeof(EditorGUI)).Invoke(null, new object[] { property, label });
 		}
 
 		internal static bool HasVisibleChildFields(SerializedProperty property)
 		{
-			return (bool)ReflectionUtility.GetReflectedMethod("HasVisibleChildFields", typeof(UnityEditor.EditorGUI)).Invoke(null, new object[] { property });
+			return (bool)ReflectionUtility.GetReflectedMethod("HasVisibleChildFields", typeof(EditorGUI)).Invoke(null, new object[] { property });
 		}
 
 		internal static bool DefaultPropertyField(Rect position, SerializedProperty property, GUIContent label)
 		{
-			return (bool)ReflectionUtility.GetReflectedMethod("DefaultPropertyField", typeof(UnityEditor.EditorGUI)).Invoke(null, new object[] { position, property, label });
+			return (bool)ReflectionUtility.GetReflectedMethod("DefaultPropertyField", typeof(EditorGUI)).Invoke(null, new object[] { position, property, label });
 		}
 
 		internal static Rect GetToggleRect(bool hasLabel, params GUILayoutOption[] options)
 		{
-			return (Rect)ReflectionUtility.GetReflectedMethod("GetToggleRect", typeof(UnityEditor.EditorGUILayout)).Invoke(null, new object[] { hasLabel, options });
+			return (Rect)ReflectionUtility.GetReflectedMethod("GetToggleRect", typeof(EditorGUILayout)).Invoke(null, new object[] { hasLabel, options });
 		}
 
 		internal static GUIContent TempContent(string t)
 		{
 			BindingFlags bindflags = BindingFlags.NonPublic | BindingFlags.Static;
-			MethodInfo method = typeof(UnityEditor.EditorGUIUtility).GetMethod("TempContent", bindflags, null, new[] { typeof(string) }, null);
+			MethodInfo method = typeof(EditorGUIUtility).GetMethod("TempContent", bindflags, null, new[] { typeof(string) }, null);
 			return (GUIContent)method.Invoke(null, new[] { t });
+		}
+
+		//------------------------------------------------------------------------/
+		// Properties
+		//------------------------------------------------------------------------/
+		public static Assembly audioImporterAssembly { get; } = typeof(AudioImporter).Assembly;
+		public static Type audioUtilityClass { get; } = audioImporterAssembly.GetType("UnityEditor.AudioUtil");
+		private static MethodInfo playAudioClipMethod { get; } = audioUtilityClass.GetMethod(
+				"PlayClip",
+				BindingFlags.Static | BindingFlags.Public,
+				null,
+				new Type[] { typeof(AudioClip) },
+				null);
+
+		private static MethodInfo stopAllAudioClipsMethod = audioUtilityClass.GetMethod(
+				"StopAllClips",
+				BindingFlags.Static | BindingFlags.Public,
+				null,
+				new Type[] { },
+				null);
+
+
+		//------------------------------------------------------------------------/
+		// Declarations
+		//------------------------------------------------------------------------/
+		/// <summary>
+		/// Plays the given audio clip within the editor
+		/// </summary>
+		/// <param name="clip"></param>
+		public static void PlayAudioClip(AudioClip clip)
+		{
+			playAudioClipMethod.Invoke(null, new object[] { clip });
+		}
+
+		/// <summary>
+		/// Stops all playing audio clips in the editor
+		/// </summary>
+		public static void StopAllAudioClips()
+		{
+			stopAllAudioClipsMethod.Invoke(null, new object[] { });
 		}
 	}
 }

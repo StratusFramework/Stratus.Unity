@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Stratus.Extensions;
+using Stratus.Types;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
-using Stratus.Extensions;
-using Stratus.Types;
 
 using UnityEditor;
 
 using UnityEngine;
 
-namespace Stratus.Editor
+namespace Stratus.Unity.Editor
 {
 	public partial class StratusSerializedEditorObject
 	{

@@ -1,5 +1,4 @@
-﻿using Stratus.Editor;
-using Stratus.Unity.Triggers;
+﻿using Stratus.Unity.Triggers;
 
 using UnityEditor;
 

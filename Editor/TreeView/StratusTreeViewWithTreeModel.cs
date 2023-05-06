@@ -10,7 +10,7 @@ using UnityEditor.IMGUI.Controls;
 
 using UnityEngine;
 
-namespace Stratus
+namespace Stratus.Unity.Editor
 {
 	public class StratusTreeViewItem<T> : TreeViewItem where T : TreeElement
 	{
@@ -89,9 +89,9 @@ namespace Stratus
 		{
 			this.treeModel.BuildRoot();
 
-			return new StratusTreeViewItem<TreeElementType>(this.treeModel.root.id, 
-				hiddenRootDepth, 
-				this.treeModel.root.name, 
+			return new StratusTreeViewItem<TreeElementType>(this.treeModel.root.id,
+				hiddenRootDepth,
+				this.treeModel.root.name,
 				this.treeModel.root);
 		}
 
@@ -120,7 +120,7 @@ namespace Stratus
 
 			// The child parent information still has to be set for the rows
 			// since the information is used by the treeview internal logic (navigation, dragging, etc)
-			TreeView.SetupParentsAndChildrenFromDepths(this.rootItem, this.rows);
+			SetupParentsAndChildrenFromDepths(this.rootItem, this.rows);
 
 			return this.rows;
 		}
@@ -134,7 +134,7 @@ namespace Stratus
 			GenericMenu menu = new GenericMenu();
 			this.OnItemContextMenu(menu, treeElement);
 			menu.ShowAsContext();
-			UnityEngine.Event.current.Use();
+			Event.current.Use();
 		}
 
 		protected override void ContextClicked()
@@ -147,7 +147,7 @@ namespace Stratus
 				menu.ShowAsContext();
 			}
 
-			UnityEngine.Event.current.Use();
+			Event.current.Use();
 		}
 
 		protected override void SelectionChanged(IList<int> selectedIds)
@@ -336,7 +336,7 @@ namespace Stratus
 					}
 					else
 					{
-						item.children = TreeView.CreateChildListForCollapsedParent();
+						item.children = CreateChildListForCollapsedParent();
 					}
 				}
 			}
@@ -494,5 +494,4 @@ namespace Stratus
 		}
 
 	}
-
 }

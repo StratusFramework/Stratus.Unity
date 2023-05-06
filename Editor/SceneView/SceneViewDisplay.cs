@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Stratus.Extensions;
+﻿using Stratus.Extensions;
 using Stratus.Types;
+
+using System;
+using System.Collections.Generic;
 
 using UnityEditor;
 
 using UnityEngine;
 
-namespace Stratus
+namespace Stratus.Unity.Editor
 {
 	/// <summary>
 	/// Derive from this class to create a scene view display
 	/// </summary>
 	[InitializeOnLoad]
-	public abstract class SceneViewDisplay : System.Object
+	public abstract class SceneViewDisplay : object
 	{
 		//------------------------------------------------------------------------/
 		// Declarations
@@ -95,12 +95,12 @@ namespace Stratus
 		//------------------------------------------------------------------------/
 		static SceneViewDisplay()
 		{
-			#if UNITY_EDITOR
+#if UNITY_EDITOR
 			LoadGlobal();
 			ConstructAllDisplays();
 			EditorApplication.hierarchyChanged += OnHierarchyWindowChanged;
 			EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
-			#endif
+#endif
 		}
 
 		/// <summary>
@@ -263,7 +263,7 @@ namespace Stratus
 		/// </summary>
 		public static void SaveGlobal()
 		{
-			string data = JsonUtility.ToJson(SceneViewDisplay.global);
+			string data = JsonUtility.ToJson(global);
 			EditorPrefs.SetString(globalKey, data);
 		}
 
@@ -279,7 +279,7 @@ namespace Stratus
 			}
 
 			string data = EditorPrefs.GetString(globalKey);
-			EditorJsonUtility.FromJsonOverwrite(data, SceneViewDisplay.global);
+			EditorJsonUtility.FromJsonOverwrite(data, global);
 			return true;
 		}
 
@@ -329,7 +329,7 @@ namespace Stratus
 			}
 			if (EditorGUI.EndChangeCheck())
 			{
-				SceneViewDisplay.SaveGlobal();
+				SaveGlobal();
 				SceneView.RepaintAll();
 			}
 		}

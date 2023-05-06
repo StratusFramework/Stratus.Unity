@@ -1,6 +1,4 @@
-﻿using Stratus.Editor;
-
-using UnityEditor;
+﻿using UnityEditor;
 
 using UnityEngine;
 
@@ -13,7 +11,7 @@ namespace Stratus.Unity.Editor
 		{
 			label = EditorGUI.BeginProperty(position, label, property);
 			{
-				StratusSearchableEnum.EnumPopup(position, label, property);
+				SearchableEnum.EnumPopup(position, label, property);
 			}
 			EditorGUI.EndProperty();
 		}

@@ -1,7 +1,6 @@
 using System;
 using System.Reflection;
 
-using Stratus.Editor;
 using Stratus.Extensions;
 using Stratus.Models;
 using Stratus.Numerics;

@@ -1,14 +1,11 @@
 ﻿using Stratus.Data;
 using Stratus.Extensions;
 
-using System.Collections;
-using System.Collections.Generic;
-
 using UnityEditor;
 
 using UnityEngine;
 
-namespace Stratus
+namespace Stratus.Unity.Editor
 {
 	[CustomPropertyDrawer(typeof(Blackboard.Selector))]
 	public class BlackboardSelectorDrawer : ObjectPropertySelectorDrawer<Blackboard.Selector>

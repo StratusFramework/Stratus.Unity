@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
+﻿using Stratus.Editor;
 
-namespace Stratus.Editor
+using UnityEngine;
+
+namespace Stratus.Unity.Editor
 {
 	/// <summary>
 	/// A display for singletons

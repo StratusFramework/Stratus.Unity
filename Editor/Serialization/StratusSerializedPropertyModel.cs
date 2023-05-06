@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Reflection;
-using UnityEditor;
+﻿using Stratus.Extensions;
+using Stratus.Reflection;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using Stratus.Extensions;
-using Stratus.Reflection;
+using System.Reflection;
+
+using UnityEditor;
 
 namespace Stratus
 {

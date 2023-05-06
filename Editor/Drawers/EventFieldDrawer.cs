@@ -1,10 +1,8 @@
-using Stratus.Events;
-
 using UnityEditor;
 
 using UnityEngine;
 
-namespace Stratus
+namespace Stratus.Unity.Editor
 {
 	[CustomPropertyDrawer(typeof(StratusEventField))]
 	public class EventFieldDrawer : StratusPropertyDrawer
@@ -58,9 +56,6 @@ namespace Stratus
 			{
 				DrawProperty(ref position, property.FindPropertyRelative(nameof(StratusEventField.targets)));
 			}
-
-
-
 		}
 	}
 }

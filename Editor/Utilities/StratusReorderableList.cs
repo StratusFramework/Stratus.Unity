@@ -12,7 +12,7 @@ using UnityEditorInternal;
 
 using UnityEngine;
 
-namespace Stratus.Editor
+namespace Stratus.Unity.Editor
 {
 	/// <summary>
 	/// An extended reorderable list, that draws System.Object types using custom object drawers
@@ -120,7 +120,7 @@ namespace Stratus.Editor
 		//------------------------------------------------------------------------/
 		public void SetHeaderCallback(SerializedProperty serializedProperty)
 		{
-			this.drawHeaderCallback = (Rect rect) =>
+			this.drawHeaderCallback = (rect) =>
 			{
 				Rect newRect = new Rect(rect.x + 10, rect.y, rect.width - 10, rect.height);
 				serializedProperty.isExpanded = EditorGUI.Foldout(newRect, serializedProperty.isExpanded, serializedProperty.displayName);
@@ -129,7 +129,7 @@ namespace Stratus.Editor
 
 		public void SetHeaderCallback(StratusSerializedField serializedField)
 		{
-			this.drawHeaderCallback = (Rect rect) =>
+			this.drawHeaderCallback = (rect) =>
 			{
 				Rect newRect = new Rect(rect.x + 10, rect.y, rect.width - 10, rect.height);
 				serializedField.isExpanded = EditorGUI.Foldout(newRect, serializedField.isExpanded, $"{serializedField.displayName} ({serializedField.elementType.Name}) ");
@@ -139,7 +139,7 @@ namespace Stratus.Editor
 		public void SetElementDrawCallback(SerializedProperty serializedProperty)
 		{
 			this.drawElementCallback =
-			 (Rect rect, int index, bool isActive, bool isFocused) =>
+			 (rect, index, isActive, isFocused) =>
 			 {
 				 if (!serializedProperty.isExpanded)
 				 {
@@ -160,7 +160,7 @@ namespace Stratus.Editor
 		public void SetPolymorphicElementDrawCallback(StratusSerializedField serializedProperty)
 		{
 			this.drawElementCallback =
-			 (Rect rect, int index, bool isActive, bool isFocused) =>
+			 (rect, index, isActive, isFocused) =>
 			 {
 				 if (!serializedProperty.isExpanded)
 				 {
@@ -185,7 +185,7 @@ namespace Stratus.Editor
 
 		public void SetElementHeightCallback(SerializedProperty serializedProperty)
 		{
-			this.elementHeightCallback = (int indexer) =>
+			this.elementHeightCallback = (indexer) =>
 			{
 				if (!serializedProperty.isExpanded)
 				{
@@ -201,7 +201,7 @@ namespace Stratus.Editor
 
 		public void SetPolymorphicElementHeightCallback(StratusSerializedField serializedProperty)
 		{
-			this.elementHeightCallback = (int indexer) =>
+			this.elementHeightCallback = (indexer) =>
 			{
 				if (!serializedProperty.isExpanded)
 				{
@@ -214,7 +214,7 @@ namespace Stratus.Editor
 					// We add an additional line of height since we are drawing a label for polymorphic list
 					if (this.drawElementTypeLabel)
 					{
-						height += StratusSerializedEditorObject.DefaultObjectDrawer.lineHeight;
+						height += StratusSerializedEditorObject.Drawer.lineHeight;
 					}
 
 					return height;
@@ -224,12 +224,12 @@ namespace Stratus.Editor
 
 		public void SetElementAddCallback(StratusSerializedField serializedProperty)
 		{
-			this.onAddDropdownCallback = (Rect buttonRect, ReorderableList list) =>
+			this.onAddDropdownCallback = (buttonRect, list) =>
 			{
 				Type baseType = serializedProperty.elementType;
 				GenericMenu menu = new GenericMenu();
 				string[] typeNames = TypeUtility.SubclassNames(baseType);
-				menu.AddItems(typeNames, (int index) =>
+				menu.AddItems(typeNames, (index) =>
 				{
 					serializedProperty.asList.Add(ObjectUtility.Instantiate(TypeUtility.SubclassesOf(baseType)[index]));
 				});

@@ -8,14 +8,14 @@ using UnityEditor.SceneManagement;
 
 using UnityEngine;
 
-namespace Stratus.Editor
+namespace Stratus.Unity.Editor
 {
 	/// <summary>
 	/// Class that listens to Unity's asset pipeline events
 	/// </summary>
 	public static class StratusAssetProcessor
 	{
-		public class AssetModification : UnityEditor.AssetModificationProcessor
+		public class AssetModification : AssetModificationProcessor
 		{
 			/// <summary>
 			/// Invoked when any asset is saved
@@ -34,7 +34,7 @@ namespace Stratus.Editor
 		[PostProcessScene]
 		public static void OnPostProcessScene()
 		{
-			if (UnityEditor.BuildPipeline.isBuildingPlayer)
+			if (BuildPipeline.isBuildingPlayer)
 			{
 				StratusDebug.Log($"Removing all instances of:");
 				StratusGameObjectBookmark.RemoveAll();
@@ -102,7 +102,7 @@ namespace Stratus.Editor
 		/// </summary>
 		/// <param name="target"></param>
 		/// <param name="pathToBuiltProject"></param>
-		[PostProcessBuildAttribute(1)]
+		[PostProcessBuild(1)]
 		public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
 		{
 		}
@@ -112,8 +112,8 @@ namespace Stratus.Editor
 			foreach (UndoPropertyModification modification in propertyModifications)
 			{
 				Object target = modification.currentValue.target;
-				onObjectModified.TryInvoke(target, (ObjectModificationCallback callback) => callback.Invoke(target));
-				onObjectByNameModified.TryInvoke(target.name, (ModificationCallback callback) => callback.Invoke());
+				onObjectModified.TryInvoke(target, (callback) => callback.Invoke(target));
+				onObjectByNameModified.TryInvoke(target.name, (callback) => callback.Invoke());
 			}
 			return propertyModifications;
 		}

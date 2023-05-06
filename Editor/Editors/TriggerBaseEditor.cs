@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Stratus.Unity.Editor
 {
 	[CustomEditor(typeof(TriggerBase), true), CanEditMultipleObjects]
-	public abstract class TriggerBaseEditor<T> : StratusBehaviourEditor<T> where T : TriggerBase
+	public abstract class TriggerBaseEditor<T> : BehaviourEditor<T> where T : TriggerBase
 	{
 		abstract internal void OnTriggerBaseEditorEnable();
 

@@ -1,4 +1,5 @@
 using Stratus.Editor;
+using Stratus.Types;
 using Stratus.Unity.Triggers;
 
 using System;
@@ -11,7 +12,7 @@ using UnityEngine;
 namespace Stratus.Unity.Editor
 {
 	[CustomEditor(typeof(TriggerSystem))]
-	public partial class TriggerSystemEditor : StratusBehaviourEditor<TriggerSystem>
+	public partial class TriggerSystemEditor : BehaviourEditor<TriggerSystem>
 	{
 		//------------------------------------------------------------------------/
 		// Fields
@@ -25,7 +26,7 @@ namespace Stratus.Unity.Editor
 		private List<Tuple<TriggerBehaviour, TriggerBehaviour>> triggerSwapOperations = new List<Tuple<TriggerBehaviour, TriggerBehaviour>>();
 		private List<Tuple<TriggerableBehaviour, TriggerableBehaviour>> triggerableSwapOperations = new();
 		private GUILayoutOption columnWidth;
-		private StratusTypeSelector triggerTypes, triggerableTypes;
+		private TypeSelector triggerTypes, triggerableTypes;
 
 		//------------------------------------------------------------------------/
 		// Properties
@@ -53,8 +54,8 @@ namespace Stratus.Unity.Editor
 		//------------------------------------------------------------------------/
 		protected override void OnStratusEditorEnable()
 		{
-			triggerTypes = new StratusTypeSelector(typeof(TriggerBehaviour), true);
-			triggerableTypes = new StratusTypeSelector(typeof(TriggerableBehaviour), true);
+			triggerTypes = new TypeSelector(typeof(TriggerBehaviour), true);
+			triggerableTypes = new TypeSelector(typeof(TriggerableBehaviour), true);
 
 			selectedColor = StratusGUIStyles.Colors.selectedColor;
 			connectedColor = StratusGUIStyles.Colors.connectedColor;

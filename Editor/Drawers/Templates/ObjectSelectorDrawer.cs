@@ -1,11 +1,15 @@
-﻿using System.Collections;
+﻿using Stratus.Unity.Editor;
+
+using System.Collections;
 using System.Collections.Generic;
+
 using UnityEditor;
+
 using UnityEngine;
 
 namespace Stratus
 {
-  public abstract class ObjectPropertySelectorDrawer<T> : StratusPropertyDrawer
+	public abstract class ObjectPropertySelectorDrawer<T> : StratusPropertyDrawer
   {
     protected abstract string objectPropertyName { get; }
     protected override void OnDrawProperty(Rect position, SerializedProperty property)

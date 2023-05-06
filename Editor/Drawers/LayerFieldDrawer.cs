@@ -1,23 +1,20 @@
 ﻿using UnityEditor;
+
 using UnityEngine;
 
-namespace Stratus
+namespace Stratus.Unity.Editor
 {
-  namespace Types
-  {
-    [CustomPropertyDrawer(typeof(StratusLayerField))]
-    public class LayerFieldDrawer : PropertyDrawer
-    {
-      public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-      {
-        SerializedProperty layer = property.FindPropertyRelative("layer");
+	[CustomPropertyDrawer(typeof(StratusLayerField))]
+	public class LayerFieldDrawer : PropertyDrawer
+	{
+		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+		{
+			SerializedProperty layer = property.FindPropertyRelative("layer");
 
-        EditorGUI.BeginProperty(position, label, layer);
-        layer.intValue = EditorGUI.LayerField(position, label, layer.intValue);
-        EditorGUI.EndProperty();
-      }
+			EditorGUI.BeginProperty(position, label, layer);
+			layer.intValue = EditorGUI.LayerField(position, label, layer.intValue);
+			EditorGUI.EndProperty();
+		}
 
-    }
-
-  }
+	}
 }

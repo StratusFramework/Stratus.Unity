@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System.Reflection;
+﻿using UnityEditor;
 
-namespace Stratus
+using UnityEngine;
+
+namespace Stratus.Unity.Editor
 {
 	[CustomPropertyDrawer(typeof(StratusRuntimeMethodField))]
 	public class MethodFieldDrawer : PropertyDrawer

@@ -9,7 +9,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-namespace Stratus.Editor
+namespace Stratus.Unity.Editor
 {
 	public partial class StratusSerializedEditorObject
 	{

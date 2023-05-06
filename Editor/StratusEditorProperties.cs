@@ -10,7 +10,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-namespace Stratus.Editor
+namespace Stratus.Unity.Editor
 {
 	public abstract partial class StratusEditor : UnityEditor.Editor
 	{
@@ -97,7 +97,7 @@ namespace Stratus.Editor
 					// Enums
 					if (property.propertyType == SerializedPropertyType.Enum && drawEnumPopup)
 					{
-						StratusSearchableEnum.EnumPopup(property);
+						SearchableEnum.EnumPopup(property);
 					}
 					else
 					{

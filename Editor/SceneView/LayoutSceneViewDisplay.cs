@@ -1,13 +1,13 @@
-﻿using System;
-
-using Stratus.Extensions;
+﻿using Stratus.Extensions;
 using Stratus.Reflection;
+
+using System;
 
 using UnityEditor;
 
 using UnityEngine;
 
-namespace Stratus
+namespace Stratus.Unity.Editor
 {
 	/// <summary>
 	/// Provides an automatic layout 2D Handle GUI besides default access to the SceneView GUI

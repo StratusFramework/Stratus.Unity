@@ -1,6 +1,7 @@
 ﻿using Stratus.Collections;
 using Stratus.Extensions;
 using Stratus.Reflection;
+using Stratus.Unity.Editor;
 
 using System;
 using System.Reflection;
@@ -9,7 +10,7 @@ using UnityEditor;
 
 using UnityEngine;
 
-namespace Stratus.Editor
+namespace Stratus.Unity.Editor
 {
 	/// <summary>
 	/// Provides methods using Unity's <see cref="EditorGUI"/> annd other GUI-drawing functions that work directly with <see cref="Rect"/>
@@ -17,23 +18,23 @@ namespace Stratus.Editor
 	public static class StratusEditorGUI
 	{
 		#region Properties
-		public static float standardPadding { get; } = 8f; 
+		public static float standardPadding { get; } = 8f;
 		#endregion
 
 		#region Methods
 		public static void Popup(Rect position, string label, DropdownList dropdownList)
 		{
-			StratusSearchablePopup.Popup(position, label, dropdownList.selectedIndex, dropdownList.displayedOptions, (int index) => dropdownList.selectedIndex = index);
+			SearchablePopup.Popup(position, label, dropdownList.selectedIndex, dropdownList.displayedOptions, (index) => dropdownList.selectedIndex = index);
 		}
 
 		public static void Popup(Rect position, DropdownList dropdownList)
 		{
-			StratusSearchablePopup.Popup(position, dropdownList.selectedIndex, dropdownList.displayedOptions, (int index) => dropdownList.selectedIndex = index);
+			SearchablePopup.Popup(position, dropdownList.selectedIndex, dropdownList.displayedOptions, (index) => dropdownList.selectedIndex = index);
 		}
 
-		public static void Popup(Rect position, string label, int selectedindex, string[] displayedOptions, System.Action<int> onSelected)
+		public static void Popup(Rect position, string label, int selectedindex, string[] displayedOptions, Action<int> onSelected)
 		{
-			StratusSearchablePopup.Popup(position, label, selectedindex, displayedOptions, onSelected);
+			SearchablePopup.Popup(position, label, selectedindex, displayedOptions, onSelected);
 		}
 
 		public static void Field(Rect position, FieldInfo field, object target)
@@ -62,7 +63,7 @@ namespace Stratus.Editor
 					value = EditorGUI.ColorField(position, name, field.GetValue<Color>(target));
 					break;
 				case StratusSerializedFieldType.Enum:
-					StratusSearchableEnum.EnumPopup(position, name, field.GetValue<Enum>(target), (Enum selected) => field.SetValue(target, selected));
+					SearchableEnum.EnumPopup(position, name, field.GetValue<Enum>(target), (selected) => field.SetValue(target, selected));
 					break;
 				case StratusSerializedFieldType.Vector2:
 					value = EditorGUI.Vector2Field(position, name, field.GetValue<Vector2>(target));
