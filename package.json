@@ -1,0 +1,19 @@
+{
+    "name": "com.stratus.core",
+    "version": "1.0",
+    "displayName": "Stratus Core",
+    "description": "The core package for the Stratus Framework",
+    "unity": "2021.3",
+    "dependencies": {
+      "com.unity.inputsystem": "1.0.0"
+    },
+    "keywords": [
+      "stratus",
+      "editor",
+      "extensions"
+    ],
+    "author": {
+      "name": "Christian Sagel",
+      "email": "ckpsm@live.com"
+    }
+  }
