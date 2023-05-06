@@ -1,4 +1,5 @@
 ﻿using Stratus.Extensions;
+using Stratus.Unity;
 
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace Stratus.Editor
 		  { typeof(RangeAttribute), OnRangeAttribute },
 		};
 
-		private StratusLabeledContextAction<StratusInvokeMethodAttribute>[] buttons { get; set; }
+		private StratusLabeledContextAction<InvokeMethodAttribute>[] buttons { get; set; }
 
 		//------------------------------------------------------------------------/
 		// Procedures
@@ -83,16 +84,16 @@ namespace Stratus.Editor
 			BindingFlags flags = BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
 			MethodInfo[] methods = this.targetType.GetMethods(flags);
 
-			List<StratusLabeledContextAction<StratusInvokeMethodAttribute>> buttons = new List<StratusLabeledContextAction<StratusInvokeMethodAttribute>>();
+			List<StratusLabeledContextAction<InvokeMethodAttribute>> buttons = new();
 			foreach (MethodInfo method in methods)
 			{
-				IEnumerable<StratusInspectorAttribute> attributes = method.GetCustomAttributes<StratusInspectorAttribute>();
+				IEnumerable<InspectorAttribute> attributes = method.GetCustomAttributes<InspectorAttribute>();
 				attributes.ForEach((attribute) =>
 				{
-					if (attribute is StratusInvokeMethodAttribute)
+					if (attribute is InvokeMethodAttribute)
 					{
-						StratusInvokeMethodAttribute buttonAttribute = attribute as StratusInvokeMethodAttribute;
-						buttons.Add(new StratusLabeledContextAction<StratusInvokeMethodAttribute>(buttonAttribute.hasLabel ? buttonAttribute.label : method.Name,
+						InvokeMethodAttribute buttonAttribute = attribute as InvokeMethodAttribute;
+						buttons.Add(new StratusLabeledContextAction<InvokeMethodAttribute>(buttonAttribute.hasLabel ? buttonAttribute.label : method.Name,
 							() => method.Invoke(method.IsStatic ? null : this.target, null), buttonAttribute));
 					}
 				});
@@ -118,8 +119,5 @@ namespace Stratus.Editor
 
 			return true;
 		}
-
-		//private static bool OnHideInInspector(Attribute attribute, SerializedProperty property) => true;
-
 	}
 }

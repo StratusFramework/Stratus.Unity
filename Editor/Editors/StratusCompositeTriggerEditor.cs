@@ -1,14 +1,15 @@
 using UnityEditor;
+using Stratus.Unity.Triggers;
 
-namespace Stratus.Editor
+namespace Stratus.Unity.Editor
 {
-	[CustomEditor(typeof(StratusCompositeTrigger))]
-	public class CompositeTriggerEditor : TriggerEditor<StratusCompositeTrigger>
+	[CustomEditor(typeof(CompositeTrigger))]
+	public class CompositeTriggerEditor : TriggerEditor<CompositeTrigger>
 	{
 		protected override void OnTriggerEditorEnable()
 		{
-			propertyConstraints.Add(propertyMap["triggers"], () => trigger.type == StratusCompositeTrigger.Type.Trigger);
-			propertyConstraints.Add(propertyMap["triggerables"], () => trigger.type == StratusCompositeTrigger.Type.Triggerable);
+			propertyConstraints.Add(propertyMap["triggers"], () => trigger.type == CompositeTrigger.Type.Trigger);
+			propertyConstraints.Add(propertyMap["triggerables"], () => trigger.type == CompositeTrigger.Type.Triggerable);
 		}
 
 		protected override bool DrawDeclaredProperties()
@@ -16,24 +17,22 @@ namespace Stratus.Editor
 			bool changed = false;
 
 			EditorGUI.BeginChangeCheck();
-			DrawSerializedProperty(nameof(StratusCompositeTrigger.type));
-			DrawSerializedProperty(nameof(StratusCompositeTrigger.criteria));
+			DrawSerializedProperty(nameof(CompositeTrigger.type));
+			DrawSerializedProperty(nameof(CompositeTrigger.criteria));
 
-			if (trigger.criteria == StratusCompositeTrigger.Criteria.Subset)
+			if (trigger.criteria == CompositeTrigger.Criteria.Subset)
 				trigger.needed = EditorGUILayout.IntSlider(trigger.needed, 1, trigger.count);
 
-			if (trigger.type == StratusCompositeTrigger.Type.Trigger)
+			if (trigger.type == CompositeTrigger.Type.Trigger)
 			{
-				DrawSerializedProperty(nameof(StratusCompositeTrigger.triggers));
+				DrawSerializedProperty(nameof(CompositeTrigger.triggers));
 			}
-			else if (trigger.type == StratusCompositeTrigger.Type.Triggerable)
+			else if (trigger.type == CompositeTrigger.Type.Triggerable)
 			{
-				DrawSerializedProperty(nameof(StratusCompositeTrigger.triggerables));
+				DrawSerializedProperty(nameof(CompositeTrigger.triggerables));
 			}
 			changed = EditorGUI.EndChangeCheck();
 			return changed;
 		}
-
 	}
-
 }

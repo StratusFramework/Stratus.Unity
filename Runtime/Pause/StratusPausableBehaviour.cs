@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Stratus;
 using System.Linq;
 using UnityEngine.AI;
 using System.Linq.Expressions;
+using Stratus.Unity;
 
 namespace Stratus
 {

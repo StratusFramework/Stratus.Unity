@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-using UnityEngine.InputSystem;
-using Stratus.Inputs;
+﻿using Stratus.Inputs;
 
-namespace Stratus
+using System;
+
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+namespace Stratus.Unity.Inputs
 {
 	public enum StratusInputUIAction
 	{

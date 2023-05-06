@@ -1,4 +1,6 @@
-﻿namespace Stratus
+﻿using Stratus.Unity;
+
+namespace Stratus
 {
 	/// <summary>
 	/// A behaviour whose main messages are handled by an external manager for performance reasons.

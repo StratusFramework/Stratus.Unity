@@ -1,4 +1,5 @@
 ﻿using Stratus.Data;
+using Stratus.Unity;
 
 using System.Collections;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace Stratus
 					StratusDebug.Log("The GameObject's tag and selected tag field match! (" + tagField + ")");
 			}
 
-			[StratusInvokeMethodAttribute("TryLayer")]
+			[InvokeMethodAttribute("TryLayer")]
 			void TryLayer()
 			{
 				if (layer.Matches(this.gameObject))

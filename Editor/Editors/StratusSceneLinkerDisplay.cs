@@ -1,10 +1,14 @@
-﻿using System;
+﻿using Stratus.Unity.Triggers;
+
+using System;
 
 using UnityEditor;
 
 using UnityEngine;
 
-namespace Stratus.Editor
+using Stratus.Editor;
+
+namespace Stratus.Unity.Editor
 {
 	[LayoutViewDisplayAttribute("Scene Linker", 225f, 200f, StratusGUI.Anchor.TopLeft, StratusGUI.Dimensions.Absolute)]
 	public class StratusSceneLinkerDisplay : SingletonSceneViewDisplay<StratusSceneLinker>
@@ -14,7 +18,7 @@ namespace Stratus.Editor
 		private Color displayLinksColor => Color.yellow;
 		private Color displayBoundariesColor => Color.gray;
 
-		private StratusSceneLinkTriggerable[] sceneLinks;
+		private SceneLinkTriggerable[] sceneLinks;
 		private Bounds[] sceneBoundaries;
 
 		protected override bool isValid
@@ -27,7 +31,7 @@ namespace Stratus.Editor
 
 		protected override void OnInitializeSingletonState()
 		{
-			this.sceneLinks = StratusScene.GetComponentsInAllActiveScenes<StratusSceneLinkTriggerable>();
+			this.sceneLinks = StratusScene.GetComponentsInAllActiveScenes<SceneLinkTriggerable>();
 			int numScenes = StratusScene.activeScenes.Length;
 			this.sceneBoundaries = new Bounds[numScenes];
 			for (int i = 0; i < numScenes; ++i)

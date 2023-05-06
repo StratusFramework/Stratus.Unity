@@ -28,12 +28,12 @@ namespace Stratus.Unity.Interpolation
 
 		private void OnConnect(GameObject obj)
 		{
-			gameObject.GetOrAddComponent<StratusActionsRegistration>();
+			gameObject.GetOrAddComponent<ActionsRegistration>();
 		}
 
 		private void OnDisconnect(GameObject obj)
 		{
-			gameObject.RemoveComponent<StratusActionsRegistration>();
+			gameObject.RemoveComponent<ActionsRegistration>();
 		}
 
 		private void FixedUpdate()
@@ -170,7 +170,7 @@ namespace Stratus.Unity.Interpolation
 		/// <param name="message">The message which to print.</param>
 		public static ActionBase Trace(ActionSet set, object message)
 		{
-			ActionBase trace = new StratusActionLog(message);
+			ActionBase trace = new LogAction(message);
 			set.Add(trace);
 			return trace;
 		}

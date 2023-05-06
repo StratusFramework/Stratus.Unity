@@ -1,13 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using System;
+using Stratus.Editor;
 using Stratus.Extensions;
+using Stratus.Unity.Triggers;
 
-namespace Stratus.Editor
+using System;
+
+using UnityEditor;
+
+using UnityEngine;
+
+namespace Stratus.Unity.Editor
 {
-	public partial class TriggerSystemEditor : StratusBehaviourEditor<StratusTriggerSystem>
+	public partial class TriggerSystemEditor : StratusBehaviourEditor<TriggerSystem>
 	{
 		//------------------------------------------------------------------------/
 		// Methods: Drawing
@@ -127,51 +130,52 @@ namespace Stratus.Editor
 			if (GUILayout.Button(StratusGUIStyles.optionsIcon, StratusGUIStyles.smallLayout))
 			{
 				var menu = new GenericMenu();
-				menu.AddEnumToggle<StratusTriggerSystem.ConnectionDisplay>(propertyMap[nameof(StratusTriggerSystem.connectionDisplay)]);
-				menu.AddBooleanToggle(propertyMap[nameof(StratusTriggerSystem.showDescriptions)]);
-				menu.AddBooleanToggle(propertyMap[nameof(StratusTriggerSystem.outlines)]);
+				menu.AddEnumToggle<TriggerSystem.ConnectionDisplay>(propertyMap[nameof(TriggerSystem.connectionDisplay)]);
+				menu.AddBooleanToggle(propertyMap[nameof(TriggerSystem.showDescriptions)]);
+				menu.AddBooleanToggle(propertyMap[nameof(TriggerSystem.outlines)]);
 				menu.ShowAsContext();
 			}
 
 			EditorGUILayout.EndHorizontal();
 		}
 
-		private void DrawTrigger(StratusTriggerBehaviour trigger)
+		private void DrawTrigger(TriggerBehaviour trigger)
 		{
-			StratusTriggerSystem.ConnectionStatus status = StratusTriggerSystem.ConnectionStatus.Disconnected;
+			TriggerSystem.ConnectionStatus status = TriggerSystem.ConnectionStatus.Disconnected;
 			if (selected)
 			{
 				if (selected == trigger)
-					status = StratusTriggerSystem.ConnectionStatus.Selected;
+					status = TriggerSystem.ConnectionStatus.Selected;
 				else if (selectedTriggerable && connectedTriggers.ContainsKey(trigger) && connectedTriggers[trigger])
-					status = StratusTriggerSystem.ConnectionStatus.Connected;
+					status = TriggerSystem.ConnectionStatus.Connected;
 			}
 
 			if (!IsConnected(trigger) && selected != trigger)
-				status = StratusTriggerSystem.ConnectionStatus.Disjoint;
+				status = TriggerSystem.ConnectionStatus.Disjoint;
 
 			Color color = GetColor(trigger, status);
 			Draw(trigger, color, SelectTrigger, RemoveTrigger, SetTriggerContextMenu);
 		}
 
-		private void DrawTriggerable(StratusTriggerableBehaviour triggerable)
+		private void DrawTriggerable(TriggerableBehaviour triggerable)
 		{
-			StratusTriggerSystem.ConnectionStatus status = StratusTriggerSystem.ConnectionStatus.Disconnected;
+			TriggerSystem.ConnectionStatus status = TriggerSystem.ConnectionStatus.Disconnected;
 			if (selected)
 			{
 				if (selected == triggerable)
-					status = StratusTriggerSystem.ConnectionStatus.Selected;
+					status = TriggerSystem.ConnectionStatus.Selected;
 				else if (selectedTrigger && connectedTriggerables.ContainsKey(triggerable) && connectedTriggerables[triggerable])
-					status = StratusTriggerSystem.ConnectionStatus.Connected;
+					status = TriggerSystem.ConnectionStatus.Connected;
 			}
 			if (!IsConnected(triggerable) && selected != triggerable)
-				status = StratusTriggerSystem.ConnectionStatus.Disjoint;
+				status = TriggerSystem.ConnectionStatus.Disjoint;
 
 			Color color = GetColor(triggerable, status);
 			Draw(triggerable, color, SelectTriggerable, RemoveTriggerable, SetTriggerableContextMenu);
 		}
 
-		private void Draw<T>(T baseTrigger, Color backgroundColor, System.Action<T> selectFunction, System.Action<T> removeFunction, System.Action<T, GenericMenu> contextMenuSetter) where T : StratusTriggerBase
+		private void Draw<T>(T baseTrigger, Color backgroundColor, Action<T> selectFunction, Action<T> removeFunction, System.Action<T, GenericMenu> contextMenuSetter)
+			where T : TriggerBase
 		{
 			string name = baseTrigger.GetType().Name;
 
@@ -189,29 +193,29 @@ namespace Stratus.Editor
 				var menu = new GenericMenu();
 				contextMenuSetter(baseTrigger, menu);
 				menu.AddSeparator("");
-		  // Enable
-		  menu.AddItem(new GUIContent(baseTrigger.enabled ? "Disable" : "Enable"), false, () =>
-		  {
-				  baseTrigger.enabled = !baseTrigger.enabled;
-			  });
-		  // Duplicate
-		  menu.AddItem(new GUIContent("Duplicate/New"), false, () =>
-		  {
-				  target.gameObject.DuplicateComponent(baseTrigger, false);
-			  });
+				// Enable
+				menu.AddItem(new GUIContent(baseTrigger.enabled ? "Disable" : "Enable"), false, () =>
+				{
+					baseTrigger.enabled = !baseTrigger.enabled;
+				});
+				// Duplicate
+				menu.AddItem(new GUIContent("Duplicate/New"), false, () =>
+				{
+					target.gameObject.DuplicateComponent(baseTrigger, false);
+				});
 				menu.AddItem(new GUIContent("Duplicate/Copy"), false, () =>
 		  {
-				  target.gameObject.DuplicateComponent(baseTrigger, true);
-				  UpdateConnections();
-			  });
-		  //// Reset
-		  //menu.AddItem(new GUIContent("Reset"), false, () => { baseTrigger.Invoke("Reset", 0f); });
-		  // Remove
-		  menu.AddItem(new GUIContent("Remove"), false, () =>
-		  {
-				  removeFunction(baseTrigger);
-				  UpdateConnections();
-			  });
+			  target.gameObject.DuplicateComponent(baseTrigger, true);
+			  UpdateConnections();
+		  });
+				//// Reset
+				//menu.AddItem(new GUIContent("Reset"), false, () => { baseTrigger.Invoke("Reset", 0f); });
+				// Remove
+				menu.AddItem(new GUIContent("Remove"), false, () =>
+				{
+					removeFunction(baseTrigger);
+					UpdateConnections();
+				});
 				menu.ShowAsContext();
 			};
 
@@ -221,25 +225,25 @@ namespace Stratus.Editor
 
 			Action<object> onDrop = (object other) =>
 			{
-				if (baseTrigger is StratusTriggerBehaviour)
+				if (baseTrigger is TriggerBehaviour)
 				{
-					if (other is StratusTriggerBehaviour)
-						triggerSwapOperations.Add(new Tuple<StratusTriggerBehaviour, StratusTriggerBehaviour>(baseTrigger as StratusTriggerBehaviour, other as StratusTriggerBehaviour));
-					else if (other is StratusTriggerableBehaviour)
-						Connect(baseTrigger as StratusTriggerBehaviour, other as StratusTriggerableBehaviour);
+					if (other is TriggerBehaviour)
+						triggerSwapOperations.Add(new Tuple<TriggerBehaviour, TriggerBehaviour>(baseTrigger as TriggerBehaviour, other as TriggerBehaviour));
+					else if (other is TriggerableBehaviour)
+						Connect(baseTrigger as TriggerBehaviour, other as TriggerableBehaviour);
 				}
-				else if (baseTrigger is StratusTriggerableBehaviour)
+				else if (baseTrigger is TriggerableBehaviour)
 				{
-					if (other is StratusTriggerableBehaviour)
-						triggerableSwapOperations.Add(new Tuple<StratusTriggerableBehaviour, StratusTriggerableBehaviour>(baseTrigger as StratusTriggerableBehaviour, other as StratusTriggerableBehaviour));
-					else if (other is StratusTriggerBehaviour)
-						Connect(other as StratusTriggerBehaviour, baseTrigger as StratusTriggerableBehaviour);
+					if (other is TriggerableBehaviour)
+						triggerableSwapOperations.Add(new Tuple<TriggerableBehaviour, TriggerableBehaviour>(baseTrigger as TriggerableBehaviour, other as TriggerableBehaviour));
+					else if (other is TriggerBehaviour)
+						Connect(other as TriggerBehaviour, baseTrigger as TriggerableBehaviour);
 				}
 			};
 
 			Func<object, bool> onValidateDrag = (object other) =>
 			{
-				if (other is StratusTriggerBehaviour || other is StratusTriggerableBehaviour)
+				if (other is TriggerBehaviour || other is TriggerableBehaviour)
 					return true;
 				return false;
 			};
@@ -268,7 +272,7 @@ namespace Stratus.Editor
 			{
 				button.backgroundColor = Color.white;
 				button.Draw(buttonStyle, columnWidth);
-				StratusGUIStyles.DrawOutline(button.rect, backgroundColor, baseTrigger is StratusTriggerBehaviour ? StratusGUIStyles.Border.Right : StratusGUIStyles.Border.Left);
+				StratusGUIStyles.DrawOutline(button.rect, backgroundColor, baseTrigger is TriggerBehaviour ? StratusGUIStyles.Border.Right : StratusGUIStyles.Border.Left);
 			}
 			else
 			{

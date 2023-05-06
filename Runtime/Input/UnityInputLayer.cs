@@ -1,6 +1,8 @@
-﻿using UnityEngine.InputSystem;
+﻿using Stratus.Inputs;
 
-namespace Stratus.Inputs
+using UnityEngine.InputSystem;
+
+namespace Stratus.Unity.Inputs
 {
 	public abstract class UnityInputLayer : InputLayer<InputAction.CallbackContext>
 	{
@@ -9,10 +11,7 @@ namespace Stratus.Inputs
 		}
 
 	}
-}
 
-namespace Stratus.Inputs
-{
 	public class UnityInputLayer<TActionMap> : UnityInputLayer
 		where TActionMap : IActionMapHandler, new()
 	{
@@ -42,10 +41,7 @@ namespace Stratus.Inputs
 		{
 		}
 	}
-}
 
-namespace Stratus.Inputs
-{
 	public class DefaultUnityInputLayer : UnityInputLayer
 	{
 		public UnityInputActionMapHandler actions { get; }

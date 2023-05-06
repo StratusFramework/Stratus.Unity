@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Stratus.Unity;
 
 namespace Stratus.Examples
 {
-  [StratusCustomExtensionAttribute(typeof(SampleExtensibleBehaviour))]
+	[StratusCustomExtensionAttribute(typeof(SampleExtensibleBehaviour))]
   public class UsefulExtension : StratusBehaviour, IStratusExtensionBehaviour
   {
     public bool useful = true;

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Stratus.Interpolation;
+using Stratus.Unity;
 
 namespace Stratus
 {
 	[Serializable]
-	public class StratusAudioClip : StratusUnityAssetReference<AudioClip>
+	public class StratusAudioClip : UnityAssetReference<AudioClip>
 	{
 	}
 

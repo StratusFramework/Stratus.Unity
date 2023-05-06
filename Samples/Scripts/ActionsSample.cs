@@ -1,4 +1,5 @@
 using Stratus.Interpolation;
+using Stratus.Unity;
 using Stratus.Unity.Interpolation;
 
 using UnityEngine;

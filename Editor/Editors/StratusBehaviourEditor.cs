@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
+﻿using Stratus.Editor;
+
 using System;
 
-namespace Stratus.Editor
+using UnityEngine;
+
+namespace Stratus.Unity.Editor
 {
 	/// <summary>
 	/// Base editor for all Stratus components

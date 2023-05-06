@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Stratus.Inputs;
+
+using System;
 
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Stratus.Inputs
+namespace Stratus.Unity.Inputs
 {
 	/// <summary>
 	/// Base class for input action maps

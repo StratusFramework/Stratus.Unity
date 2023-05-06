@@ -1,14 +1,13 @@
-using UnityEngine;
-using System;
-using Stratus.Utilities;
 using Stratus.Timers;
 
-namespace Stratus
+using UnityEngine;
+
+namespace Stratus.Unity.Triggers
 {
 	/// <summary>
 	/// After a specified amount of time, triggers the event
 	/// </summary>
-	public class StratusTimerTrigger : StratusTriggerBehaviour
+	public class StratusTimerTrigger : TriggerBehaviour
 	{
 		//------------------------------------------------------------------------/
 		// Properties
@@ -61,13 +60,6 @@ namespace Stratus
 		//------------------------------------------------------------------------/
 		// Methods
 		//------------------------------------------------------------------------/
-		//void RunTimer()
-		//{
-		//  var seq = Actions.Sequence(this.gameObject.Actions());
-		//  Actions.Delay(seq, this.duration);
-		//  Actions.Call(seq, this.Activate);
-		//}
-
 		private void OnTimerFinished()
 		{
 			Activate();

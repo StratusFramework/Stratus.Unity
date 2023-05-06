@@ -1,5 +1,6 @@
 using Stratus.Extensions;
 using Stratus.Reflection;
+using Stratus.Unity;
 
 using System;
 using System.Collections.Generic;
@@ -278,7 +279,7 @@ namespace Stratus.Editor
 		{
 			this.DrawVerticalArea(() =>
 			{
-				foreach (StratusLabeledContextAction<StratusInvokeMethodAttribute> button in this.buttons)
+				foreach (StratusLabeledContextAction<InvokeMethodAttribute> button in this.buttons)
 				{
 					GUI.enabled = button.context.isPlayMode == EditorApplication.isPlaying;
 					if (GUILayout.Button(button.label, EditorStyles.miniButton))
@@ -387,7 +388,7 @@ namespace Stratus.Editor
 		{
 			this.drawGroupRequests.Add(new DrawGroupRequest(drawFunction, validateFunction));
 		}
-		
+
 		/// <summary>
 		/// Adds a constraint that decides whether a given property is drawn
 		/// </summary>

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System;
 using Stratus.Logging;
 
-namespace Stratus
+namespace Stratus.Unity
 {
 	public interface IStratusBehaviour : IStratusLogger
 	{
@@ -21,7 +21,7 @@ namespace Stratus
 		/// </summary>
 		/// <param name="enumerator"></param>
 		/// <returns></returns>
-		Coroutine Invoke(System.Action action, float delay);
+		Coroutine Invoke(Action action, float delay);
 
 		/// <summary>
 		/// A cached version of get component, building the cache as you invoke
@@ -30,7 +30,10 @@ namespace Stratus
 		/// <returns></returns>
 		T GetComponentCached<T>() where T : Component;
 	}
+}
 
+namespace Stratus.Unity
+{
 	/// <summary>
 	/// Base class for MonoBehaviours that use Stratus's custom editors for components,
 	/// and handles custom serialization (through Sirenix's Odin Serializer)
@@ -122,7 +125,7 @@ namespace Stratus
 		{
 			if (component == null)
 			{
-				this.LogError($"Error: Component {(label != null ? label : " ")}of type {typeof(T)} on GameObject {gameObject.name } was not assigned");
+				this.LogError($"Error: Component {(label != null ? label : " ")}of type {typeof(T)} on GameObject {gameObject.name} was not assigned");
 			}
 		}
 

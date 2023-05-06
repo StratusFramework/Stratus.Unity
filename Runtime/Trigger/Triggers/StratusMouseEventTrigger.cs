@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
+﻿using UnityEngine;
 
-namespace Stratus
+namespace Stratus.Unity.Triggers
 {
 	public enum StratusMouseEventType
 	{
@@ -14,7 +11,7 @@ namespace Stratus
 	}
 
 	[RequireComponent(typeof(Collider))]
-	public class StratusMouseEventTrigger : StratusTriggerBehaviour
+	public class StratusMouseEventTrigger : TriggerBehaviour
 	{
 		public StratusMouseEventType eventType;
 

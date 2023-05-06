@@ -5,6 +5,7 @@ using UnityEditor;
 using System;
 using Stratus.Extensions;
 using Stratus.Types;
+using Stratus.Unity.Editor;
 
 namespace Stratus.Editor
 {

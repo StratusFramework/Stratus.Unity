@@ -1,6 +1,7 @@
 using Stratus.Collections;
 using Stratus.Extensions;
 using Stratus.Logging;
+using Stratus.Unity;
 
 using System;
 using System.Collections;
