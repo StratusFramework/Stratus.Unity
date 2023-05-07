@@ -1,7 +1,7 @@
 ﻿using Stratus.Editor;
-using Stratus.IO;
 using Stratus.Models;
 using Stratus.Models.Graph;
+using Stratus.Unity.Utility;
 
 using System.Collections.Generic;
 
@@ -45,7 +45,7 @@ namespace Stratus.Unity.Editor
 		/// </summary>
 		public static LabeledAction RevealPath(string path)
 		{
-			return new LabeledAction("Reveal", () => StratusIO.Open(path));
+			return new LabeledAction("Reveal", () => FileUtility.Open(path));
 		}
 	}
 }

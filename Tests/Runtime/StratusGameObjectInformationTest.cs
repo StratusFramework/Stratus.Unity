@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.SceneManagement;
 using NUnit.Framework;
+using Stratus.Unity.Reflection;
 
 namespace Stratus.Tests
 {
@@ -24,7 +25,7 @@ namespace Stratus.Tests
 		{
 			var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
 			Assert.NotNull(go);
-			StratusGameObjectInformation info = new StratusGameObjectInformation(go);
+			GameObjectInformation info = new GameObjectInformation(go);
 			Assert.True(info.HasComponent<Transform>());
 			Assert.True(info.HasComponent<MeshRenderer>());
 			foreach (var component in info.components)

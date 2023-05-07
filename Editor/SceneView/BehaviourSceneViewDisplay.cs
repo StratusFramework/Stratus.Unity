@@ -1,3 +1,5 @@
+using Stratus.Unity.Scenes;
+
 using UnityEditor;
 
 using UnityEngine;

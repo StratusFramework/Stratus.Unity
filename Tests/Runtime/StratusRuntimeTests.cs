@@ -8,6 +8,7 @@ using Stratus.Interpolation;
 using Stratus.Unity.Events;
 using Stratus.Unity.Extensions;
 using Stratus.Unity.Interpolation;
+using Stratus.Unity.Scenes;
 
 using UnityEngine;
 using UnityEngine.TestTools;

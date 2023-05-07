@@ -1,4 +1,5 @@
 ﻿using Stratus.Interpolation;
+using Stratus.Unity.Data;
 
 using System;
 
@@ -27,7 +28,7 @@ namespace Stratus.Unity.Audio
 	}
 
 	[CreateAssetMenu(menuName = scriptablesMenu + "Audio Clip Scriptable")]
-	public class AudioClipCollectionScriptable : StratusAssetCollectionScriptable<AudioClipReference>
+	public class AudioClipCollectionScriptable : AssetCollectionScriptable<AudioClipReference>
 	{
 	}
 }

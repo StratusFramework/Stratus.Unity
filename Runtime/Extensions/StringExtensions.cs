@@ -1,5 +1,5 @@
-using Stratus;
 using Stratus.Extensions;
+using Stratus.Unity.Data;
 using Stratus.Unity.Extensions;
 
 using System.Text;
@@ -31,7 +31,7 @@ namespace Stratus.Unity.Extensions
 		/// <summary>
 		/// Returns true if the rich text is null or empty
 		/// </summary>
-		public static bool IsNullOrEmpty(this StratusRichText richText)
+		public static bool IsNullOrEmpty(this RichText richText)
 		{
 			return richText == null || string.IsNullOrEmpty(richText.text);
 		}
@@ -41,7 +41,7 @@ namespace Stratus.Unity.Extensions
 		/// </summary>
 		/// <param name="str"></param>
 		/// <returns></returns>
-		public static bool IsValid(this StratusRichText str)
+		public static bool IsValid(this RichText str)
 		{
 			return !str.IsNullOrEmpty();
 		}
@@ -50,7 +50,7 @@ namespace Stratus.Unity.Extensions
 		/// Formats this string, applying rich text formatting to it
 		/// </summary>
 		public static string ToRichText(this string input, FontStyle style, string hexColor, int size = 0)
-			=> input.ToRichText(new StratusRichTextOptions(style, hexColor, size));
+			=> input.ToRichText(new RichTextOptions(style, hexColor, size));
 
 		/// <summary>
 		/// Formats this string, applying rich text formatting to it
@@ -76,7 +76,7 @@ namespace Stratus.Unity.Extensions
 		/// </summary>
 		public static string ToRichText(this string input, Color color) => input.ToRichText(FontStyle.Normal, color);
 
-		public static string ToRichText(this string input, StratusRichTextOptions options)
+		public static string ToRichText(this string input, RichTextOptions options)
 		{
 			StringBuilder builder = new StringBuilder();
 

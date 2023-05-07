@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System;
-using Stratus.OdinSerializer;
-using Stratus.Extensions;
+﻿using Stratus.Extensions;
+using Stratus.Serialization;
 
-namespace Stratus.Serialization
+using System;
+
+namespace Stratus.Unity.Serialization
 {
 	/// <summary>
 	/// Base class for variables serialized using Unity''s Prefs system

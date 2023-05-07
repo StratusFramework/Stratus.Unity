@@ -1,5 +1,6 @@
 ﻿using Stratus.Data;
 using Stratus.Models.Graph;
+using Stratus.Unity.Reflection;
 
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,11 @@ using UnityEngine;
 namespace Stratus.Unity.Editor
 {
 	[Serializable]
-	public class MemberInspectorTreeElement : TreeElement<StratusComponentMemberInfo>
+	public class MemberInspectorTreeElement : TreeElement<ComponentMemberInfo>
 	{
-		public static IList<MemberInspectorTreeElement> Generate(StratusGameObjectInformation target)
+		public static IList<MemberInspectorTreeElement> Generate(GameObjectInformation target)
 		{
-			var tree = new StratusSerializedTree<MemberInspectorTreeElement, StratusComponentMemberInfo>();
+			var tree = new StratusSerializedTree<MemberInspectorTreeElement, ComponentMemberInfo>();
 			tree.AddElements(target.visibleMembers, 0);
 			return tree.elements;
 		}
@@ -24,10 +25,10 @@ namespace Stratus.Unity.Editor
 
 	public class MemberInspectorTreeView : StratusMultiColumnTreeView<MemberInspectorTreeElement, MemberInspectorWindow.Column>
 	{
-		public StratusGameObjectInformation gameObject { get; private set; }
-		public StratusComponentMemberWatchList watchList { get; private set; }
+		public GameObjectInformation gameObject { get; private set; }
+		public ComponentMemberWatchList watchList { get; private set; }
 
-		public MemberInspectorTreeView(TreeViewState state, StratusGameObjectInformation gameObject, IList<MemberInspectorTreeElement> data, StratusComponentMemberWatchList watchList)
+		public MemberInspectorTreeView(TreeViewState state, GameObjectInformation gameObject, IList<MemberInspectorTreeElement> data, ComponentMemberWatchList watchList)
 			: base(state, data)
 		{
 			this.gameObject = gameObject;
@@ -173,7 +174,7 @@ namespace Stratus.Unity.Editor
 
 		protected override void OnItemContextMenu(GenericMenu menu, MemberInspectorTreeElement treeElement)
 		{
-			StratusComponentMemberInfo member = treeElement.data;
+			ComponentMemberInfo member = treeElement.data;
 
 			menu.AddItem(new GUIContent("Fetch"), false, () => gameObject.UpdateValue(member));
 			menu.AddItem(new GUIContent("Copy"), false, () => GUIUtility.systemCopyBuffer = member.latestValueString);
@@ -201,7 +202,7 @@ namespace Stratus.Unity.Editor
 	[Serializable]
 	public class StratusComponentMemberWatchTreeElement : TreeElement<StratusComponentMemberWatchInfo>
 	{
-		public static IList<StratusComponentMemberWatchTreeElement> Generate(StratusComponentMemberWatchList target)
+		public static IList<StratusComponentMemberWatchTreeElement> Generate(ComponentMemberWatchList target)
 		{
 			var tree = new StratusSerializedTree<StratusComponentMemberWatchTreeElement, StratusComponentMemberWatchInfo>();
 			tree.AddElements(target.members, 0);
@@ -218,9 +219,9 @@ namespace Stratus.Unity.Editor
 
 	public class StratusMemberInspectorWatchListTreeView : StratusMultiColumnTreeView<StratusComponentMemberWatchTreeElement, StratusComponentMemberWatchViewColumn>
 	{
-		public StratusComponentMemberWatchList watchList { get; private set; }
+		public ComponentMemberWatchList watchList { get; private set; }
 
-		public StratusMemberInspectorWatchListTreeView(TreeViewState state, StratusComponentMemberWatchList watchList)
+		public StratusMemberInspectorWatchListTreeView(TreeViewState state, ComponentMemberWatchList watchList)
 			: base(state, new ValueProvider<IList<StratusComponentMemberWatchTreeElement>>(() => StratusComponentMemberWatchTreeElement.Generate(watchList)))
 		{
 			this.watchList = watchList;

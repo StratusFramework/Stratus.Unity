@@ -6,8 +6,9 @@ using Stratus.IO;
 using Stratus.Models.Saves;
 using Stratus.Logging;
 using Stratus.Unity.Extensions;
+using Stratus.Unity.Utility;
 
-namespace Stratus
+namespace Stratus.Unity.Serialization
 {
 	public interface IUnityStratusSave : ISave
 	{
@@ -52,7 +53,7 @@ namespace Stratus
 			{
 				if (_snapshotFilePath == null)
 				{
-					_snapshotFilePath = FileUtility.ChangeExtension(file.path, snapshotEncoding.ToExtension());
+					_snapshotFilePath = IO.FileUtility.ChangeExtension(file.path, snapshotEncoding.ToExtension());
 				}
 				return _snapshotFilePath;
 			}
@@ -62,7 +63,7 @@ namespace Stratus
 		/// <summary>
 		/// Whether an associated snapshot file is found for this save
 		/// </summary>
-		public bool snapshotExists => FileUtility.FileExists(snapshotFilePath);
+		public bool snapshotExists => IO.FileUtility.FileExists(snapshotFilePath);
 		#endregion
 
 		#region Constructors
@@ -116,7 +117,7 @@ namespace Stratus
 			bool delete = base.DeleteSerialization();
 			if (snapshotLoaded || snapshotExists)
 			{
-				FileUtility.DeleteFile(snapshotFilePath);
+				IO.FileUtility.DeleteFile(snapshotFilePath);
 				_snapshotFilePath = null;
 			}
 			return delete;
@@ -150,7 +151,7 @@ namespace Stratus
 				return false;
 			}
 
-			snapshot = StratusIO.LoadImage2D(snapshotFilePath);
+			snapshot = Utility.FileUtility.LoadImage2D(snapshotFilePath);
 			return true;
 		}
 
@@ -186,7 +187,7 @@ namespace Stratus
 				this.LogError("This save has not yet been serialized. Cannot save snapshot yet");
 				return false;
 			}
-			return StratusIO.SaveImage2D(snapshot, snapshotFilePath, snapshotEncoding);
+			return Utility.FileUtility.SaveImage2D(snapshot, snapshotFilePath, snapshotEncoding);
 		}
 
 		/// <summary>
@@ -209,7 +210,7 @@ namespace Stratus
 
 			if (Application.isPlaying)
 			{
-				this.playtime += StratusTime.minutesSinceStartup;
+				this.playtime += TimeUtility.minutesSinceStartup;
 			}
 		}
 	}

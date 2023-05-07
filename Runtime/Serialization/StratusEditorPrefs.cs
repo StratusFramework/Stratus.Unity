@@ -1,4 +1,4 @@
-﻿namespace Stratus
+﻿namespace Stratus.Unity.Serialization
 {
 	/// <summary>
 	/// Settings meant to be used by an editor

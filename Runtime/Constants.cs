@@ -1,6 +1,6 @@
 #define STRATUS_CORE
 
-using Stratus.IO;
+using Stratus.Unity.Utility;
 
 namespace Stratus.Unity
 {
@@ -14,7 +14,7 @@ namespace Stratus.Unity
 		public const string guiFolder = "GUI";
 		public const string fontFolder = "Fonts";
 
-		public static string rootPath => StratusIO.GetFolderPath(rootMenu);
+		public static string rootPath => FileUtility.GetFolderPath(rootMenu);
 		public static string resourcesFolder => rootPath + "/Resources";
 		public static string guiPath => resourcesFolder + $"/{guiFolder}";
 	}

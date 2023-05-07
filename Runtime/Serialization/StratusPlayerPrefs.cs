@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Stratus
+namespace Stratus.Unity.Serialization
 {
 	/// <summary>
 	/// Settings meant to be used at runtime by a player

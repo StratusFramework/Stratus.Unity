@@ -1,6 +1,7 @@
 using Stratus.Events;
 using Stratus.Models.States;
 using Stratus.Unity.Events;
+using Stratus.Unity.Scenes;
 
 namespace Stratus.Unity
 {

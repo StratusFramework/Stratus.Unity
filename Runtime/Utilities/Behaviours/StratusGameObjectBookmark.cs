@@ -1,4 +1,5 @@
 ﻿using Stratus.Unity.Extensions;
+using Stratus.Unity.Reflection;
 
 using System.Collections;
 using System.Collections.Generic;
@@ -16,13 +17,13 @@ namespace Stratus
 		/// Information about this GameObject
 		/// </summary>    
 		[SerializeField]
-		private StratusGameObjectInformation _information;
+		private GameObjectInformation _information;
 
 		//------------------------------------------------------------------------/
 		// Properties
 		//------------------------------------------------------------------------/
-		public StratusGameObjectInformation information => this._information;
-		public static StratusGameObjectInformation[] availableInformation { get; private set; } = new StratusGameObjectInformation[0];
+		public GameObjectInformation information => this._information;
+		public static GameObjectInformation[] availableInformation { get; private set; } = new GameObjectInformation[0];
 		public static bool hasAvailableInformation => availableInformation != null && availableInformation.Length > 0;
 		public static System.Action onUpdate { get; set; } = new System.Action(() => { });
 
@@ -31,13 +32,13 @@ namespace Stratus
 		//------------------------------------------------------------------------/
 		protected override void OnReset()
 		{
-			this._information = new StratusGameObjectInformation(this.gameObject);
+			this._information = new GameObjectInformation(this.gameObject);
 		}
 
 		protected override void OnStratusEditorBehaviourEnable()
 		{
 			if (this._information == null)
-				this._information = new StratusGameObjectInformation(gameObject);
+				this._information = new GameObjectInformation(gameObject);
 			StratusGameObjectBookmark.UpdateAvailable();
 		}
 
@@ -72,12 +73,12 @@ namespace Stratus
 			}
 		}
 
-		public void SetInformation(StratusGameObjectInformation information)
+		public void SetInformation(GameObjectInformation information)
 		{
 			if (information.gameObject != this.gameObject)
 				return;
 
-			this._information = (StratusGameObjectInformation)information.CloneJSON();
+			this._information = (GameObjectInformation)information.CloneJSON();
 			this._information.UpdateMemberReferences();
 			StratusGameObjectBookmark.UpdateAvailable();
 		}
@@ -101,7 +102,7 @@ namespace Stratus
 		/// </summary>
 		private static void UpdateInformation(bool invokeDelegate = false)
 		{
-			List<StratusGameObjectInformation> availableInformation = new List<StratusGameObjectInformation>();
+			List<GameObjectInformation> availableInformation = new List<GameObjectInformation>();
 			foreach (var bookmark in StratusGameObjectBookmark.available)
 			{
 				availableInformation.Add(bookmark.Value.information);

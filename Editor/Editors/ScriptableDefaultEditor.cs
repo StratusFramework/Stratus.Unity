@@ -1,3 +1,5 @@
+using Stratus.Unity.Data;
+
 using UnityEditor;
 
 namespace Stratus.Unity.Editor

@@ -1,10 +1,12 @@
-﻿using UnityEditor;
+﻿using Stratus.Unity.Data;
+
+using UnityEditor;
 
 using UnityEngine;
 
 namespace Stratus.Unity.Editor
 {
-	[CustomPropertyDrawer(typeof(StratusTagField))]
+	[CustomPropertyDrawer(typeof(TagField))]
 	public class TagFieldDrawer : PropertyDrawer
 	{
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

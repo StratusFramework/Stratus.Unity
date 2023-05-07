@@ -1,5 +1,6 @@
 using Stratus.Data;
 using Stratus.Unity;
+using Stratus.Unity.Data;
 
 using UnityEngine;
 
@@ -15,12 +16,12 @@ namespace Stratus.Samples
 
 		[Header("Selector")]
 		public Blackboard.Selector selector = new Blackboard.Selector();
-		public StratusRuntimeMethodField runtimeMethod;
+		public RuntimeMethodField runtimeMethod;
 
 
 		private void Awake()
 		{
-			runtimeMethod = new StratusRuntimeMethodField(GetValue, GetValueWithSelector, SetValue);
+			runtimeMethod = new RuntimeMethodField(GetValue, GetValueWithSelector, SetValue);
 			blackboard.blackboard.onLocalSymbolChanged += OnLocalSymbolChanged;
 			blackboard.blackboard.onGlobalSymbolChanged += OnGlobalSymbolChanged;
 		}

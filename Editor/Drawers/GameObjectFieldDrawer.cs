@@ -1,10 +1,12 @@
+using Stratus.Unity.Reflection;
+
 using UnityEditor;
 
 using UnityEngine;
 
 namespace Stratus.Unity.Editor
 {
-	[CustomPropertyDrawer(typeof(StratusGameObjectField))]
+	[CustomPropertyDrawer(typeof(GameObjectField))]
 	public class GameObjectFieldDrawer : PropertyDrawer
 	{
 		float typeWidth { get; } = 0.3f;
@@ -13,7 +15,7 @@ namespace Stratus.Unity.Editor
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
 			SerializedProperty typeProp = property.FindPropertyRelative("type");
-			var type = (StratusGameObjectField.Type)typeProp.enumValueIndex;
+			var type = (GameObjectField.Type)typeProp.enumValueIndex;
 
 			label = EditorGUI.BeginProperty(position, label, typeProp);
 			Rect contentPosition = EditorGUI.PrefixLabel(position, label);
@@ -30,16 +32,16 @@ namespace Stratus.Unity.Editor
 			SerializedProperty inputProp = null;
 			switch (type)
 			{
-				case StratusGameObjectField.Type.GameObject:
+				case GameObjectField.Type.GameObject:
 					inputProp = property.FindPropertyRelative("gameObject");
 					break;
-				case StratusGameObjectField.Type.Layer:
+				case GameObjectField.Type.Layer:
 					inputProp = property.FindPropertyRelative("layer");
 					break;
-				case StratusGameObjectField.Type.Tag:
+				case GameObjectField.Type.Tag:
 					inputProp = property.FindPropertyRelative("tag");
 					break;
-				case StratusGameObjectField.Type.Name:
+				case GameObjectField.Type.Name:
 					inputProp = property.FindPropertyRelative("name");
 					break;
 			}

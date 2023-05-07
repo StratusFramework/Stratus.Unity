@@ -1,5 +1,6 @@
 using Stratus.Interpolation;
 using Stratus.Unity;
+using Stratus.Unity.Data;
 using Stratus.Unity.Interpolation;
 
 using UnityEngine;
@@ -21,7 +22,7 @@ namespace Stratus
 			public float floatValue = 7f;
 			public Image[] imageGroup;
 
-			public StratusRuntimeMethodField testingMethods;
+			public RuntimeMethodField testingMethods;
 
 			// Property: Value type POD
 			private float floatProperty { set; get; } = 1.0f;
@@ -30,7 +31,7 @@ namespace Stratus
 
 			void Awake()
 			{
-				testingMethods = new StratusRuntimeMethodField(TestActionSequence, TestActionCall, TestActionGroup);
+				testingMethods = new RuntimeMethodField(TestActionSequence, TestActionCall, TestActionGroup);
 			}
 
 			void TestActionSequence()

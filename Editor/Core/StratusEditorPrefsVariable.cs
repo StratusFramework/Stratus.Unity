@@ -1,4 +1,4 @@
-﻿using Stratus.Serialization;
+﻿using Stratus.Unity.Serialization;
 
 using UnityEditor;
 

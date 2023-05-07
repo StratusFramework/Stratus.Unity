@@ -1,4 +1,5 @@
-﻿using Stratus.Extensions;
+﻿using Stratus;
+using Stratus.Extensions;
 using Stratus.Logging;
 using Stratus.Serialization;
 using Stratus.Utilities;
@@ -7,7 +8,7 @@ using System;
 
 using UnityEngine;
 
-namespace Stratus
+namespace Stratus.Unity.Serialization
 {
 	public interface IStratusPrefs
 	{
@@ -33,7 +34,7 @@ namespace Stratus
 		public abstract bool Save();
 		public abstract void Reset();
 
-		public StratusUserSettings(bool appendDataPath = false)			
+		public StratusUserSettings(bool appendDataPath = false)
 		{
 			string key = $"{GetType().GetNiceName()}";
 			Initialize(key, appendDataPath);
@@ -56,7 +57,7 @@ namespace Stratus
 			{
 				this.LogError($"Failed to load data from {key}");
 			}
-			
+
 		}
 	}
 
@@ -70,7 +71,7 @@ namespace Stratus
 		public DataType data { get; private set; }
 		public override string dataTypeName => typeof(DataType).Name;
 		public override bool valid => data != null;
-		
+
 
 		public StratusUserSettings(string key, bool appendDataPath = false)
 			: base(key, appendDataPath)
@@ -197,5 +198,4 @@ namespace Stratus
 			_prefs.Reset();
 		}
 	}
-
 }

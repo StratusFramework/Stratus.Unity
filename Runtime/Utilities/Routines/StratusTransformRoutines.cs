@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System;
 using Stratus.Unity.Extensions;
+using Stratus.Unity;
+using Stratus.Unity.Utility;
 
 namespace Stratus
 {

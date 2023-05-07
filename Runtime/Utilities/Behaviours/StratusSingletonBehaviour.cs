@@ -4,6 +4,7 @@ using Stratus.Extensions;
 using Stratus.Reflection;
 using Stratus.Utilities;
 using Stratus.Unity;
+using Stratus.Unity.Utility;
 
 namespace Stratus
 {
@@ -59,7 +60,7 @@ namespace Stratus
 					// If not found, instantiate
 					if (!_instance)
 					{
-						if (shouldInstantiate == false || (isPlayerOnly && StratusEditorBridge.isEditMode))
+						if (shouldInstantiate == false || (isPlayerOnly && EditorBridge.isEditMode))
 						{
 							//Trace.Script("Will not instantiate the class " + typeof(T).Name);
 							return null;
@@ -111,7 +112,7 @@ namespace Stratus
 			{
 				if (isPersistent)
 				{
-					if (!StratusEditorBridge.isEditMode)
+					if (!EditorBridge.isEditMode)
 					{
 						this.OnDontDestroyOnLoad();
 					}

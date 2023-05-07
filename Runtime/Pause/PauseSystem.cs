@@ -5,7 +5,7 @@ using System;
 
 using UnityEngine;
 using Stratus.Models.States;
-using Stratus;
+using Stratus.Unity.Scenes;
 
 namespace Stratus.Unity
 {

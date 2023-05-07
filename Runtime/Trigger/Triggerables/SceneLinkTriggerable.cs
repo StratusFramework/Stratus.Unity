@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Stratus.Unity.Scenes;
+
+using System;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -15,11 +17,11 @@ namespace Stratus.Unity.Triggers
 		// Fields
 		//----------------------------------------------------------------------/
 		[Tooltip("What pool of scenes are being considered by this link")]
-		public StratusScenePool scenePool;
+		public ScenePool scenePool;
 
 		[Tooltip("What scenes should be loaded when this link is triggered.")]
 		[HideInInspector]
-		public List<StratusSceneField> selectedScenes = new List<StratusSceneField>();
+		public List<SceneField> selectedScenes = new List<SceneField>();
 
 		//----------------------------------------------------------------------/
 		// Properties: Public
@@ -43,7 +45,7 @@ namespace Stratus.Unity.Triggers
 		//----------------------------------------------------------------------/
 		protected override void OnAwake()
 		{
-			if (StratusSceneLinker.instance == null)
+			if (SceneLinker.instance == null)
 				throw new Exception($"No SceneLinker is available!");
 		}
 
@@ -87,7 +89,7 @@ namespace Stratus.Unity.Triggers
 		/// </summary>
 		private void LoadScenes()
 		{
-			var lut = new Dictionary<string, StratusSceneField>();
+			var lut = new Dictionary<string, SceneField>();
 			foreach (var scene in selectedScenes)
 				lut.Add(scene.name, scene);
 

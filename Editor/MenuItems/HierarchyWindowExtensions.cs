@@ -1,4 +1,5 @@
 using Stratus.Unity.Extensions;
+using Stratus.Unity.Scenes;
 
 using System.Reflection;
 

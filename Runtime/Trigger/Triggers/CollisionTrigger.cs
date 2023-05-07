@@ -1,3 +1,7 @@
+using Stratus.Unity.Logging;
+using Stratus.Unity.Reflection;
+using Stratus.Unity.Utility;
+
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -19,7 +23,7 @@ namespace Stratus.Unity.Triggers
 		//[Validate(nameof(OnFilterChanged), ValidateLevel.Warning)]
 		[Tooltip("What targets we are allowed to collide with")]
 		[FormerlySerializedAs("collisionTarget")]
-		public StratusGameObjectField filter;
+		public GameObjectField filter;
 
 		//--------------------------------------------------------------------------------------------/
 		// Properties
@@ -72,7 +76,7 @@ namespace Stratus.Unity.Triggers
 		public override StratusObjectValidation Validate()
 		{
 			StratusObjectValidation validation = new StratusObjectValidation(StratusObjectValidation.Level.Warning, this);
-			validation.Add(StratusUnityObjectValidation.NullReference(this, $"<i>{description}</i>"));
+			validation.Add(UnityObjectValidation.NullReference(this, $"<i>{description}</i>"));
 			validation.Add(ValidateLayers());
 			return validation;
 		}

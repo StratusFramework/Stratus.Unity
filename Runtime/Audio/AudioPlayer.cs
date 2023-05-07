@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Stratus.Unity.Logging;
+
+using UnityEngine;
 
 namespace Stratus.Unity.Audio
 {

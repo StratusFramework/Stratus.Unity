@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using UnityEngine;
 using System;
+using Stratus.Unity.Utility;
+using Stratus.Unity.Models;
 
 namespace Stratus
 {
@@ -41,7 +43,7 @@ namespace Stratus
 			/// <summary>
 			/// The main color triad for the framework, using azure as the dominant color
 			/// </summary>
-			public static StratusColorHarmony.Triad azureTriad { get; internal set; }
+			public static ColorHarmony.Triad azureTriad { get; internal set; }
 			public static Color sanMarino { get; internal set; }
 			public static Color royalBlue { get; internal set; }
 			public static Color jade { get; internal set; }
@@ -222,7 +224,7 @@ namespace Stratus
 				Colors.saffron = new Color32(244, 208, 63, 255);
 
 
-				Colors.azureTriad = new StratusColorHarmony.Triad(Colors.azure,
+				Colors.azureTriad = new ColorHarmony.Triad(Colors.azure,
 					new Color32(250, 70, 162, 255),
 					new Color32(250, 223, 20, 255));
 			}
@@ -236,14 +238,14 @@ namespace Stratus
 			/// </summary>
 			/// <param name="index"></param>
 			/// <returns></returns>
-			public static Color GetDistinct(int index) => Utilities.StratusRendering.HexToColor(distinct1024[index]);
+			public static Color GetDistinct(int index) => RenderingUtility.HexToColor(distinct1024[index]);
 
 			/// <summary>
 			/// Gets a distinct color, given an index (up to 1024)
 			/// </summary>
 			/// <param name="index"></param>
 			/// <returns></returns>
-			public static Color GetDistinct56(int index) => Utilities.StratusRendering.HexToColor(distinct56[index]);
+			public static Color GetDistinct56(int index) => RenderingUtility.HexToColor(distinct56[index]);
 		}
 
 	}

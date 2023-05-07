@@ -3,6 +3,7 @@
 using Stratus.Editor;
 using Stratus.Extensions;
 using Stratus.OdinSerializer;
+using Stratus.Unity.Data;
 
 using System.Collections.Generic;
 
@@ -15,8 +16,8 @@ namespace Stratus.Unity.Editor
 	/// <summary>
 	/// The main data asset containing all the saved settings present among the Stratus framework's utilities
 	/// </summary>
-	[StratusScriptableSingleton("Assets", "Stratus Preferences")]
-	public class StratusPreferences : StratusScriptableSingleton<StratusPreferences>
+	[ScriptableSingleton("Assets", "Stratus Preferences")]
+	public class StratusPreferences : Data.ScriptableSingleton<StratusPreferences>
 	{
 		#region Fields
 		/// <summary>

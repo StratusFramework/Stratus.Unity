@@ -1,5 +1,7 @@
 ﻿using Stratus.Data;
 using Stratus.Unity;
+using Stratus.Unity.Data;
+using Stratus.Unity.Scenes;
 
 using System.Collections;
 using System.Collections.Generic;
@@ -16,14 +18,14 @@ namespace Stratus
 		public class TypesExample : StratusBehaviour
 		{
 			[Header("Stratus Field Types")]
-			public StratusSceneField scene = new StratusSceneField();
-			public StratusTagField tagField = new StratusTagField();
+			public SceneField scene = new SceneField();
+			public TagField tagField = new TagField();
 			public FloatRange floatRange = new FloatRange();
 			public StratusIntegerRange intRange = new StratusIntegerRange();
 			public BoundedFloat variable = new BoundedFloat();
 			public KeyCode enumDrawer;
 
-			public StratusLayerField layer = new StratusLayerField();
+			public LayerField layer = new LayerField();
 
 			void TryLoadingScene()
 			{

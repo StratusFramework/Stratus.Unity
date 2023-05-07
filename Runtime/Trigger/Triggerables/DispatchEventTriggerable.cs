@@ -1,6 +1,7 @@
 using Stratus.Dependencies.TypeReferences;
 using Stratus.Models;
 using Stratus.Unity.Events;
+using Stratus.Unity.Scenes;
 
 using System.Collections.Generic;
 

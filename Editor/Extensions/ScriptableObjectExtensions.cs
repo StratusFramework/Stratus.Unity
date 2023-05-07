@@ -1,3 +1,5 @@
+using Stratus.Unity.Utility;
+
 using System;
 
 using UnityEngine;
@@ -8,12 +10,12 @@ namespace Stratus.Unity.Editor
 	{
 		public static T AddInstanceToAsset<T>(this ScriptableObject assetObject) where T : ScriptableObject
 		{
-			return StratusAssetUtility.AddInstanceToAsset<T>(assetObject);
+			return AssetUtility.AddInstanceToAsset<T>(assetObject);
 		}
 
 		public static ScriptableObject AddInstanceToAsset(this ScriptableObject assetObject, Type type)
 		{
-			return StratusAssetUtility.AddInstanceToAsset(assetObject, type);
+			return AssetUtility.AddInstanceToAsset(assetObject, type);
 		}
 	}
 

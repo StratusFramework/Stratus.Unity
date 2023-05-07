@@ -45,7 +45,7 @@ namespace Stratus.Unity.Editor
 			var selectedGameObject = Selection.activeGameObject;
 			if (selectedGameObject != null)
 			{
-				var isolationComponent = selectedGameObject.GetComponentInParent<IStratusSceneViewIsolate>();
+				var isolationComponent = selectedGameObject.GetComponentInParent<ISceneViewIsolate>();
 				if (isolationComponent != null)
 				{
 					SceneVisibilityManager.instance.Isolate(isolationComponent.gameObject, true);

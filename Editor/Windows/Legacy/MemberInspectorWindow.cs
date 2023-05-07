@@ -1,11 +1,11 @@
-﻿using Stratus;
-using Stratus.Data;
+﻿using Stratus.Data;
 using Stratus.Editor;
 using Stratus.Extensions;
 using Stratus.Logging;
 using Stratus.Reflection;
 using Stratus.Timers;
 using Stratus.Unity.Extensions;
+using Stratus.Unity.Reflection;
 using Stratus.Utilities;
 
 using System;
@@ -65,9 +65,9 @@ namespace Stratus.Unity.Editor
 		[SerializeField]
 		private GameObject target;
 		[SerializeField]
-		private StratusComponentMemberWatchList watchList = new StratusComponentMemberWatchList();
+		private ComponentMemberWatchList watchList = new ComponentMemberWatchList();
 		[SerializeReference]
-		private StratusGameObjectInformation _currentTargetInformation;
+		private GameObjectInformation _currentTargetInformation;
 		/// <summary>
 		/// How quickly <see cref="MemberReference"/> values are updated
 		/// </summary>
@@ -97,7 +97,7 @@ namespace Stratus.Unity.Editor
 
 		#region Properties
 		public InformationMode informationMode { get; private set; }
-		public StratusGameObjectInformation targetInformation
+		public GameObjectInformation targetInformation
 		{
 			get => _currentTargetInformation;
 			private set
@@ -123,7 +123,7 @@ namespace Stratus.Unity.Editor
 
 			if (this.watchList == null)
 			{
-				this.watchList = new StratusComponentMemberWatchList();
+				this.watchList = new ComponentMemberWatchList();
 			}
 
 			if (targetInformation == null && target != null)
@@ -136,7 +136,7 @@ namespace Stratus.Unity.Editor
 
 			// Update tree view on assembly reload
 			StratusGameObjectBookmark.onUpdate += this.OnBookmarkUpdate;
-			StratusGameObjectInformation.onChanged += this.OnGameObjectInformationChanged;
+			GameObjectInformation.onChanged += this.OnGameObjectInformationChanged;
 		}
 
 		private void ResetUpdateTimer()
@@ -265,7 +265,7 @@ namespace Stratus.Unity.Editor
 			}
 		}
 
-		private void OnGameObjectInformationChanged(StratusGameObjectInformation information, Result<StratusGameObjectInformation.Change> change)
+		private void OnGameObjectInformationChanged(GameObjectInformation information, Result<GameObjectInformation.Change> change)
 		{
 			this.Log($"Information changed for {information.gameObject.name}, change = {change.result}:\n{change.message}");
 			this.SetTreeView();
@@ -308,7 +308,7 @@ namespace Stratus.Unity.Editor
 			else if (this.targetInformation == null || this.targetInformation.gameObject != this.target)
 			{
 				this.informationMode = InformationMode.Temporary;
-				this.targetInformation = new StratusGameObjectInformation(this.target);
+				this.targetInformation = new GameObjectInformation(this.target);
 			}
 
 			this.targetInformation.Refresh();

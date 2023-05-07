@@ -1,4 +1,5 @@
-﻿using Stratus.Unity.Triggers;
+﻿using Stratus.Unity.Scenes;
+using Stratus.Unity.Triggers;
 
 using UnityEditor;
 
@@ -15,7 +16,7 @@ namespace Stratus.Unity.Editor
 			drawGroupRequests.Add(new DrawGroupRequest(SelectScenes, () => { return triggerable.scenePool != null; }));
 		}
 
-		private string GetName(StratusSceneField sceneField) => sceneField.name;
+		private string GetName(SceneField sceneField) => sceneField.name;
 
 		private void SelectScenes2(Rect rect)
 		{

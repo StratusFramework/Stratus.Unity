@@ -1,10 +1,12 @@
+using Stratus.Unity.Data;
+
 using UnityEditor;
 
 using UnityEngine;
 
 namespace Stratus.Unity.Editor
 {
-	[CustomPropertyDrawer(typeof(StratusPositionField))]
+	[CustomPropertyDrawer(typeof(PositionField))]
 	public class PositionFieldDrawer : PropertyDrawer
 	{
 		float typeWidth { get; } = 0.3f;
@@ -22,7 +24,7 @@ namespace Stratus.Unity.Editor
 			Rect contentPosition = EditorGUI.PrefixLabel(position, label);
 
 			SerializedProperty typeProp = property.FindPropertyRelative("type");
-			StratusPositionField.Type type = (StratusPositionField.Type)typeProp.enumValueIndex;
+			PositionField.Type type = (PositionField.Type)typeProp.enumValueIndex;
 
 			var width = contentPosition.width;
 
@@ -39,11 +41,11 @@ namespace Stratus.Unity.Editor
 			SerializedProperty inputProp = null;
 			switch (type)
 			{
-				case StratusPositionField.Type.Transform:
-					inputProp = property.FindPropertyRelative(StratusPositionField.transformFieldName);
+				case PositionField.Type.Transform:
+					inputProp = property.FindPropertyRelative(PositionField.transformFieldName);
 					break;
-				case StratusPositionField.Type.Vector:
-					inputProp = property.FindPropertyRelative(StratusPositionField.pointFieldName);
+				case PositionField.Type.Vector:
+					inputProp = property.FindPropertyRelative(PositionField.pointFieldName);
 					break;
 			}
 

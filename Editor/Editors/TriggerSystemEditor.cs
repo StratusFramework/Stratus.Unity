@@ -1,5 +1,6 @@
 using Stratus.Extensions;
 using Stratus.Unity.Triggers;
+using Stratus.Unity.Utility;
 
 using System.Collections.Generic;
 
@@ -62,12 +63,12 @@ namespace Stratus.Unity.Editor
 		{
 			foreach (var t in triggers)
 			{
-				var validation = StratusUnityObjectValidation.NullReference(t, $"<i>{t.description}</i>");
+				var validation = UnityObjectValidation.NullReference(t, $"<i>{t.description}</i>");
 				if (validation != null) AddMessage(validation);
 			}
 			foreach (var t in triggerables)
 			{
-				var validation = StratusUnityObjectValidation.NullReference(t, $"<i>{t.description}</i>");
+				var validation = UnityObjectValidation.NullReference(t, $"<i>{t.description}</i>");
 				if (validation != null) AddMessage(validation);
 			}
 		}

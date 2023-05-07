@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Stratus.Extensions;
+using Stratus.Unity.Logging;
+using Stratus.Unity.Data;
 
 namespace Stratus.Unity.Triggers
 {
@@ -15,7 +17,7 @@ namespace Stratus.Unity.Triggers
 		[Tooltip("Whether to destroy this GameObject after instantiating")]
 		public bool destroyOnInstantiate = false;
 		[Header("Transform")]
-		public StratusPositionField position = new StratusPositionField();
+		public PositionField position = new PositionField();
 		public Space space = Space.Self;
 
 		private List<GameObject> _instances = new List<GameObject>();

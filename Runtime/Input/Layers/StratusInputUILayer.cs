@@ -107,11 +107,11 @@ namespace Stratus.Unity.Inputs
 			base.OnToggle(enabled);
 			if (active)
 			{
-				StratusCursorLock.ReleaseLock();
+				CursorLock.ReleaseLock();
 			}
 			else
 			{
-				StratusCursorLock.RevertLock();
+				CursorLock.RevertLock();
 			}
 		}
 	}

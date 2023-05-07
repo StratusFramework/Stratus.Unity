@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 
-namespace Stratus.Serialization
+using UnityEngine;
+
+namespace Stratus.Unity.Serialization
 {
 	/// <summary>
 	/// A variable saved using PlayerPrefs

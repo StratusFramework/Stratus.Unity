@@ -1,3 +1,5 @@
+using Stratus.Unity.Scenes;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,7 +22,7 @@ namespace Stratus.Unity.Triggers
 
 		//[DrawIf("type", Type.Reload, ComparisonType.NotEqual)] 
 		[Tooltip("The scene to load or unload")]
-		public StratusSceneField scene = new StratusSceneField();
+		public SceneField scene = new SceneField();
 
 		//[DrawIf("type", Type.Load, ComparisonType.Equals)]
 		[Tooltip("How to load this scene")]

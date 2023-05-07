@@ -1,5 +1,6 @@
 ﻿using Stratus.Inputs;
 using Stratus.Logging;
+using Stratus.Unity.Scenes;
 using Stratus.Utilities;
 
 using System;

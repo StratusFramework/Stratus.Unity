@@ -1,6 +1,6 @@
 ﻿using Stratus.Editor;
-using Stratus.IO;
 using Stratus.Unity.Extensions;
+using Stratus.Unity.Utility;
 
 using UnityEditor;
 
@@ -54,7 +54,7 @@ namespace Stratus.Unity.Editor
 		//------------------------------------------------------------------------/
 		private static void Export(ExportPackageArguments arguments)
 		{
-			string location = StratusIO.GetFolderPath(arguments.path);
+			string location = FileUtility.GetFolderPath(arguments.path);
 			AssetDatabase.ExportPackage(location, $"{arguments.name}.unitypackage", arguments.options);
 			EditorUtility.RevealInFinder(location);
 			StratusDebug.Log($"Exported {arguments.name} to {location}");

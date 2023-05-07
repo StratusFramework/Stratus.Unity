@@ -1,8 +1,9 @@
 ﻿using Stratus.OdinSerializer;
+using Stratus.Serialization;
 
 using System.IO;
 
-namespace Stratus.Serialization
+namespace Stratus.Unity.Serialization
 {
 	/// <summary>
 	/// A serializer using the binary format

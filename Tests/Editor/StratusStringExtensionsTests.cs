@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 
 using Stratus.Extensions;
+using Stratus.Unity.Data;
 using Stratus.Unity.Extensions;
 using Stratus.Utilities;
 
@@ -13,13 +14,13 @@ namespace Stratus.Editor.Tests
 		[Test]
 		public void IsRichTextValid()
 		{
-			StratusRichText richText = null;
+			RichText richText = null;
 			Assert.False(richText.IsValid());
-			richText = new StratusRichText(null);
+			richText = new RichText(null);
 			Assert.False(richText.IsValid());
-			richText = new StratusRichText("");
+			richText = new RichText("");
 			Assert.False(richText.IsValid());
-			richText = new StratusRichText("foo!");
+			richText = new RichText("foo!");
 			Assert.True(richText.IsValid());
 		}
 
@@ -28,7 +29,7 @@ namespace Stratus.Editor.Tests
 		[TestCase("")]
 		public void RichTextStoresOriginalText(string text)
 		{
-			StratusRichText richText = new StratusRichText(text);
+			RichText richText = new RichText(text);
 			Assert.AreEqual(text, richText.text);
 		}
 
@@ -37,11 +38,11 @@ namespace Stratus.Editor.Tests
 		[TestCase("foobar", FontStyle.Normal, "foobar")]
 		public void RichTextIsGeneratedCorrectly(string input, FontStyle fontStyle, string expected)
 		{
-			StratusRichTextOptions options = new StratusRichTextOptions()
+			RichTextOptions options = new RichTextOptions()
 			{
 				style = fontStyle
 			};
-			StratusRichText richText = new StratusRichText(input, options);
+			RichText richText = new RichText(input, options);
 			Assert.AreEqual(expected, richText.richText);
 		}
 

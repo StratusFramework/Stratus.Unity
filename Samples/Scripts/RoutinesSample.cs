@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
-using Stratus;
 using System.Collections;
+using Stratus.Unity;
+using Stratus.Unity.Data;
 
 namespace Stratus
 {
-  namespace Samples
-  {
-    public class RoutinesSample : MonoBehaviour
+	namespace Samples
+	{
+		public class RoutinesSample : MonoBehaviour
     {
       [Header("General Settings")]
       public Transform target;
@@ -28,12 +29,12 @@ namespace Stratus
       public bool repeat = false;
       public AnimationCurve scalingCurve = new AnimationCurve();
       
-      public StratusRuntimeMethodField transformRoutines;
-      public StratusRuntimeMethodField taggedRoutines;
+      public RuntimeMethodField transformRoutines;
+      public RuntimeMethodField taggedRoutines;
 
       private void Start()
       {
-        transformRoutines = new StratusRuntimeMethodField(new System.Action[]
+        transformRoutines = new RuntimeMethodField(new System.Action[]
         {
           StopAll,
           MoveTo,
@@ -45,7 +46,7 @@ namespace Stratus
           Scale,
         });
 
-        taggedRoutines = new StratusRuntimeMethodField(new System.Action[]
+        taggedRoutines = new RuntimeMethodField(new System.Action[]
         {
           ScaleSequence,
           StopScaleSequence

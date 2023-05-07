@@ -1,4 +1,5 @@
-﻿using Stratus.Unity.Triggers;
+﻿using Stratus.Unity.Scenes;
+using Stratus.Unity.Triggers;
 
 using System;
 
@@ -9,7 +10,7 @@ using UnityEngine;
 namespace Stratus.Unity.Editor
 {
 	[LayoutViewDisplayAttribute("Scene Linker", 225f, 200f, StratusGUI.Anchor.TopLeft, StratusGUI.Dimensions.Absolute)]
-	public class SceneLinkerDisplay : SingletonSceneViewDisplay<StratusSceneLinker>
+	public class SceneLinkerDisplay : SingletonSceneViewDisplay<SceneLinker>
 	{
 		private Vector2 displayScrollPosition { get; set; } = Vector2.zero;
 		private float displayOpenButtonWidth => 50f;
@@ -73,8 +74,8 @@ namespace Stratus.Unity.Editor
 
 			GUILayout.BeginHorizontal();
 			GUILayout.Label("Scenes:");
-			if (GUILayout.Button("Open All")) StratusSceneLinker.OpenAll();
-			if (GUILayout.Button("Close All")) StratusSceneLinker.CloseAll();
+			if (GUILayout.Button("Open All")) SceneLinker.OpenAll();
+			if (GUILayout.Button("Close All")) SceneLinker.CloseAll();
 			GUILayout.EndHorizontal();
 			GUILayout.Space(2.5f);
 

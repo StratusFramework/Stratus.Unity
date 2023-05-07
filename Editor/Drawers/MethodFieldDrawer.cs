@@ -1,10 +1,12 @@
-﻿using UnityEditor;
+﻿using Stratus.Unity.Data;
+
+using UnityEditor;
 
 using UnityEngine;
 
 namespace Stratus.Unity.Editor
 {
-	[CustomPropertyDrawer(typeof(StratusRuntimeMethodField))]
+	[CustomPropertyDrawer(typeof(RuntimeMethodField))]
 	public class MethodFieldDrawer : PropertyDrawer
 	{
 		private int numLines;
@@ -14,7 +16,7 @@ namespace Stratus.Unity.Editor
 			if (property == null)
 				return;
 
-			var methodField = fieldInfo.GetValue(property.serializedObject.targetObject) as StratusRuntimeMethodField;
+			var methodField = fieldInfo.GetValue(property.serializedObject.targetObject) as RuntimeMethodField;
 
 
 			// Disabled during editor mode

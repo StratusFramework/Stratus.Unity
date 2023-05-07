@@ -1,18 +1,21 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+
 using Stratus.Utilities;
-using Stratus.Events;
 using Stratus.Unity.Events;
+
+using Event = Stratus.Events.Event;
 
 #if UNITY_EDITOR
 using UnityEditor.SceneManagement;
 #endif
 
-namespace Stratus
+namespace Stratus.Unity.Scenes
 {
 	/// <summary>
 	/// A space for scene-specific events, accessible to all objects
@@ -23,7 +26,7 @@ namespace Stratus
 		//----------------------------------------------------------------------------------/
 		// Declarations
 		//----------------------------------------------------------------------------------/
-		public abstract class StatusEvent : Events.Event { public string name; }
+		public abstract class StatusEvent : Event { public string name; }
 
 		public static void Connect<T>()
 		{
@@ -33,7 +36,7 @@ namespace Stratus
 		public class ChangedEvent : StatusEvent { }
 		public class LoadedEvent : StatusEvent { }
 		public class UnloadedEvent : StatusEvent { }
-		public class ReloadEvent : Events.Event { }
+		public class ReloadEvent : Event { }
 
 		/// <summary>
 		/// Callback for scene events
@@ -51,30 +54,30 @@ namespace Stratus
 		/// <summary>    
 		/// The currently active scene is the scene which will be used as the target for new GameObjects instantiated by scripts.
 		/// </summary>
-		public static StratusSceneField activeScene
+		public static SceneField activeScene
 		{
 			get
 			{
 #if UNITY_EDITOR
 				if (isEditMode)
-					return new StratusSceneField(EditorSceneManager.GetActiveScene().name);
+					return new SceneField(SceneManager.GetActiveScene().name);
 #endif
 
-				return new StratusSceneField(SceneManager.GetActiveScene().name);
+				return new SceneField(SceneManager.GetActiveScene().name);
 			}
 		}
 
 		/// <summary>
 		/// Returns a list of all active scenes
 		/// </summary>
-		public static StratusSceneField[] activeScenes
+		public static SceneField[] activeScenes
 		{
 			get
 			{
-				var scenes = new StratusSceneField[sceneCount];
+				var scenes = new SceneField[sceneCount];
 				for (var i = 0; i < sceneCount; ++i)
 				{
-					scenes[i] = new StratusSceneField(GetSceneAt(i).name);
+					scenes[i] = new SceneField(GetSceneAt(i).name);
 				}
 				return scenes;
 			}
@@ -117,13 +120,13 @@ namespace Stratus
 		/// </summary>
 		private AsyncOperation loadingOperation { get; set; }
 
-		private static Func<UnityEngine.SceneManagement.Scene> getActiveScene
+		private static Func<Scene> getActiveScene
 		{
 			get
 			{
 #if UNITY_EDITOR
 				if (isEditMode)
-					return EditorSceneManager.GetActiveScene;
+					return SceneManager.GetActiveScene;
 #endif
 				return SceneManager.GetActiveScene;
 			}
@@ -138,18 +141,18 @@ namespace Stratus
 			{
 #if UNITY_EDITOR
 				if (isEditMode)
-					return EditorSceneManager.sceneCount;
+					return SceneManager.sceneCount;
 #endif
 				return SceneManager.sceneCount;
 
 			}
 		}
 
-		private static UnityEngine.SceneManagement.Scene GetSceneAt(int index)
+		private static Scene GetSceneAt(int index)
 		{
 #if UNITY_EDITOR
 			if (isEditMode)
-				return EditorSceneManager.GetSceneAt(index);
+				return SceneManager.GetSceneAt(index);
 #endif
 			return SceneManager.GetSceneAt(index);
 		}
@@ -178,13 +181,13 @@ namespace Stratus
 		/// Loads the scene specified by name.
 		/// </summary>
 		/// <param name="sceneName"></param>
-		public static void Load(StratusSceneField scene, LoadSceneMode mode = LoadSceneMode.Additive, SceneCallback onSceneLoaded = null)
+		public static void Load(SceneField scene, LoadSceneMode mode = LoadSceneMode.Additive, SceneCallback onSceneLoaded = null)
 		{
 			// Edit mode
 #if UNITY_EDITOR
 			if (isEditMode)
 			{
-				EditorSceneManager.OpenScene(scene.path, UnityEditor.SceneManagement.OpenSceneMode.Additive);
+				EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Additive);
 				return;
 			}
 #endif
@@ -197,7 +200,7 @@ namespace Stratus
 		/// Unloads the specified scene asynchronously
 		/// </summary>
 		/// <param name="sceneName"></param>
-		public static void Unload(StratusSceneField scene, SceneCallback onSceneUnloaded = null)
+		public static void Unload(SceneField scene, SceneCallback onSceneUnloaded = null)
 		{
 			// Editor mode
 #if UNITY_EDITOR
@@ -217,7 +220,7 @@ namespace Stratus
 		/// </summary>
 		/// <param name="scenes"></param>
 		/// <param name="onSceneLoaded"></param>
-		public static void Load(StratusSceneField[] scenes, SceneCallback onScenesLoaded = null)
+		public static void Load(SceneField[] scenes, SceneCallback onScenesLoaded = null)
 		{
 			// Editor mode
 #if UNITY_EDITOR
@@ -225,7 +228,7 @@ namespace Stratus
 			{
 				foreach (var scene in scenes)
 				{
-					EditorSceneManager.OpenScene(scene.path, UnityEditor.SceneManagement.OpenSceneMode.Additive);
+					EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Additive);
 					//EditorSceneManager.LoadScene(scene, LoadSceneMode.Additive);
 				}
 				return;
@@ -241,7 +244,7 @@ namespace Stratus
 		/// Unloads multiple scenes in sequence asynchronously
 		/// </summary>
 		/// <param name="scenes"></param>
-		public static void Unload(StratusSceneField[] scenes, SceneCallback onScenesUnloaded = null)
+		public static void Unload(SceneField[] scenes, SceneCallback onScenesUnloaded = null)
 		{
 			// Editor mode
 #if UNITY_EDITOR
@@ -266,15 +269,15 @@ namespace Stratus
 		/// </summary>
 		public static void Reload()
 		{
-			StratusScene.Load(StratusScene.activeScene, LoadSceneMode.Single);
+			Load(activeScene, LoadSceneMode.Single);
 		}
 
 		/// <summary>
 		/// Reloads the specified scene
 		/// </summary>
-		public static void Reload(StratusSceneField scene, SceneCallback onFinished = null)
+		public static void Reload(SceneField scene, SceneCallback onFinished = null)
 		{
-			StratusScene.Load(StratusScene.activeScene, LoadSceneMode.Single);
+			Load(activeScene, LoadSceneMode.Single);
 		}
 
 		/// <summary>
@@ -282,7 +285,7 @@ namespace Stratus
 		/// </summary>
 		/// <typeparam name="TEvent"></typeparam>
 		/// <param name="func"></param>
-		public static void Connect<TEvent>(Action<TEvent> func) where TEvent : Events.Event
+		public static void Connect<TEvent>(Action<TEvent> func) where TEvent : Event
 		{
 			instance.Poke();
 			UnityStratusEventSystem.Connect(instance.gameObject, func);
@@ -293,7 +296,7 @@ namespace Stratus
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="func"></param>
-		public static void Connect(Action<Events.Event> func, Type type)
+		public static void Connect(Action<Event> func, Type type)
 		{
 			instance.Poke();
 			UnityStratusEventSystem.Connect(instance.gameObject, type, func);
@@ -304,7 +307,7 @@ namespace Stratus
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="eventObj"></param>
-		public static void Dispatch<T>(T eventObj) where T : Events.Event
+		public static void Dispatch<T>(T eventObj) where T : Event
 		{
 			instance.Poke();
 			UnityStratusEventSystem.Dispatch<T>(instance.gameObject, eventObj);
@@ -317,7 +320,7 @@ namespace Stratus
 		/// <param name="gameObj">The GameObject to which to connect to.</param>
 		/// <param name="eventObj">The event object. </param>
 		/// <param name="nextFrame">Whether the event should be sent next frame.</param>
-		public static void Dispatch(Events.Event eventObj, Type type)
+		public static void Dispatch(Event eventObj, Type type)
 		{
 			instance.Poke();
 			UnityStratusEventSystem.Dispatch(instance.gameObject, eventObj);
@@ -362,7 +365,7 @@ namespace Stratus
 		/// </summary>
 		/// <param name="prevScene"></param>
 		/// <param name="nextScene"></param>
-		private void OnActiveSceneChanged(UnityEngine.SceneManagement.Scene prevScene, UnityEngine.SceneManagement.Scene nextScene)
+		private void OnActiveSceneChanged(Scene prevScene, Scene nextScene)
 		{
 			onSceneChanged.Invoke();
 		}
@@ -372,7 +375,7 @@ namespace Stratus
 		/// </summary>
 		/// <param name="arg0"></param>
 		/// <param name="arg1"></param>
-		private void OnSceneLoaded(UnityEngine.SceneManagement.Scene prevScene, LoadSceneMode mode)
+		private void OnSceneLoaded(Scene prevScene, LoadSceneMode mode)
 		{
 			onSceneLoaded.Invoke();
 			onSceneLoadedCallback?.DynamicInvoke();
@@ -383,7 +386,7 @@ namespace Stratus
 		/// Received when a scene has been unloaded
 		/// </summary>
 		/// <param name="arg0"></param>
-		private void OnSceneUnloaded(UnityEngine.SceneManagement.Scene scene)
+		private void OnSceneUnloaded(Scene scene)
 		{
 			onSceneLoaded.Invoke();
 			onSceneUnloadedCallback?.DynamicInvoke();
@@ -443,7 +446,7 @@ namespace Stratus
 		/// </summary>
 		/// <param name="scenes"></param>
 		/// <returns></returns>
-		IEnumerator LoadAsync(StratusSceneField[] scenes, SceneCallback onFinished = null)
+		IEnumerator LoadAsync(SceneField[] scenes, SceneCallback onFinished = null)
 		{
 			loadingProgress = 0f;
 			// Get the scene names in a queue
@@ -457,7 +460,7 @@ namespace Stratus
 				loadingOperation = SceneManager.LoadSceneAsync(nextScene, LoadSceneMode.Additive);
 				while (!loadingOperation.isDone)
 				{
-					loadingProgress = loadingOperation.progress / (float)scenes.Length;
+					loadingProgress = loadingOperation.progress / scenes.Length;
 					yield return null;
 				}
 				//Trace.Script("Finished loading " + nextScene);
@@ -473,11 +476,11 @@ namespace Stratus
 		/// </summary>
 		/// <param name="scenes"></param>
 		/// <returns></returns>
-		IEnumerator UnloadAsync(StratusSceneField[] scenes, SceneCallback onFinished = null)
+		IEnumerator UnloadAsync(SceneField[] scenes, SceneCallback onFinished = null)
 		{
 			loadingProgress = 0f;
 			// Get the scene names in a queue
-			var sceneQueue = new Queue<StratusSceneField>();
+			var sceneQueue = new Queue<SceneField>();
 			foreach (var scene in scenes)
 				sceneQueue.Enqueue(scene);
 
@@ -490,7 +493,7 @@ namespace Stratus
 				loadingOperation = SceneManager.UnloadSceneAsync(nextScene);
 				while (!loadingOperation.isDone)
 				{
-					loadingProgress = loadingOperation.progress / (float)scenes.Length;
+					loadingProgress = loadingOperation.progress / scenes.Length;
 					yield return null;
 				}
 				//Trace.Script("Finished unloading " + nextScene);
@@ -504,6 +507,6 @@ namespace Stratus
 
 	public static class UnityStratusEventExtensions
 	{
-		public static void DispatchToScene(this Events.Event e) => StratusScene.Dispatch(e, e.GetType());
+		public static void DispatchToScene(this Event e) => StratusScene.Dispatch(e, e.GetType());
 	}
 }

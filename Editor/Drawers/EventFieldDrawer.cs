@@ -1,3 +1,5 @@
+using Stratus.Unity.Events;
+
 using UnityEditor;
 
 using UnityEngine;
@@ -6,7 +8,7 @@ using Event = Stratus.Events.Event;
 
 namespace Stratus.Unity.Editor
 {
-	[CustomPropertyDrawer(typeof(StratusEventField))]
+	[CustomPropertyDrawer(typeof(EventField))]
 	public class EventFieldDrawer : StratusPropertyDrawer
 	{
 		//private float height = 0;
@@ -45,8 +47,8 @@ namespace Stratus.Unity.Editor
 
 		protected override void OnDrawProperty(Rect position, SerializedProperty property)
 		{
-			SerializedProperty typeProp = property.FindPropertyRelative(nameof(StratusEventField.type));
-			SerializedProperty scopeProperty = property.FindPropertyRelative(nameof(StratusEventField.scope));
+			SerializedProperty typeProp = property.FindPropertyRelative(nameof(EventField.type));
+			SerializedProperty scopeProperty = property.FindPropertyRelative(nameof(EventField.scope));
 			Event.Scope scope = GetEnumValue<Event.Scope>(scopeProperty);
 
 			//SerializedProperty typeProp = property.FindPropertyRelative("Type");
@@ -56,7 +58,7 @@ namespace Stratus.Unity.Editor
 			// Scope
 			if (scope == Event.Scope.Target)
 			{
-				DrawProperty(ref position, property.FindPropertyRelative(nameof(StratusEventField.targets)));
+				DrawProperty(ref position, property.FindPropertyRelative(nameof(EventField.targets)));
 			}
 		}
 	}
