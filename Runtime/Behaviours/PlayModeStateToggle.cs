@@ -1,18 +1,14 @@
-using Stratus.Unity;
-
-using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
-using UnityEngine.Events;
 
-namespace Stratus
+namespace Stratus.Unity.Behaviours
 {
 	/// <summary>
 	/// Manages the toggle of other behaviours due to playmode state changes
 	/// </summary>
 	[ExecuteInEditMode]
-	public class StratusPlayModeStateToggle : StratusBehaviour
+	public class PlayModeStateToggle : StratusBehaviour
 	{
 		public List<Behaviour> disabledInEditor = new List<Behaviour>();
 

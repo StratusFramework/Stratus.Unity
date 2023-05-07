@@ -7,6 +7,7 @@ using Stratus.Models.Saves;
 using Stratus.Logging;
 using Stratus.Unity.Extensions;
 using Stratus.Unity.Utility;
+using Stratus.Unity.Behaviours;
 
 namespace Stratus.Unity.Serialization
 {
@@ -101,7 +102,7 @@ namespace Stratus.Unity.Serialization
 				onLoad?.Invoke();
 			}
 
-			StratusCoroutineRunner.Run(routine());
+			CoroutineRunner.Run(routine());
 			return new Result(true, "Now loading data asynchronously...");
 		}
 

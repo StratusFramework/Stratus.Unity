@@ -1,6 +1,7 @@
 ﻿using Stratus.Editor;
 using Stratus.Extensions;
 using Stratus.Types;
+using Stratus.Unity.Behaviours;
 
 using System;
 using System.Collections.Generic;
@@ -11,13 +12,13 @@ using UnityEngine;
 
 namespace Stratus.Unity.Editor
 {
-	[CustomEditor(typeof(StratusExtensibleBehaviour), true)]
-	public class ExtensibleBehaviourEditor : BehaviourEditor<StratusExtensibleBehaviour>
+	[CustomEditor(typeof(ExtensibleBehaviour), true)]
+	public class ExtensibleBehaviourEditor : BehaviourEditor<ExtensibleBehaviour>
 	{
 		//--------------------------------------------------------------------------------------------/
 		// Fields
 		//--------------------------------------------------------------------------------------------/    
-		private static Type extensibleBehaviourType { get; } = typeof(StratusExtensibleBehaviour);
+		private static Type extensibleBehaviourType { get; } = typeof(ExtensibleBehaviour);
 		private Type[] extensionTypes;
 		private List<Dictionary<Type, Attribute>> extensionAttributes;
 		private string[] extensionTypeNames;
@@ -57,7 +58,7 @@ namespace Stratus.Unity.Editor
 			this.GetMatchingExtensionTypes();
 
 			// Set the type index
-			this.selectedExtensionTypeIndexProperty = propertyMap[nameof(StratusExtensibleBehaviour.selectedExtensionTypeIndex)];
+			this.selectedExtensionTypeIndexProperty = propertyMap[nameof(ExtensibleBehaviour.selectedExtensionTypeIndex)];
 			this.extensionTypesIndex = this.selectedExtensionTypeIndexProperty.intValue;
 			if (this.extensionTypesIndex > this.extensionTypes.Length)
 				this.extensionTypesIndex = 0;
@@ -199,7 +200,7 @@ namespace Stratus.Unity.Editor
 		{
 			this.target.extensionBehaviours.RemoveNull();
 			// Check that there's no extensions present on the GAmeObject but not added to the extensible
-			var extensionBehaviours = StratusExtensibleBehaviour.GetExtensionBehaviours(this.target.GetComponents<MonoBehaviour>());
+			var extensionBehaviours = ExtensibleBehaviour.GetExtensionBehaviours(this.target.GetComponents<MonoBehaviour>());
 			foreach (var behaviour in extensionBehaviours)
 			{
 				if (behaviour == null || !this.extensionTypes.Contains(behaviour.GetType()))

@@ -1,14 +1,13 @@
 ﻿using Stratus.Unity.Extensions;
 using Stratus.Unity.Reflection;
 
-using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Stratus
+namespace Stratus.Unity.Behaviours
 {
-	public class StratusGameObjectBookmark : StratusEditorBehaviour<StratusGameObjectBookmark>
+	public class GameObjectBookmark : EditorBehaviour<GameObjectBookmark>
 	{
 		//------------------------------------------------------------------------/
 		// Fields
@@ -39,37 +38,37 @@ namespace Stratus
 		{
 			if (this._information == null)
 				this._information = new GameObjectInformation(gameObject);
-			StratusGameObjectBookmark.UpdateAvailable();
+			UpdateAvailable();
 		}
 
 		protected override void OnStratusEditorBehaviourDisable()
 		{
-			StratusGameObjectBookmark.UpdateAvailable();
+			UpdateAvailable();
 		}
 
 		//------------------------------------------------------------------------/
 		// Methods
 		//------------------------------------------------------------------------/
-		public static StratusGameObjectBookmark Add(GameObject gameObject)
+		public static GameObjectBookmark Add(GameObject gameObject)
 		{
-			StratusGameObjectBookmark bookmark = gameObject.AddComponent<StratusGameObjectBookmark>();
+			GameObjectBookmark bookmark = gameObject.AddComponent<GameObjectBookmark>();
 			return bookmark;
 		}
 
 		public static void Remove(GameObject gameObject)
 		{
-			gameObject.RemoveComponent<StratusGameObjectBookmark>();
+			gameObject.RemoveComponent<GameObjectBookmark>();
 		}
 
 		public static void Toggle(GameObject gameObject)
 		{
-			if (gameObject.HasComponent<StratusGameObjectBookmark>())
+			if (gameObject.HasComponent<GameObjectBookmark>())
 			{
-				gameObject.RemoveComponent<StratusGameObjectBookmark>();
+				gameObject.RemoveComponent<GameObjectBookmark>();
 			}
 			else
 			{
-				gameObject.AddComponent<StratusGameObjectBookmark>();
+				gameObject.AddComponent<GameObjectBookmark>();
 			}
 		}
 
@@ -78,9 +77,9 @@ namespace Stratus
 			if (information.gameObject != this.gameObject)
 				return;
 
-			this._information = (GameObjectInformation)information.CloneJSON();
+			this._information = information.CloneJSON();
 			this._information.UpdateMemberReferences();
-			StratusGameObjectBookmark.UpdateAvailable();
+			UpdateAvailable();
 		}
 
 		//------------------------------------------------------------------------/
@@ -93,7 +92,7 @@ namespace Stratus
 		{
 			if (invokeDelegate)
 			{
-				StratusGameObjectBookmark.onUpdate();
+				onUpdate();
 			}
 		}
 
@@ -103,15 +102,15 @@ namespace Stratus
 		private static void UpdateInformation(bool invokeDelegate = false)
 		{
 			List<GameObjectInformation> availableInformation = new List<GameObjectInformation>();
-			foreach (var bookmark in StratusGameObjectBookmark.available)
+			foreach (var bookmark in available)
 			{
 				availableInformation.Add(bookmark.Value.information);
 			}
-			StratusGameObjectBookmark.availableInformation = availableInformation.ToArray();
+			GameObjectBookmark.availableInformation = availableInformation.ToArray();
 
 			if (invokeDelegate)
 			{
-				StratusGameObjectBookmark.onUpdate();
+				onUpdate();
 			}
 		}
 
@@ -120,8 +119,8 @@ namespace Stratus
 		/// </summary>
 		public static void UpdateAvailable()
 		{
-			StratusGameObjectBookmark.UpdateInformation();
-			StratusGameObjectBookmark.onUpdate();
+			UpdateInformation();
+			onUpdate();
 		}
 
 	}

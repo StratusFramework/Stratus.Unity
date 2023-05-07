@@ -9,34 +9,34 @@ using UnityEngine;
 
 namespace Stratus.Unity.Routines
 {
-	public static class TransformRoutines
+	public class RotateAroundRoutine : BaseTransformRoutine
 	{
-		public class RotateAroundRoutine : StratusTransformRoutine
+		private Vector3 pivot;
+		private Vector3 axis;
+		private float angle;
+		private StratusTimeScale timeScale;
+		public override TransformationType type => TransformationType.Rotate | TransformationType.Translate;
+
+		public RotateAroundRoutine(Vector3 pivot, Vector3 axis, float angle, StratusTimeScale timeScale = StratusTimeScale.Delta)
 		{
-			private Vector3 pivot;
-			private Vector3 axis;
-			private float angle;
-			private StratusTimeScale timeScale;
-			public override TransformationType type => TransformationType.Rotate | TransformationType.Translate;
-
-			public RotateAroundRoutine(Vector3 pivot, Vector3 axis, float angle, StratusTimeScale timeScale = StratusTimeScale.Delta)
-			{
-				this.pivot = pivot;
-				this.axis = axis;
-				this.angle = angle;
-				this.timeScale = timeScale;
-			}
-
-			protected override IEnumerator OnTransform()
-			{
-				while (true)
-				{
-					transform.RotateAround(pivot, axis, angle);
-					yield return timeScale.Yield();
-				}
-			}
+			this.pivot = pivot;
+			this.axis = axis;
+			this.angle = angle;
+			this.timeScale = timeScale;
 		}
 
+		protected override IEnumerator OnTransform()
+		{
+			while (true)
+			{
+				transform.RotateAround(pivot, axis, angle);
+				yield return timeScale.Yield();
+			}
+		}
+	}
+
+	public static class TransformRoutines
+	{	
 		public static IEnumerator Rotate(Transform transform, Vector3 rotation, float duration, StratusTimeScale timeScale = StratusTimeScale.FixedDelta)
 		{
 			Quaternion initialRotation = transform.rotation;
@@ -49,7 +49,6 @@ namespace Stratus.Unity.Routines
 
 			yield return InterpolationRoutines.Lerp(func, duration);
 		}
-
 
 		/// <summary>
 		/// Rotates around a given pivot to a given angle in degrees over a specified duration
@@ -85,8 +84,6 @@ namespace Stratus.Unity.Routines
 			else
 				yield return InterpolationRoutines.Lerp(func, duration);
 		}
-
-
 
 		/// <summary>
 		/// Rotates around a given pivot until cancelled

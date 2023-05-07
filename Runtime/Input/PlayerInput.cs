@@ -1,5 +1,6 @@
 ﻿using Stratus.Inputs;
 using Stratus.Logging;
+using Stratus.Unity.Behaviours;
 using Stratus.Unity.Scenes;
 using Stratus.Utilities;
 
@@ -15,8 +16,8 @@ namespace Stratus.Unity.Inputs
 	/// Base class for inputs that work with Unity's newer InputSystem
 	/// </summary>
 	[StratusSingleton(instantiate = false)]
-	public abstract class PlayerInput<T> : StratusSingletonBehaviour<T>, IStratusPlayerInput
-		where T : StratusSingletonBehaviour<T>
+	public abstract class PlayerInput<T> : SingletonBehaviour<T>, IStratusPlayerInput
+		where T : SingletonBehaviour<T>
 	{
 		#region Fields
 		public PlayerInput playerInput;

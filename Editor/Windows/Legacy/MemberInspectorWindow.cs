@@ -4,6 +4,7 @@ using Stratus.Extensions;
 using Stratus.Logging;
 using Stratus.Reflection;
 using Stratus.Timers;
+using Stratus.Unity.Behaviours;
 using Stratus.Unity.Extensions;
 using Stratus.Unity.Reflection;
 using Stratus.Utilities;
@@ -135,7 +136,7 @@ namespace Stratus.Unity.Editor
 			ResetUpdateTimer();
 
 			// Update tree view on assembly reload
-			StratusGameObjectBookmark.onUpdate += this.OnBookmarkUpdate;
+			GameObjectBookmark.onUpdate += this.OnBookmarkUpdate;
 			GameObjectInformation.onChanged += this.OnGameObjectInformationChanged;
 		}
 
@@ -298,7 +299,7 @@ namespace Stratus.Unity.Editor
 				return;
 			}
 			// If the target has as bookmark, use that information instead
-			StratusGameObjectBookmark bookmark = this.target.GetComponent<StratusGameObjectBookmark>();
+			GameObjectBookmark bookmark = this.target.GetComponent<GameObjectBookmark>();
 			if (bookmark != null)
 			{
 				this.informationMode = InformationMode.Bookmark;
@@ -368,7 +369,7 @@ namespace Stratus.Unity.Editor
 				target = (GameObject)EditorGUILayout.ObjectField(this.target, gameObjectType, true);
 				StratusEditorUtility.OnLastControlMouseClick(null, () =>
 				{
-					bool hasBookmark = this.target.HasComponent<StratusGameObjectBookmark>();
+					bool hasBookmark = this.target.HasComponent<GameObjectBookmark>();
 					string bookmarkLabel = hasBookmark ? "Remove Bookmark" : "Bookmark";
 					GenericMenu menu = new GenericMenu();
 
@@ -428,7 +429,7 @@ namespace Stratus.Unity.Editor
 
 		public static void SetBookmark(GameObject target)
 		{
-			StratusGameObjectBookmark bookmark = StratusGameObjectBookmark.Add(target);
+			GameObjectBookmark bookmark = GameObjectBookmark.Add(target);
 			bookmark.SetInformation(instance.targetInformation);
 			instance.targetInformation = bookmark.information;
 			instance.informationMode = InformationMode.Bookmark;
@@ -436,7 +437,7 @@ namespace Stratus.Unity.Editor
 
 		public static void RemoveBookmark(GameObject target)
 		{
-			StratusGameObjectBookmark.Remove(target);
+			GameObjectBookmark.Remove(target);
 			instance.informationMode = InformationMode.Temporary;
 		}
 		#endregion

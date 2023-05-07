@@ -1,15 +1,13 @@
 using Stratus.Collections;
 using Stratus.Extensions;
 using Stratus.Logging;
-using Stratus.Unity;
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Stratus
+namespace Stratus.Unity.Behaviours
 {
 	/// <summary>
 	/// Allows an easy interface for managing multiple instances of a single class,
@@ -17,7 +15,7 @@ namespace Stratus
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	//[ExecuteAlways]
-	public abstract class StratusMultitonBehaviour<T> : StratusBehaviour 
+	public abstract class MultitonBehaviour<T> : StratusBehaviour
 		where T : MonoBehaviour
 	{
 		//------------------------------------------------------------------------/
@@ -93,7 +91,7 @@ namespace Stratus
 			instance = this as T;
 			if (Application.isPlaying)
 			{
-				OnMultitonAwake(); 
+				OnMultitonAwake();
 			}
 		}
 
@@ -101,7 +99,7 @@ namespace Stratus
 		{
 			if (Application.isPlaying)
 			{
-				OnMultitonStart();				
+				OnMultitonStart();
 			}
 		}
 

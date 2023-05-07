@@ -1,4 +1,5 @@
-﻿using Stratus.Unity.Extensions;
+﻿using Stratus.Unity.Behaviours;
+using Stratus.Unity.Extensions;
 
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace Stratus.Unity.Editor
 		//------------------------------------------------------------------------/
 		public static ObjectBookmarks bookmarks { get; private set; }
 		public static List<SceneAsset> bookmarkedScenes => StratusPreferences.instance.bookmarkedScenes;
-		public static List<StratusGameObjectBookmark> sceneBookmarks { get; private set; }
+		public static List<GameObjectBookmark> sceneBookmarks { get; private set; }
 		private static ObjectBookmarksEditorWindow instance { get; set; }
 
 		//------------------------------------------------------------------------/
@@ -54,7 +55,7 @@ namespace Stratus.Unity.Editor
 		private void OnEnable()
 		{
 			bookmarks = StratusPreferences.instance.objectBookmarks;
-			sceneBookmarks = StratusGameObjectBookmark.availableList;
+			sceneBookmarks = GameObjectBookmark.availableList;
 			this.showScenes = new AnimBool(true); this.showScenes.valueChanged.AddListener(this.Repaint);
 			this.showSceneObjects = new AnimBool(true); this.showSceneObjects.valueChanged.AddListener(this.Repaint);
 			this.showScenesInBuild = new AnimBool(true); this.showScenesInBuild.valueChanged.AddListener(this.Repaint);
@@ -68,7 +69,7 @@ namespace Stratus.Unity.Editor
 			EditorGUILayout.BeginHorizontal();
 			{
 				GenericMenu menu = new GenericMenu();
-				menu.AddItem(new GUIContent("Remove GameObject Bookmarks"), false, StratusGameObjectBookmark.RemoveAll);
+				menu.AddItem(new GUIContent("Remove GameObject Bookmarks"), false, GameObjectBookmark.RemoveAll);
 				StratusEditorGUILayout.ContextMenu(menu, StratusEditorGUILayout.ContextMenuType.Options);
 			}
 			EditorGUILayout.EndHorizontal();
@@ -79,7 +80,7 @@ namespace Stratus.Unity.Editor
 			{
 				StratusEditorGUILayout.VerticalFadeGroup(this.showScenesInBuild, "Scenes in Build", this.ShowScenesInBuild, EditorStyles.helpBox, EditorBuildSettings.scenes.Length > 0);
 				StratusEditorGUILayout.VerticalFadeGroup(this.showScenes, "Scenes", this.ShowBookmarkedScenes, EditorStyles.helpBox, bookmarkedScenes.Count > 0);
-				StratusEditorGUILayout.VerticalFadeGroup(this.showSceneObjects, "Scene Objects", this.ShowSceneObjects, EditorStyles.helpBox, StratusGameObjectBookmark.hasAvailable);
+				StratusEditorGUILayout.VerticalFadeGroup(this.showSceneObjects, "Scene Objects", this.ShowSceneObjects, EditorStyles.helpBox, GameObjectBookmark.hasAvailable);
 				StratusEditorGUILayout.VerticalFadeGroup(this.showProjectAssets, "Project Assets", this.ShowProjectAssets, EditorStyles.helpBox, bookmarks.projectBookmarks.Count > 0);
 			}
 			EditorGUILayout.EndScrollView();
@@ -117,7 +118,7 @@ namespace Stratus.Unity.Editor
 			GameObject go = Selection.activeGameObject;
 			if (go != null)
 			{
-				go.GetOrAddComponent<StratusGameObjectBookmark>();
+				go.GetOrAddComponent<GameObjectBookmark>();
 			}
 		}
 
@@ -193,7 +194,7 @@ namespace Stratus.Unity.Editor
 		{
 			for (int b = 0; b < sceneBookmarks.Count; ++b)
 			{
-				StratusGameObjectBookmark bookmark = sceneBookmarks[b];
+				GameObjectBookmark bookmark = sceneBookmarks[b];
 
 				EditorGUILayout.ObjectField(bookmark, bookmark.GetType(), true);
 				StratusEditorUtility.OnLastControlMouseClick(

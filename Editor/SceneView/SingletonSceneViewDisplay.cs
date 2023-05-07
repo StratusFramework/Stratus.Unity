@@ -1,4 +1,5 @@
 ﻿using Stratus.Editor;
+using Stratus.Unity.Behaviours;
 
 using UnityEngine;
 
@@ -8,11 +9,11 @@ namespace Stratus.Unity.Editor
 	/// A display for singletons
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public abstract class SingletonSceneViewDisplay<T> : LayoutSceneViewDisplay where T : StratusSingletonBehaviour<T>
+	public abstract class SingletonSceneViewDisplay<T> : LayoutSceneViewDisplay where T : SingletonBehaviour<T>
 	{
 		protected virtual bool showInPlayMode { get; } = true;
-		protected T instance => StratusSingletonBehaviour<T>.instance;
-		protected override bool isValid => showInPlayMode && StratusSingletonBehaviour<T>.instantiated && instance.isActiveAndEnabled;
+		protected T instance => SingletonBehaviour<T>.instance;
+		protected override bool isValid => showInPlayMode && SingletonBehaviour<T>.instantiated && instance.isActiveAndEnabled;
 		protected abstract void OnInitializeSingletonState();
 
 

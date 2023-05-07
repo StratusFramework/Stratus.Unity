@@ -10,6 +10,7 @@ using Stratus.Utilities;
 using Stratus.Unity.Events;
 
 using Event = Stratus.Events.Event;
+using Stratus.Unity.Behaviours;
 
 #if UNITY_EDITOR
 using UnityEditor.SceneManagement;
@@ -21,7 +22,7 @@ namespace Stratus.Unity.Scenes
 	/// A space for scene-specific events, accessible to all objects
 	/// </summary>  
 	[StratusSingleton("Stratus Scene Events", true, true)]
-	public class StratusScene : StratusSingletonBehaviour<StratusScene>
+	public class StratusScene : SingletonBehaviour<StratusScene>
 	{
 		//----------------------------------------------------------------------------------/
 		// Declarations

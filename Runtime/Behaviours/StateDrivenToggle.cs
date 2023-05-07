@@ -1,4 +1,3 @@
-using Stratus.Unity;
 using Stratus.Unity.Routines;
 
 using System;
@@ -7,9 +6,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Stratus
+namespace Stratus.Unity.Behaviours
 {
-	public abstract class StratusStateDrivenToggle : StratusBehaviour
+	public abstract class StateDrivenToggle : StratusBehaviour
 	{
 		public enum Validation
 		{
@@ -36,7 +35,7 @@ namespace Stratus
 	/// provides a component to handle propagating changes based on the given state
 	/// </summary>
 	/// <typeparam name="State"></typeparam>
-	public abstract class StratusStateDrivenToggle<State> : StratusStateDrivenToggle where State : struct, IConvertible
+	public abstract class StateDrivenToggle<State> : StateDrivenToggle where State : struct, IConvertible
 	{
 		/// <summary>
 		/// Callback for when the state has changed
@@ -93,7 +92,7 @@ namespace Stratus
 		/// <summary>
 		/// The list of all subscribed objects. When states change, these are notified.
 		/// </summary>
-		public static List<StratusStateDrivenToggle<State>> toggleables { get; private set; } = new List<StratusStateDrivenToggle<State>>();
+		public static List<StateDrivenToggle<State>> toggleables { get; private set; } = new List<StateDrivenToggle<State>>();
 		/// <summary>
 		/// List of all handlers for listening to state changes
 		/// </summary>
@@ -132,7 +131,7 @@ namespace Stratus
 
 		private void Reset()
 		{
-			states.Add(default(State));
+			states.Add(default);
 		}
 
 		private void Awake()

@@ -1,4 +1,5 @@
 ﻿using Stratus.Extensions;
+using Stratus.Unity.Behaviours;
 using Stratus.Unity.Extensions;
 
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace Stratus.Unity.Editor
 			if (BuildPipeline.isBuildingPlayer)
 			{
 				StratusDebug.Log($"Removing all instances of:");
-				StratusGameObjectBookmark.RemoveAll();
+				GameObjectBookmark.RemoveAll();
 
 			}
 			else

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Stratus.Unity;
+using Stratus.Unity.Behaviours;
 
 namespace Stratus.Examples
 {
@@ -13,7 +14,7 @@ namespace Stratus.Examples
 
     //public SampleExtensibleBehaviour extensible { get; set; }
 
-    public void OnExtensibleAwake(StratusExtensibleBehaviour extensible)
+    public void OnExtensibleAwake(ExtensibleBehaviour extensible)
     {
       //this.extensible = (SampleExtensibleBehaviour)extensible;
     }

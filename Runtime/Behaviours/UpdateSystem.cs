@@ -1,17 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-using Stratus.Utilities;
 using Stratus.Timers;
+using Stratus.Utilities;
 
-namespace Stratus
+using System;
+using System.Collections.Generic;
+
+using UnityEngine;
+
+namespace Stratus.Unity.Behaviours
 {
 	/// <summary>
 	/// Manages timed updates for behaviours.
 	/// </summary>
 	[StratusSingleton(instantiate = true, isPlayerOnly = true, persistent = true, name = "Stratus Update System")]
-	public class StratusUpdateSystem : StratusSingletonBehaviour<StratusUpdateSystem>
+	public class UpdateSystem : SingletonBehaviour<UpdateSystem>
 	{
 		public class FrequencyUpdateBatch
 		{
@@ -22,7 +23,7 @@ namespace Stratus
 			/// <summary>
 			/// The behaviours which to be updated
 			/// </summary>
-			private Dictionary<MonoBehaviour, List<System.Action>> behaviours;
+			private Dictionary<MonoBehaviour, List<Action>> behaviours;
 			/// <summary>
 			/// How many actions are being updated
 			/// </summary>
@@ -34,7 +35,7 @@ namespace Stratus
 
 			public FrequencyUpdateBatch(float frequency)
 			{
-				behaviours = new Dictionary<MonoBehaviour, List<System.Action>>();
+				behaviours = new Dictionary<MonoBehaviour, List<Action>>();
 				timer = new Countdown(frequency);
 				timer.WhenFinished(Invoke);
 				timer.resetOnFinished = true;
@@ -54,10 +55,10 @@ namespace Stratus
 				}
 			}
 
-			public void Add(System.Action action, MonoBehaviour behaviour)
+			public void Add(Action action, MonoBehaviour behaviour)
 			{
 				if (!behaviours.ContainsKey(behaviour))
-					behaviours.Add(behaviour, new List<System.Action>());
+					behaviours.Add(behaviour, new List<Action>());
 
 				behaviours[behaviour].Add(action);
 				methodCount++;
@@ -131,7 +132,7 @@ namespace Stratus
 		/// <param name="action"></param>
 		/// <param name="behaviour"></param>
 		/// <param name="timeScale"></param>
-		public static void Add(float frequency, System.Action action, MonoBehaviour behaviour, StratusTimeScale timeScale = StratusTimeScale.Delta)
+		public static void Add(float frequency, Action action, MonoBehaviour behaviour, StratusTimeScale timeScale = StratusTimeScale.Delta)
 		{
 			instance.AddAction(frequency, action, behaviour, timeScale);
 		}
@@ -179,7 +180,7 @@ namespace Stratus
 			}
 		}
 
-		public void AddAction(float frequency, System.Action action, MonoBehaviour behaviour, StratusTimeScale timeScale = StratusTimeScale.Delta)
+		public void AddAction(float frequency, Action action, MonoBehaviour behaviour, StratusTimeScale timeScale = StratusTimeScale.Delta)
 		{
 			Dictionary<float, FrequencyUpdateBatch> selected = null;
 
@@ -194,13 +195,5 @@ namespace Stratus
 
 			selected[frequency].Add(action, behaviour);
 		}
-
-
-
-
 	}
-
-
-
 }
-

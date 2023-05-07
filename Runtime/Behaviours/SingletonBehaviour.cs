@@ -1,12 +1,11 @@
-using System;
-using UnityEngine;
 using Stratus.Extensions;
 using Stratus.Reflection;
-using Stratus.Utilities;
-using Stratus.Unity;
 using Stratus.Unity.Utility;
+using Stratus.Utilities;
 
-namespace Stratus
+using UnityEngine;
+
+namespace Stratus.Unity.Behaviours
 {
 	/// <summary>
 	/// A singleton is a class with only one active instance, instantiated if not present when its
@@ -15,7 +14,7 @@ namespace Stratus
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	[DisallowMultipleComponent]
-	public abstract class StratusSingletonBehaviour<T> : StratusBehaviour where T : StratusBehaviour
+	public abstract class SingletonBehaviour<T> : StratusBehaviour where T : StratusBehaviour
 	{
 		//------------------------------------------------------------------------/
 		// Properties
@@ -60,7 +59,7 @@ namespace Stratus
 					// If not found, instantiate
 					if (!_instance)
 					{
-						if (shouldInstantiate == false || (isPlayerOnly && EditorBridge.isEditMode))
+						if (shouldInstantiate == false || isPlayerOnly && EditorBridge.isEditMode)
 						{
 							//Trace.Script("Will not instantiate the class " + typeof(T).Name);
 							return null;

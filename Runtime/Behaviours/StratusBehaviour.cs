@@ -1,12 +1,15 @@
-using System.Collections;
-using Stratus.OdinSerializer;
-using UnityEngine;
-using System.Collections.Generic;
-using System;
 using Stratus.Logging;
+using Stratus.OdinSerializer;
+using Stratus.Unity.Behaviours;
 using Stratus.Unity.Routines;
 
-namespace Stratus.Unity
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+using UnityEngine;
+
+namespace Stratus.Unity.Behaviours
 {
 	public interface IStratusBehaviour : IStratusLogger
 	{
@@ -94,7 +97,7 @@ namespace Stratus.Unity
 				yield return new WaitForEndOfFrame();
 				Destroy(this.gameObject);
 			}
-			StratusCoroutineRunner.Run(routine());
+			CoroutineRunner.Run(routine());
 		}
 
 		/// <summary>

@@ -1,18 +1,17 @@
 ﻿using Stratus.Extensions;
-using Stratus.Unity;
 
 using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Stratus
+namespace Stratus.Unity.Behaviours
 {
 	/// <summary>
 	/// An editor-only behaviour, used for utility
 	/// </summary>
 	[DisallowMultipleComponent]
 	[ExecuteInEditMode]
-	public abstract class StratusEditorBehaviour<T> : StratusBehaviour where T : MonoBehaviour
+	public abstract class EditorBehaviour<T> : StratusBehaviour where T : MonoBehaviour
 	{
 		//------------------------------------------------------------------------/
 		// Properties
@@ -91,8 +90,5 @@ namespace Stratus
 				DestroyImmediate(behaviour);
 			}
 		}
-
-
 	}
-
 }

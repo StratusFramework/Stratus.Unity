@@ -1,4 +1,5 @@
-﻿using Stratus.Utilities;
+﻿using Stratus.Unity.Behaviours;
+using Stratus.Utilities;
 
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace Stratus.Unity.Scenes
 	/// unloading them as need fit.
 	/// </summary>
 	[StratusSingleton("Scene Linker", true, false)]
-	public class SceneLinker : StratusSingletonBehaviour<SceneLinker>
+	public class SceneLinker : SingletonBehaviour<SceneLinker>
 	{
 		//----------------------------------------------------------------------/
 		// Fields

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using System;
-using Stratus.Unity;
+
+using UnityEngine;
 
 namespace Stratus.Unity.Routines
 {
@@ -20,7 +20,7 @@ namespace Stratus.Unity.Routines
 	/// <summary>
 	/// A class encapsulating a transform routine
 	/// </summary>
-	public abstract class StratusTransformRoutine
+	public abstract class BaseTransformRoutine
 	{
 		protected Transform transform;
 		protected Action onFinished;
@@ -36,9 +36,9 @@ namespace Stratus.Unity.Routines
 		}
 	}
 
-	public class StratusTransformRoutineBinder
+	public class TransformRoutineBinder
 	{
-		public StratusTransformRoutineBinder(IEnumerator routine, TransformationType type)
+		public TransformRoutineBinder(IEnumerator routine, TransformationType type)
 		{
 			this.routine = routine;
 			this.type = type;

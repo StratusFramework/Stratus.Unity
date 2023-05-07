@@ -1,15 +1,13 @@
-using UnityEngine;
-using UnityEngine.Events;
-using Stratus.Utilities;
-using Stratus.Unity;
 using Stratus.Unity.Extensions;
 
-namespace Stratus
+using UnityEngine;
+
+namespace Stratus.Unity.Behaviours
 {
 	/// <summary>
 	/// Includes components and utilities designed for quick prototypes
 	/// </summary>
-	public abstract class StratusMouseDrivenController : StratusBehaviour
+	public abstract class MouseDrivenController : StratusBehaviour
 	{
 		//------------------------------------------------------------------------/
 		// Virtual

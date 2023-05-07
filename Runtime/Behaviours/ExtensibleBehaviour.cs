@@ -1,18 +1,16 @@
-﻿using Stratus.Unity;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
 
-namespace Stratus
+namespace Stratus.Unity.Behaviours
 {
 	/// <summary>
 	/// A generic behaviour that has extensions that can be added or removed to it
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public abstract class StratusExtensibleBehaviour : StratusBehaviour, IStratusExtensible
+	public abstract class ExtensibleBehaviour : StratusBehaviour, IStratusExtensible
 	{
 		//--------------------------------------------------------------------------------------------/
 		// Fields
@@ -27,7 +25,7 @@ namespace Stratus
 		//--------------------------------------------------------------------------------------------/
 		public IStratusExtensionBehaviour[] extensions => GetExtensionBehaviours(this.extensionBehaviours);
 		public bool hasExtensions => this.extensionBehaviours.Count > 0;
-		private static Dictionary<IStratusExtensionBehaviour, StratusExtensibleBehaviour> extensionOwnershipMap { get; set; } = new Dictionary<IStratusExtensionBehaviour, StratusExtensibleBehaviour>();
+		private static Dictionary<IStratusExtensionBehaviour, ExtensibleBehaviour> extensionOwnershipMap { get; set; } = new Dictionary<IStratusExtensionBehaviour, ExtensibleBehaviour>();
 		public static HideFlags extensionFlags { get; } = HideFlags.HideInInspector;
 
 		//--------------------------------------------------------------------------------------------/
@@ -61,7 +59,7 @@ namespace Stratus
 
 		private void OnValidate()
 		{
-			foreach(var extension in extensions)
+			foreach (var extension in extensions)
 			{
 				HideExtensions();
 			}
@@ -77,7 +75,7 @@ namespace Stratus
 		public void Add(IStratusExtensionBehaviour extension)
 		{
 			MonoBehaviour behaviour = (MonoBehaviour)extension;
-			behaviour.hideFlags = StratusExtensibleBehaviour.extensionFlags;
+			behaviour.hideFlags = extensionFlags;
 			this.extensionBehaviours.Add(behaviour);
 		}
 
@@ -106,7 +104,7 @@ namespace Stratus
 					return (T)extension;
 				}
 			}
-			return default(T);
+			return default;
 		}
 
 		/// <summary>
@@ -124,7 +122,7 @@ namespace Stratus
 		/// <typeparam name="T"></typeparam>
 		/// <param name="extension"></param>
 		/// <returns></returns>
-		public static T GetExtensible<T>(IStratusExtensionBehaviour extension) where T : StratusExtensibleBehaviour
+		public static T GetExtensible<T>(IStratusExtensionBehaviour extension) where T : ExtensibleBehaviour
 		{
 			return extensionOwnershipMap[extension] as T;
 		}
@@ -203,14 +201,14 @@ namespace Stratus
 	/// </summary>
 	public interface IStratusExtensionBehaviour
 	{
-		void OnExtensibleAwake(StratusExtensibleBehaviour extensible);
+		void OnExtensibleAwake(ExtensibleBehaviour extensible);
 		void OnExtensibleStart();
 	}
 
 	/// <summary>
 	/// Interface type used to validate all extensible behaviours
 	/// </summary>
-	public interface IStratusExtensionBehaviour<T> : IStratusExtensionBehaviour where T : StratusExtensibleBehaviour
+	public interface IStratusExtensionBehaviour<T> : IStratusExtensionBehaviour where T : ExtensibleBehaviour
 	{
 		/// <summary>
 		/// The extensible component this extension is for

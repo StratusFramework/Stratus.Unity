@@ -1,19 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-using UnityEngine.Events;
-using Stratus.Collections;
+﻿using Stratus.Collections;
 using Stratus.Extensions;
-using Stratus.Unity;
 
-namespace Stratus
+using System;
+
+using UnityEngine;
+using UnityEngine.Events;
+
+namespace Stratus.Unity.Behaviours
 {
 	/// <summary>
 	/// Records JSON-compatible messages
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public abstract class StratusMessageLogger<T, EventType> : StratusBehaviour
+	public abstract class MessageLogger<T, EventType> : StratusBehaviour
 		where T : class
 		where EventType : UnityEvent<T>
 	{
@@ -24,7 +23,7 @@ namespace Stratus
 
 		[SerializeField]
 		private int capacity = 500;
-		private CircularBuffer<T> _messages;		
+		private CircularBuffer<T> _messages;
 		[SerializeField]
 		private EventType _onMessageAdded;
 

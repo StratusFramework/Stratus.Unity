@@ -1,11 +1,9 @@
-﻿using Stratus.Unity;
-
-namespace Stratus
+﻿namespace Stratus.Unity.Behaviours
 {
 	/// <summary>
 	/// A behaviour whose main messages are handled by an external manager for performance reasons.
 	/// </summary>
-	public abstract class StratusManagedBehaviour : StratusBehaviour
+	public abstract class ManagedBehaviour : StratusBehaviour
 	{
 		#region Virtual Functions
 		protected virtual void OnManagedAwake() { }
@@ -26,13 +24,13 @@ namespace Stratus
 		#region Messages
 		private void Awake()
 		{
-			StratusManagedBehaviourSystem.Add(this);
+			ManagedBehaviourSystem.Add(this);
 			this.OnManagedAwake();
 		}
 
 		private void OnDestroy()
 		{
-			StratusManagedBehaviourSystem.Remove(this);
+			ManagedBehaviourSystem.Remove(this);
 			this.OnManagedDestroy();
 		}
 		#endregion
@@ -43,10 +41,10 @@ namespace Stratus
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public static T Instantiate<T>() where T : StratusManagedBehaviour
+		public static T Instantiate<T>() where T : ManagedBehaviour
 		{
 			T behaviour = Instantiate<T>();
-			StratusManagedBehaviourSystem.Add(behaviour);
+			ManagedBehaviourSystem.Add(behaviour);
 			return behaviour;
 		}
 
@@ -55,13 +53,11 @@ namespace Stratus
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="behaviour"></param>
-		public static void Destroy<T>(T behaviour) where T : StratusManagedBehaviour
+		public static void Destroy<T>(T behaviour) where T : ManagedBehaviour
 		{
-			StratusManagedBehaviourSystem.Remove(behaviour);
+			ManagedBehaviourSystem.Remove(behaviour);
 			Destroy(behaviour);
-		} 
+		}
 		#endregion
-
 	}
-
 }

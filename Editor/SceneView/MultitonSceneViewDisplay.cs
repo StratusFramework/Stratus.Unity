@@ -1,3 +1,5 @@
+using Stratus.Unity.Behaviours;
+
 namespace Stratus.Unity.Editor
 {
 	/// <summary>
@@ -5,10 +7,10 @@ namespace Stratus.Unity.Editor
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	public abstract class MultitonSceneViewDisplay<T> : LayoutSceneViewDisplay
-		where T : StratusMultitonBehaviour<T>
+		where T : MultitonBehaviour<T>
 	{
 		protected virtual bool showInPlayMode { get; } = true;
-		protected override bool isValid => showInPlayMode && StratusMultitonBehaviour<T>.hasInstances;
+		protected override bool isValid => showInPlayMode && MultitonBehaviour<T>.hasInstances;
 		protected abstract void OnInitializeMultitonState();
 
 		protected override void OnInitializeState()

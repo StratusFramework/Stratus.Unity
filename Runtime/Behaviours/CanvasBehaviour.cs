@@ -1,14 +1,9 @@
-﻿using Stratus.Unity;
+﻿using UnityEngine;
 
-using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
-
-namespace Stratus
+namespace Stratus.Unity.Behaviours
 {
 	[RequireComponent(typeof(Canvas))]
-	public class StratusCanvasBehaviour : StratusBehaviour
+	public class CanvasBehaviour : StratusBehaviour
 	{
 		[SerializeField]
 		private Canvas _canvas;

@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-using Stratus.Unity;
-using Stratus.Unity.Extensions;
+﻿using Stratus.Unity.Extensions;
 
-namespace Stratus
+using System;
+
+using UnityEngine;
+
+namespace Stratus.Unity.Behaviours
 {
-	public class StratusSnapshotBehaviour : StratusBehaviour
+	public class SnapshotBehaviour : StratusBehaviour
 	{
 		public Camera snapshotCamera;
 		public Vector2Int snapshotSize = new Vector2Int(512, 512);
@@ -36,7 +35,5 @@ namespace Stratus
 			var routine = renderTexture.GetToTexture2DRoutine(callback);
 			StartCoroutine(routine);
 		}
-
 	}
-
 }

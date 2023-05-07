@@ -6,6 +6,7 @@ using System;
 using UnityEngine;
 using Stratus.Models.States;
 using Stratus.Unity.Scenes;
+using Stratus.Unity.Behaviours;
 
 namespace Stratus.Unity
 {
@@ -14,7 +15,7 @@ namespace Stratus.Unity
 	/// the instance will be constructed on the scene as a singleton behaviour.
 	/// </summary>
 	[StratusSingleton(instantiate = true, isPlayerOnly = true)]
-	public class PauseSystem : StratusSingletonBehaviour<PauseSystem>
+	public class PauseSystem : SingletonBehaviour<PauseSystem>
 	{
 		//------------------------------------------------------------------------/
 		// Fields

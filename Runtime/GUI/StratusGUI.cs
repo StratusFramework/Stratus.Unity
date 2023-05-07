@@ -1,4 +1,5 @@
 using Stratus.Reflection;
+using Stratus.Unity.Behaviours;
 using Stratus.Unity.Scenes;
 using Stratus.Utilities;
 
@@ -15,7 +16,7 @@ namespace Stratus
 	/// for quick prototyping, or make your own windows.
 	/// </summary>
 	[StratusSingleton("Stratus Overlay", true, true)]
-	public partial class StratusGUI : StratusSingletonBehaviour<StratusGUI>
+	public partial class StratusGUI : SingletonBehaviour<StratusGUI>
 	{
 		//------------------------------------------------------------------------/
 		// Declarations

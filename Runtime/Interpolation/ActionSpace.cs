@@ -1,4 +1,5 @@
 using Stratus.Interpolation;
+using Stratus.Unity.Behaviours;
 using Stratus.Unity.Extensions;
 using Stratus.Utilities;
 
@@ -14,7 +15,7 @@ namespace Stratus.Unity.Interpolation
 	/// Interface class that the client will be using for constructing action sets
 	/// </summary>
 	[StratusSingleton("Action Space", true, true)]
-	public class ActionSpace : StratusSingletonBehaviour<ActionSpace>
+	public class ActionSpace : SingletonBehaviour<ActionSpace>
 	{
 		#region Properties
 		public ActionScheduler<GameObject> system { get; } = new ActionScheduler<GameObject>();

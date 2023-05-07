@@ -1,6 +1,6 @@
-﻿using Stratus;
-using Stratus.Collections;
+﻿using Stratus.Collections;
 using Stratus.Logging;
+using Stratus.Unity.Behaviours;
 using Stratus.Utilities;
 
 using System;
@@ -11,7 +11,7 @@ using UnityEngine;
 namespace Stratus.Unity.Audio
 {
 	[StratusSingleton(instantiate = false)]
-	public class AudioSourceChannelPlayer : StratusSingletonBehaviour<AudioSourceChannelPlayer>
+	public class AudioSourceChannelPlayer : SingletonBehaviour<AudioSourceChannelPlayer>
 	{
 		[SerializeField]
 		private bool debug = false;
