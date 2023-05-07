@@ -1,4 +1,6 @@
 using Stratus.Models;
+using Stratus.Unity.Interpolation;
+using Stratus.Unity.Routines;
 
 using System.Collections;
 using System.Collections.Generic;
@@ -71,19 +73,19 @@ namespace Stratus.Unity.Triggers
 			switch (type)
 			{
 				case PropertyType.SetColor:
-					routine = StratusRoutines.Lerp(material.color, color, duration, (Color val) => { material.color = val; }, Color.Lerp);
+					routine = InterpolationRoutines.Lerp(material.color, color, duration, (Color val) => { material.color = val; }, Color.Lerp);
 					break;
 				case PropertyType.SetFloat:
-					routine = StratusRoutines.Lerp(material.GetFloat(propertyName), floatValue, duration, (float val) => { material.SetFloat(propertyName, val); }, StratusRoutines.Lerp);
+					routine = InterpolationRoutines.Lerp(material.GetFloat(propertyName), floatValue, duration, (float val) => { material.SetFloat(propertyName, val); }, InterpolationRoutines.Lerp);
 					break;
 				case PropertyType.SetInteger:
-					routine = StratusRoutines.Lerp(material.GetInt(propertyName), integerValue, duration, (float val) => { material.SetInt(propertyName, Mathf.CeilToInt(val)); }, StratusRoutines.Lerp);
+					routine = InterpolationRoutines.Lerp(material.GetInt(propertyName), integerValue, duration, (float val) => { material.SetInt(propertyName, Mathf.CeilToInt(val)); }, InterpolationRoutines.Lerp);
 					break;
 				case PropertyType.SetTexture:
-					routine = StratusRoutines.Call(() => { material.SetTexture(propertyName, texture); }, duration);
+					routine = DefaultRoutines.Call(() => { material.SetTexture(propertyName, texture); }, duration);
 					break;
 				case PropertyType.SetMaterial:
-					routine = StratusRoutines.Lerp((float t) => { material.Lerp(material, material2, t); }, duration);
+					routine = InterpolationRoutines.Lerp((float t) => { material.Lerp(material, material2, t); }, duration);
 					break;
 				default:
 					break;

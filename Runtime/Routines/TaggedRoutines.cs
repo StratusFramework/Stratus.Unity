@@ -1,10 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace Stratus
+using UnityEngine;
+
+namespace Stratus.Unity.Routines
 {
-	public static class StratusTaggedRoutines
+	public static class TaggedRoutines
 	{
 		private class RoutineActivity
 		{

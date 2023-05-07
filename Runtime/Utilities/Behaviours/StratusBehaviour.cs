@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using Stratus.Logging;
+using Stratus.Unity.Routines;
 
 namespace Stratus.Unity
 {
@@ -80,7 +81,7 @@ namespace Stratus.Unity
 		/// <returns></returns>
 		public Coroutine Invoke(Action action, float delay)
 		{
-			return this.StartCoroutine(StratusRoutines.Call(action, delay));
+			return this.StartCoroutine(DefaultRoutines.Call(action, delay));
 		}
 
 		/// <summary>

@@ -1,9 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-using UnityEngine.Events;
 using Stratus.Unity;
+using Stratus.Unity.Routines;
+
+using System;
+using System.Collections.Generic;
+
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace Stratus
 {
@@ -28,7 +30,6 @@ namespace Stratus
 			Multiple
 		}
 	}
-
 
 	/// <summary>
 	/// Given a provided enum class used for defining exclusive global states,
@@ -151,7 +152,7 @@ namespace Stratus
 			initialized = true;
 			previousState = currentState;
 			currentState = nextState;
-			StratusDebug.Log($"'{previousState}' -> '{ currentState}'");
+			StratusDebug.Log($"'{previousState}' -> '{currentState}'");
 			foreach (var toggle in toggleables.ToArray())
 				toggle.Apply(currentState);
 			foreach (var handler in handlers)
@@ -184,7 +185,7 @@ namespace Stratus
 				onDisabled?.Invoke();
 
 			if (delay > 0.0f)
-				this.StartCoroutine(StratusRoutines.Call(() => { gameObject.SetActive(toggled); }, this.delay), "Delay");
+				this.StartCoroutine(DefaultRoutines.Call(() => { gameObject.SetActive(toggled); }, this.delay), "Delay");
 			else
 				gameObject.SetActive(toggled);
 		}

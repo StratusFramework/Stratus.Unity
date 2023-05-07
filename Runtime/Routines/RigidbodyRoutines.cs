@@ -1,10 +1,10 @@
-using UnityEngine;
-using Stratus;
 using System.Collections;
 
-namespace Stratus
+using UnityEngine;
+
+namespace Stratus.Unity.Routines
 {
-	public static partial class StratusRoutines
+	public static class RigidbodyRoutines
 	{
 		public static IEnumerator AddForce(Rigidbody rigidBody, Vector3 force, ForceMode mode, float duration)
 		{
@@ -38,6 +38,5 @@ namespace Stratus
 			rigidBody.isKinematic = isKinematic;
 			onFinished?.Invoke();
 		}
-
 	}
 }

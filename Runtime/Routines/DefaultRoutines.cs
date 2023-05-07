@@ -1,14 +1,15 @@
-using UnityEngine;
-using System.Collections;
-using System;
 using Stratus.Unity.Utility;
 
-namespace Stratus
+using System.Collections;
+
+using UnityEngine;
+
+namespace Stratus.Unity.Routines
 {
 	/// <summary>
 	/// A collection of useful coroutines
 	/// </summary>
-	public static partial class StratusRoutines
+	public static class DefaultRoutines
 	{
 		public delegate void LerpFunction(float t);
 
@@ -44,30 +45,7 @@ namespace Stratus
 			}
 		}
 
-		/// <summary>
-		/// A routine for linearly interpolating between two values 
-		/// a and b by the interpolant t. This parameter is clamped to the range [0,1]
-		/// </summary>
-		/// <param name="onUpdate">The function to call each update with the t value passed to it.</param>
-		/// <param name="duration">The duration of this interpolation.</param>
-		/// <returns></returns>
-		public static IEnumerator Lerp(System.Action<float> onUpdate, float duration, StratusTimeScale timeScale = StratusTimeScale.FixedDelta)
-		{
-			if (duration == 0f)
-			{
-				onUpdate(1f);
-			}
-			else
-			{
-				float t = 0f;
-				while (t <= 1f)
-				{
-					t += timeScale.GetTime() / duration;
-					onUpdate(t);
-					yield return timeScale.Yield();
-				}
-			}
-		}
+
 
 		/// <summary>
 		/// A routine that given a duration, returns an increasing elapsed time (until it reaches the target duration)

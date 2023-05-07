@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using Stratus.Unity;
 
-namespace Stratus
+namespace Stratus.Unity.Routines
 {
 	/// <summary>
 	/// The type of transformation this routine performs
@@ -23,12 +23,12 @@ namespace Stratus
 	public abstract class StratusTransformRoutine
 	{
 		protected Transform transform;
-		protected System.Action onFinished;
+		protected Action onFinished;
 		public abstract TransformationType type { get; }
 
 		protected abstract IEnumerator OnTransform();
 
-		public IEnumerator Bind(Transform transform, System.Action onFinished = null)
+		public IEnumerator Bind(Transform transform, Action onFinished = null)
 		{
 			this.transform = transform;
 			this.onFinished = onFinished;
@@ -53,7 +53,7 @@ namespace Stratus
 	/// It will make sure there's no overlap between routines of the same kind (translation, scaling, rotation).
 	/// </summary>
 	[DisallowMultipleComponent]
-	public class StratusTransformRoutineRunner : StratusBehaviour
+	public class TransformRoutineRunner : StratusBehaviour
 	{
 		//--------------------------------------------------------------------------------------------/
 		// Classes
@@ -82,7 +82,7 @@ namespace Stratus
 		public void StopRotation() => StopRoutine(rotation);
 		public void StopScaling() => StopRoutine(scaling);
 
-		public void StartTransformation(IEnumerator routine, TransformationType type, System.Action onFinished = null)
+		public void StartTransformation(IEnumerator routine, TransformationType type, Action onFinished = null)
 		{
 			bool isTranslation = type.HasFlag(TransformationType.Translate);
 			bool isRotation = type.HasFlag(TransformationType.Rotate);
@@ -125,7 +125,7 @@ namespace Stratus
 			if (isScaling) StopScaling();
 		}
 
-		private void StartRoutine(IEnumerator newRoutine, RoutineActivity transformation, System.Action onFinished = null)
+		private void StartRoutine(IEnumerator newRoutine, RoutineActivity transformation, Action onFinished = null)
 		{
 			StopRoutine(transformation);
 
@@ -154,7 +154,7 @@ namespace Stratus
 			transformation.isActive = false;
 		}
 
-		private IEnumerator StartRoutineWithCallback(IEnumerator routine, System.Action onFinished)
+		private IEnumerator StartRoutineWithCallback(IEnumerator routine, Action onFinished)
 		{
 			yield return routine;
 			onFinished.Invoke();

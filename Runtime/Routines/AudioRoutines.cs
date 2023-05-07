@@ -1,13 +1,13 @@
 ﻿using Stratus.Interpolation;
+using Stratus.Unity.Interpolation;
 
 using System.Collections;
-using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace Stratus
+namespace Stratus.Unity.Routines
 {
-	public static partial class StratusRoutines
+	public static class AudioRoutines
 	{
 		public static IEnumerator FadeVolume(AudioSource audioSource, float volume, float duration, Ease ease, StratusTimeScale timeScale = StratusTimeScale.Delta)
 		{
@@ -19,7 +19,7 @@ namespace Stratus
 
 			float initial = audioSource.volume;
 			void setVolume(float value) => audioSource.volume = value;
-			yield return Interpolate(initial, volume, duration, setVolume, ease, null, timeScale);
+			yield return Interpolation.InterpolationRoutines.Interpolate(initial, volume, duration, setVolume, ease, null, timeScale);
 		}
 
 		public static IEnumerator FadePitch(AudioSource audioSource, float pitch, float duration, StratusTimeScale timeScale = StratusTimeScale.Delta)
@@ -32,9 +32,9 @@ namespace Stratus
 			float initial = audioSource.pitch;
 			System.Action<float> func = (float t) =>
 			{
-				audioSource.volume = Lerp(initial, pitch, t);
+				audioSource.volume = InterpolationRoutines.Lerp(initial, pitch, t);
 			};
-			yield return Lerp(func, duration, timeScale);
+			yield return InterpolationRoutines.Lerp(func, duration, timeScale);
 		}
 	}
 

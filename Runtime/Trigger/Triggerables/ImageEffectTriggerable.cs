@@ -1,5 +1,7 @@
 using Stratus.Models;
 using Stratus.Unity.Extensions;
+using Stratus.Unity.Interpolation;
+using Stratus.Unity.Routines;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -118,7 +120,7 @@ namespace Stratus.Unity.Triggers
 			previousAlpha = currentAlpha;
 			currentAlpha = alpha;
 			//image.CrossFadeAlpha(alpha, duration, ignoreTimeScale);
-			this.StartCoroutine(StratusRoutines.Lerp(image.color.a, alpha, duration, (float val) => { image.color = image.color.ScaleAlpha(val); }, StratusRoutines.Lerp), "Fade");
+			this.StartCoroutine(InterpolationRoutines.Lerp(image.color.a, alpha, duration, (float val) => { image.color = image.color.ScaleAlpha(val); }, InterpolationRoutines.Lerp), "Fade");
 
 		}
 
@@ -129,7 +131,7 @@ namespace Stratus.Unity.Triggers
 			previousColor = currentColor;
 			currentColor = color;
 			//image.CrossFadeColor(color, duration, ignoreTimeScale, useAlpha);
-			this.StartCoroutine(StratusRoutines.Lerp(image.color, color, duration, (Color val) => { image.color = val; }, Color.Lerp), "Fade Color");
+			this.StartCoroutine(InterpolationRoutines.Lerp(image.color, color, duration, (Color val) => { image.color = val; }, Color.Lerp), "Fade Color");
 		}
 
 		public void SetAlpha(float alpha)

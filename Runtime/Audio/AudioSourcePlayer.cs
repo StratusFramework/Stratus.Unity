@@ -1,5 +1,6 @@
 ﻿using Stratus.Extensions;
 using Stratus.Interpolation;
+using Stratus.Unity.Routines;
 
 using System.Collections;
 
@@ -84,7 +85,7 @@ namespace Stratus.Unity.Audio
 				audioSource.clip = audioClip.reference;
 				audioSource.Play();
 
-				yield return StratusRoutines.FadeVolume(audioSource, parameters.volume, parameters.fadeInDuration, parameters.fadeIn);
+				yield return AudioRoutines.FadeVolume(audioSource, parameters.volume, parameters.fadeInDuration, parameters.fadeIn);
 			}
 
 			if (assets.HasAsset(name))
@@ -112,7 +113,7 @@ namespace Stratus.Unity.Audio
 
 		IEnumerator FadeOutRoutine(float duration, Ease ease, bool block = true)
 		{
-			yield return StratusRoutines.FadeVolume(audioSource, 0f, duration, ease);
+			yield return AudioRoutines.FadeVolume(audioSource, 0f, duration, ease);
 			if (block)
 			{
 				yield return new WaitForSeconds(duration);

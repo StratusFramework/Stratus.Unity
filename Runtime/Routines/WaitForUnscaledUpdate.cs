@@ -1,9 +1,8 @@
 using UnityEngine;
-using Stratus;
 
-namespace Stratus
+namespace Stratus.Unity.Routines
 {
-	public class StratusWaitForUnscaledUpdate : CustomYieldInstruction
+	public class WaitForUnscaledUpdate : CustomYieldInstruction
 	{
 		private float WaitTIme;
 
@@ -15,7 +14,7 @@ namespace Stratus
 			}
 		}
 
-		public StratusWaitForUnscaledUpdate()
+		public WaitForUnscaledUpdate()
 		{
 			WaitTIme = Time.realtimeSinceStartup + Time.fixedDeltaTime;
 		}

@@ -1,13 +1,15 @@
-using UnityEngine;
-using System.Collections;
-using System;
 using Stratus.Unity.Extensions;
-using Stratus.Unity;
+using Stratus.Unity.Interpolation;
 using Stratus.Unity.Utility;
 
-namespace Stratus
+using System;
+using System.Collections;
+
+using UnityEngine;
+
+namespace Stratus.Unity.Routines
 {
-	public static partial class StratusRoutines
+	public static class TransformRoutines
 	{
 		public class RotateAroundRoutine : StratusTransformRoutine
 		{
@@ -40,12 +42,12 @@ namespace Stratus
 			Quaternion initialRotation = transform.rotation;
 			Quaternion targetRotation = Quaternion.Euler(rotation);
 
-			System.Action<float> func = (float t) =>
+			Action<float> func = (t) =>
 			{
 				transform.rotation = Quaternion.Lerp(initialRotation, targetRotation, t);
 			};
 
-			yield return Lerp(func, duration);
+			yield return InterpolationRoutines.Lerp(func, duration);
 		}
 
 
@@ -64,7 +66,7 @@ namespace Stratus
 			float angularSpeed = degrees / duration;
 			float elapsed = 0f;
 
-			System.Action<float> func = (float t) =>
+			Action<float> func = (t) =>
 			{
 				float time = timeScale.GetTime();
 				elapsed += time;
@@ -81,7 +83,7 @@ namespace Stratus
 				transform.RotateAround(pivot, axis, degrees);
 			}
 			else
-				yield return Lerp(func, duration);
+				yield return InterpolationRoutines.Lerp(func, duration);
 		}
 
 
@@ -94,7 +96,7 @@ namespace Stratus
 		/// <param name="axis"></param>
 		/// <param name="degrees"></param>
 		/// <returns></returns>
-		public static IEnumerator RotateAround(Transform transform, Vector3 pivot, Vector3 axis, float degrees, System.Action onFinished = null, StratusTimeScale timeScale = StratusTimeScale.FixedDelta)
+		public static IEnumerator RotateAround(Transform transform, Vector3 pivot, Vector3 axis, float degrees, Action onFinished = null, StratusTimeScale timeScale = StratusTimeScale.FixedDelta)
 		{
 			while (true)
 			{
@@ -111,14 +113,14 @@ namespace Stratus
 		/// <param name="endPos"></param>
 		/// <param name="duration"></param>
 		/// <returns></returns>
-		public static IEnumerator MoveTo(Transform transform, Vector3 endPos, float duration, float distFromTarget = 0f, System.Action onFinished = null, StratusTimeScale timeScale = StratusTimeScale.Delta)
+		public static IEnumerator MoveTo(Transform transform, Vector3 endPos, float duration, float distFromTarget = 0f, Action onFinished = null, StratusTimeScale timeScale = StratusTimeScale.Delta)
 		{
 			Vector3 startPos = transform.position;
 
 			if (distFromTarget > 0f)
 				endPos = startPos.CalculatePositionAtDistanceFromTarget(endPos, distFromTarget);
 
-			System.Action<float> func = (float t) =>
+			Action<float> func = (t) =>
 			{
 				Vector3 nextPos = Vector3.Lerp(startPos, endPos, t);
 				transform.position = nextPos;
@@ -126,7 +128,7 @@ namespace Stratus
 
 			//IEnumerator lerp = Lerp(func, duration);
 			//yield return lerp;
-			yield return Lerp(func, duration, timeScale);
+			yield return InterpolationRoutines.Lerp(func, duration, timeScale);
 			onFinished?.Invoke();
 		}
 
@@ -182,7 +184,7 @@ namespace Stratus
 		/// <param name="stopDistance"></param>
 		/// <param name="timeScale"></param>
 		/// <returns></returns>
-		public static IEnumerator FollowWhile(Transform transform, Transform target, float speed, System.Func<bool> condition, float stopDistance = 0.0f, StratusTimeScale timeScale = StratusTimeScale.Delta)
+		public static IEnumerator FollowWhile(Transform transform, Transform target, float speed, Func<bool> condition, float stopDistance = 0.0f, StratusTimeScale timeScale = StratusTimeScale.Delta)
 		{
 			while (condition.Invoke())
 			{
@@ -203,7 +205,7 @@ namespace Stratus
 		{
 			Quaternion startingRot = transform.rotation;
 
-			System.Action<float> func = (float t) =>
+			Action<float> func = (t) =>
 			{
 				Vector3 lookAtVec = targetPosition - transform.position;
 				Quaternion nextRot = Quaternion.LookRotation(lookAtVec);
@@ -212,7 +214,7 @@ namespace Stratus
 
 			//IEnumerator lerp = Lerp(func, duration);
 			//yield return lerp;
-			yield return Lerp(func, duration);
+			yield return InterpolationRoutines.Lerp(func, duration);
 		}
 
 		/// <summary>
@@ -227,16 +229,14 @@ namespace Stratus
 		{
 			Quaternion startingRot = transform.rotation;
 
-			System.Action<float> func = (float t) =>
+			Action<float> func = (t) =>
 			{
 				Vector3 lookAtVec = target.position - transform.position;
 				Quaternion nextRot = Quaternion.LookRotation(lookAtVec);
 				transform.rotation = Quaternion.Lerp(startingRot, nextRot, t);
 			};
 
-			//IEnumerator lerp = Lerp(func, duration);
-			//yield return lerp;
-			yield return Lerp(func, duration, timeScale);
+			yield return InterpolationRoutines.Lerp(func, duration, timeScale);
 		}
 
 		/// <summary>
@@ -261,8 +261,8 @@ namespace Stratus
 		public static IEnumerator Scale(Transform transform, Vector3 endingVal, float duration, StratusTimeScale timeScale = StratusTimeScale.FixedDelta)
 		{
 			Vector3 startingVal = transform.localScale;
-			System.Action<float> scalingFunc = (float t) => ScaleProcedure(transform, startingVal, endingVal, t);
-			yield return Lerp(scalingFunc, duration, timeScale);
+			Action<float> scalingFunc = (t) => ScaleProcedure(transform, startingVal, endingVal, t);
+			yield return InterpolationRoutines.Lerp(scalingFunc, duration, timeScale);
 		}
 
 		/// <summary>
@@ -277,12 +277,12 @@ namespace Stratus
 		{
 			Vector3 startingVal = transform.localScale;
 			Vector3 endinvgVal = startingVal * curve.Evaluate(duration);
-			System.Action<float> scalingFunc = (float t) =>
+			Action<float> scalingFunc = (t) =>
 			{
 				Vector3 nextVal = Vector3.Lerp(startingVal, endinvgVal, curve.Evaluate(t));
 				transform.localScale = nextVal;
 			};
-			yield return Lerp(scalingFunc, duration, timeScale);
+			yield return InterpolationRoutines.Lerp(scalingFunc, duration, timeScale);
 		}
 
 		/// <summary>
@@ -297,8 +297,8 @@ namespace Stratus
 		{
 			Vector3 startingVal = transform.localScale;
 			Vector3 endingVal = transform.localScale * scalar;
-			System.Action<float> func = (float t) => ScaleProcedure(transform, startingVal, endingVal, t);
-			yield return Lerp(func, duration, timeScale);
+			Action<float> func = (t) => ScaleProcedure(transform, startingVal, endingVal, t);
+			yield return InterpolationRoutines.Lerp(func, duration, timeScale);
 		}
 
 		/// <summary>
@@ -383,7 +383,7 @@ namespace Stratus
 			if (stopDistance > 0f)
 			{
 				float dist = Vector3.Distance(transform.position, target.position);
-				bool isWithinStopppingDistance = (dist <= stopDistance);
+				bool isWithinStopppingDistance = dist <= stopDistance;
 				if (isWithinStopppingDistance)
 				{
 					if (maintainDistance)

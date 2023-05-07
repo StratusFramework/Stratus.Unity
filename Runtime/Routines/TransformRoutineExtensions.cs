@@ -1,13 +1,15 @@
-﻿using UnityEngine;
-using System.Collections;
-using Stratus.Unity.Extensions;
+﻿using Stratus.Unity.Extensions;
 
-namespace Stratus
+using System.Collections;
+
+using UnityEngine;
+
+namespace Stratus.Unity.Routines
 {
 	/// <summary>
 	/// Adds extensions to the Transform component allowing it to run Coroutines targeted for it
 	/// </summary>
-	public static class StratusRoutinesExtensions
+	public static class TransformRoutineExtensions
 	{
 		/// <summary>
 		/// Runs a routine that changes the rotation of the given transform, cancelling any previous ones that were doing so.
@@ -17,7 +19,7 @@ namespace Stratus
 		/// <param name="routine">A routine that intends to modify the transform's rotation</param>
 		public static void Rotate(this Transform transform, IEnumerator routine)
 		{
-			StratusTransformRoutineRunner driver = transform.gameObject.GetOrAddComponent<StratusTransformRoutineRunner>();
+			TransformRoutineRunner driver = transform.gameObject.GetOrAddComponent<TransformRoutineRunner>();
 			driver.Rotate(routine);
 		}
 
@@ -31,7 +33,7 @@ namespace Stratus
 		/// <param name="onFinished"></param>
 		public static void StartCoroutine(this Transform transform, IEnumerator transformationRoutine, TransformationType type, System.Action onFinished = null)
 		{
-			StratusTransformRoutineRunner driver = transform.gameObject.GetOrAddComponent<StratusTransformRoutineRunner>();
+			TransformRoutineRunner driver = transform.gameObject.GetOrAddComponent<TransformRoutineRunner>();
 			driver.StartTransformation(transformationRoutine, type, onFinished);
 		}
 
@@ -42,7 +44,7 @@ namespace Stratus
 		/// <param name="type"></param>
 		public static void StopCoroutine(this Transform transform, TransformationType type)
 		{
-			StratusTransformRoutineRunner driver = transform.gameObject.GetOrAddComponent<StratusTransformRoutineRunner>();
+			TransformRoutineRunner driver = transform.gameObject.GetOrAddComponent<TransformRoutineRunner>();
 			driver.StopTransformation(type);
 		}
 
@@ -55,12 +57,12 @@ namespace Stratus
 		/// <param name="onFinished"></param>
 		public static void StartCoroutine(this MonoBehaviour mb, IEnumerator routine, string tag, System.Action onFinished = null)
 		{
-			StratusTaggedRoutines.StartCoroutine(mb, routine, tag, onFinished);
+			TaggedRoutines.StartCoroutine(mb, routine, tag, onFinished);
 		}
 
 		public static void StopTaggedCoroutine(this MonoBehaviour mb, string tag)
 		{
-			StratusTaggedRoutines.StopCoroutine(mb, tag);
+			TaggedRoutines.StopCoroutine(mb, tag);
 		}
 
 

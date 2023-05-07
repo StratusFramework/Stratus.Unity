@@ -1,13 +1,14 @@
 using Stratus.Unity.Extensions;
+using Stratus.Unity.Interpolation;
 
 using System.Collections;
 
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Stratus
+namespace Stratus.Unity.Routines
 {
-	public static partial class StratusRoutines
+	public static class RendererRoutines
 	{
 		public static IEnumerator Fade(Renderer[] renderers, float alpha, float duration, bool setActive)
 		{
@@ -61,12 +62,11 @@ namespace Stratus
 			System.Action<float> func = (float t) =>
 			{
 				light.color = Color.Lerp(startColor, color, t);
-				light.range = Lerp(startRange, range, t);
-				light.intensity = Lerp(startIntensity, intensity, t);
-				//Trace.Script($" color = {light.color} range = {light.range} intensity = {light.intensity}");
+				light.range = InterpolationRoutines.Lerp(startRange, range, t);
+				light.intensity = InterpolationRoutines.Lerp(startIntensity, intensity, t);
 			};
 
-			yield return Lerp(func, duration, timeScale);
+			yield return InterpolationRoutines.Lerp(func, duration, timeScale);
 		}
 
 		public static IEnumerator Blend(Light light, Color color, float intensity, float range, float duration, StratusTimeScale timeScale = StratusTimeScale.Delta)
@@ -78,11 +78,11 @@ namespace Stratus
 			System.Action<float> func = (float t) =>
 			{
 				light.color = Color.Lerp(startColor, color, t);
-				light.range = Lerp(startRange, range, t);
-				light.intensity = Lerp(startIntensity, intensity, t);
+				light.range = InterpolationRoutines.Lerp(startRange, range, t);
+				light.intensity = InterpolationRoutines.Lerp(startIntensity, intensity, t);
 			};
 
-			yield return Lerp(func, duration, timeScale);
+			yield return InterpolationRoutines.Lerp(func, duration, timeScale);
 		}
 
 		public static IEnumerator CrossFadeAlpha(Image image, float alpha, float duration, StratusTimeScale timeScale = StratusTimeScale.Delta)
@@ -95,21 +95,7 @@ namespace Stratus
 				image.color = Color.Lerp(startColor, endColor, t);
 			};
 
-			yield return Lerp(func, duration, timeScale);
+			yield return InterpolationRoutines.Lerp(func, duration, timeScale);
 		}
-
-		/// <summary>
-		/// Commonly used for alpha blending
-		/// </summary>
-		/// <param name="a"></param>
-		/// <param name="b"></param>
-		/// <param name="t"></param>
-		/// <returns></returns>
-		public static float Lerp(float a, float b, float t)
-		{
-			return (1 - t) * a + t * b;
-		}
-
 	}
-
 }
