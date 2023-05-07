@@ -1,5 +1,6 @@
 using Stratus.Interpolation;
 using Stratus.Models;
+using Stratus.Unity.Extensions;
 using Stratus.Unity.Interpolation;
 
 using System.Collections;

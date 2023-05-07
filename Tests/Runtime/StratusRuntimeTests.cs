@@ -5,6 +5,8 @@ using NUnit.Framework;
 
 using Stratus.Examples;
 using Stratus.Interpolation;
+using Stratus.Unity.Events;
+using Stratus.Unity.Extensions;
 using Stratus.Unity.Interpolation;
 
 using UnityEngine;

@@ -1,3 +1,6 @@
+using Stratus.Unity.Events;
+using Stratus.Unity.Extensions;
+
 using UnityEngine;
 
 namespace Stratus.Unity.Triggers

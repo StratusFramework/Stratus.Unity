@@ -1,8 +1,10 @@
-using UnityEngine;
 using System;
-using Stratus.Events;
 
-namespace Stratus
+using UnityEngine;
+
+using Event = Stratus.Events.Event;
+
+namespace Stratus.Unity.Events
 {
 	public static class UnityStratusEventSystemExtensions
 	{
@@ -13,7 +15,7 @@ namespace Stratus
 		/// <param name="gameObj">The GameObject to which to connect to.</param>
 		/// <param name="func">The member function callback. </param>
 		public static void Connect<TEvent>(this GameObject gameObj, Action<TEvent> func)
-			where TEvent : Events.Event
+			where TEvent : Event
 		{
 			UnityStratusEventSystem.Connect(gameObj, func);
 		}
@@ -24,7 +26,7 @@ namespace Stratus
 		/// <param name="gameObj"></param>
 		/// <param name="func"></param>
 		/// <param name="type"></param>
-		public static void Connect(this GameObject gameObj, Action<Events.Event> func, Type type)
+		public static void Connect(this GameObject gameObj, Action<Event> func, Type type)
 		{
 			UnityStratusEventSystem.Connect(gameObj, type, func);
 		}
@@ -46,8 +48,8 @@ namespace Stratus
 		/// <param name="gameObj">The GameObject to which to connect to.</param>
 		/// <param name="eventObj">The event object. </param>
 		/// <param name="nextFrame">Whether the event should be sent next frame.</param>
-		public static void Dispatch<TEvent>(this GameObject gameObj, TEvent eventObj) 
-			where TEvent : Events.Event
+		public static void Dispatch<TEvent>(this GameObject gameObj, TEvent eventObj)
+			where TEvent : Event
 		{
 			UnityStratusEventSystem.Dispatch<TEvent>(gameObj, eventObj);
 		}
@@ -59,7 +61,7 @@ namespace Stratus
 		/// <param name="gameObj">The GameObject to which to connect to.</param>
 		/// <param name="eventObj">The event object. </param>
 		/// <param name="nextFrame">Whether the event should be sent next frame.</param>
-		public static void Dispatch(this GameObject gameObj, Events.Event eventObj, Type type)
+		public static void Dispatch(this GameObject gameObj, Event eventObj, Type type)
 		{
 			UnityStratusEventSystem.Dispatch(gameObj, eventObj);
 		}
@@ -70,7 +72,7 @@ namespace Stratus
 		/// <typeparam name="TEvent"></typeparam>
 		/// <param name="gameObj">The GameObject to which to connect to.</param>
 		/// <param name="eventObj">The event object. </param>
-		public static void DispatchDown<TEvent>(this GameObject gameObj, TEvent eventObj) where TEvent : Events.Event
+		public static void DispatchDown<TEvent>(this GameObject gameObj, TEvent eventObj) where TEvent : Event
 		{
 			UnityStratusEventSystem.DispatchDown<TEvent>(gameObj, eventObj);
 		}
@@ -81,7 +83,7 @@ namespace Stratus
 		/// <typeparam name="TEvent">The event class. </typeparam>
 		/// <param name="gameObj">The GameObject to which to dispatch to.</param>
 		/// <param name="eventObj">The event object. </param>
-		public static void DispatchUp<TEvent>(this GameObject gameObj, TEvent eventObj) where TEvent : Events.Event
+		public static void DispatchUp<TEvent>(this GameObject gameObj, TEvent eventObj) where TEvent : Event
 		{
 			UnityStratusEventSystem.DispatchUp<TEvent>(gameObj, eventObj);
 		}

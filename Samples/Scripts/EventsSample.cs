@@ -1,5 +1,6 @@
 using Stratus.Events;
 using Stratus.Unity;
+using Stratus.Unity.Events;
 
 using UnityEngine;
 

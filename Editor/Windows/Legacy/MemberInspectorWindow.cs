@@ -5,6 +5,7 @@ using Stratus.Extensions;
 using Stratus.Logging;
 using Stratus.Reflection;
 using Stratus.Timers;
+using Stratus.Unity.Extensions;
 using Stratus.Utilities;
 
 using System;
@@ -408,7 +409,7 @@ namespace Stratus.Unity.Editor
 		#endregion
 
 		#region Static Methods
-		[MenuItem(StratusCore.rootMenu + "Member Inspector")]
+		[MenuItem(Constants.rootMenu + "Member Inspector")]
 		private static void Open() => OpenWindow(displayName);
 
 		[OnOpenAsset]

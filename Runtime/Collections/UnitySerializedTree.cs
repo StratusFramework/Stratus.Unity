@@ -1,11 +1,8 @@
 ﻿using Stratus.Models.Graph;
 
 using UnityEngine;
-//using Stratus.OdinSerializer;
 
-//using UnityEngine;
-
-namespace Stratus
+namespace Stratus.Unity
 {
 	public class UnitySerializedTree<TreeElementType> : StratusSerializedTree<TreeElementType>, ISerializationCallbackReceiver
 		where TreeElementType : TreeElement, new()

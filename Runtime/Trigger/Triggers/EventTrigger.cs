@@ -3,6 +3,8 @@ using Stratus.Models;
 
 using UnityEngine;
 
+using Event = Stratus.Events.Event;
+
 namespace Stratus.Unity.Triggers
 {
 	/// <summary>
@@ -15,11 +17,11 @@ namespace Stratus.Unity.Triggers
 		//------------------------------------------------------------------------/
 		[Header("Event")]
 		[Tooltip("The scope of the event")]
-		public Events.Event.Scope eventScope;
-		[DrawIf(nameof(EventTrigger.eventScope), Events.Event.Scope.Target, ComparisonType.Equals)]
+		public Event.Scope eventScope;
+		[DrawIf(nameof(EventTrigger.eventScope), Event.Scope.Target, ComparisonType.Equals)]
 		[Tooltip("The source GameObject which we want to listen the event on")]
 		public GameObject source;
-		[ClassExtends(typeof(Events.Event), Grouping = ClassGrouping.ByNamespace)]
+		[ClassExtends(typeof(Event), Grouping = ClassGrouping.ByNamespace)]
 		[Tooltip("What type of event this trigger will activate on")]
 		public ClassTypeReference type;
 
@@ -57,7 +59,7 @@ namespace Stratus.Unity.Triggers
 
 		}
 
-		void OnEvent<T>(T e) where T : Events.Event
+		void OnEvent<T>(T e) where T : Event
 		{
 			Activate();
 			//Trace.Script($"Triggered on {e.GetType()}");

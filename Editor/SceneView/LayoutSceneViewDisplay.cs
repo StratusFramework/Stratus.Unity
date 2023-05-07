@@ -140,7 +140,7 @@ namespace Stratus.Unity.Editor
 			SceneView sceneView = SceneView.currentDrawingSceneView;
 			if (sceneView == null)
 			{
-				StratusDebug.Log("No scene view?");
+				//StratusDebug.Log("No scene view?");
 				return;
 			}
 

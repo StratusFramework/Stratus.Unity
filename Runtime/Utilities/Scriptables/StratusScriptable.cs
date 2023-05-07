@@ -1,5 +1,6 @@
 using Stratus.Logging;
 using Stratus.OdinSerializer;
+using Stratus.Unity;
 
 using System;
 
@@ -12,7 +13,7 @@ namespace Stratus
 	/// </summary>
 	public abstract class StratusScriptable : SerializedScriptableObject, IStratusLogger
 	{
-		public const string scriptablesMenu = StratusCore.rootMenu + "Scriptables/";
+		public const string scriptablesMenu = Constants.rootMenu + "Scriptables/";
 	}
 
 	/// <summary>

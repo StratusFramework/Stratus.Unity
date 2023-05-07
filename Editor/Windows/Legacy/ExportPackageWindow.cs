@@ -1,5 +1,6 @@
 ﻿using Stratus.Editor;
 using Stratus.IO;
+using Stratus.Unity.Extensions;
 
 using UnityEditor;
 
@@ -42,7 +43,7 @@ namespace Stratus.Unity.Editor
 			this.ExportControls();
 		}
 
-		[MenuItem(StratusCore.rootMenu + "Export Package")]
+		[MenuItem(Constants.rootMenu + "Export Package")]
 		public static void Open()
 		{
 			OpenWindow("Export Package");

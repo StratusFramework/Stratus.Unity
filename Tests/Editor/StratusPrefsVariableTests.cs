@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 
 using Stratus.Serialization;
+using Stratus.Unity.Editor;
 
 using System;
 

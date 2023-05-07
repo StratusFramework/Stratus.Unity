@@ -1,7 +1,7 @@
 using UnityEngine;
-using Stratus;
 using System.Collections;
 using System;
+using Stratus.Unity.Extensions;
 
 namespace Stratus
 {

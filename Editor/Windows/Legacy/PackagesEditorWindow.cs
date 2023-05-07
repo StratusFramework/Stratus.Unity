@@ -43,7 +43,7 @@ namespace Stratus.Unity.Editor
 		public const string windowTitle = "Stratus Package Development";
 		public UnityEditor.PackageManager.PackageInfo[] packages { get; private set; }
 
-		[MenuItem(StratusCore.rootMenu + "Package Development")]
+		[MenuItem(Constants.rootMenu + "Package Development")]
 		public static void Open()
 		{
 			OpenWindow(windowTitle, true);

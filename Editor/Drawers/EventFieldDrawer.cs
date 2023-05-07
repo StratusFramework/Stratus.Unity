@@ -2,6 +2,8 @@ using UnityEditor;
 
 using UnityEngine;
 
+using Event = Stratus.Events.Event;
+
 namespace Stratus.Unity.Editor
 {
 	[CustomPropertyDrawer(typeof(StratusEventField))]
@@ -45,14 +47,14 @@ namespace Stratus.Unity.Editor
 		{
 			SerializedProperty typeProp = property.FindPropertyRelative(nameof(StratusEventField.type));
 			SerializedProperty scopeProperty = property.FindPropertyRelative(nameof(StratusEventField.scope));
-			Events.Event.Scope scope = GetEnumValue<Events.Event.Scope>(scopeProperty);
+			Event.Scope scope = GetEnumValue<Event.Scope>(scopeProperty);
 
 			//SerializedProperty typeProp = property.FindPropertyRelative("Type");
 			//Type eventType = typeProp.objectReferenceValue as Type;
 			this.DrawPropertiesVertical(ref position, typeProp, scopeProperty);
 
 			// Scope
-			if (scope == Events.Event.Scope.Target)
+			if (scope == Event.Scope.Target)
 			{
 				DrawProperty(ref position, property.FindPropertyRelative(nameof(StratusEventField.targets)));
 			}

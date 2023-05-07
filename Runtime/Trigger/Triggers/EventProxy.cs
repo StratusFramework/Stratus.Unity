@@ -1,9 +1,12 @@
 using Stratus.Dependencies.TypeReferences;
+using Stratus.Unity.Events;
 
 using System;
 
 using UnityEngine;
 using UnityEngine.Events;
+
+using Event = Stratus.Events.Event;
 
 namespace Stratus.Unity.Triggers
 {
@@ -11,18 +14,18 @@ namespace Stratus.Unity.Triggers
 	/// A callback consisting of the Stratus Event received
 	/// </summary>
 	[Serializable]
-	public class UnityStratusEvent : UnityEvent<Events.Event> { }
+	public class UnityStratusEvent : UnityEvent<Event> { }
 
 	public class EventProxy : StratusProxy
 	{
-		public delegate void OnTriggerMessage(Events.Event e);
+		public delegate void OnTriggerMessage(Event e);
 
 		//------------------------------------------------------------------------/
 		// Fields
 		//------------------------------------------------------------------------/
 		[Header("Event")]
-		public Events.Event.Scope scope;
-		[ClassExtends(typeof(Events.Event), Grouping = ClassGrouping.ByNamespace)]
+		public Event.Scope scope;
+		[ClassExtends(typeof(Event), Grouping = ClassGrouping.ByNamespace)]
 		[Tooltip("What type of event this trigger will activate on")]
 		public ClassTypeReference type = new ClassTypeReference();
 
@@ -63,18 +66,18 @@ namespace Stratus.Unity.Triggers
 		/// <param name="onCollision"></param>
 		/// <param name="persistent"></param>
 		/// <returns></returns>
-		public static EventProxy Construct(GameObject target, Events.Event.Scope scope, Type type, System.Action<Events.Event> onTrigger, bool persistent = true, bool debug = false)
+		public static EventProxy Construct(GameObject target, Event.Scope scope, Type type, System.Action<Event> onTrigger, bool persistent = true, bool debug = false)
 		{
 			var proxy = target.gameObject.AddComponent<EventProxy>();
 			proxy.scope = scope;
 			proxy.type = type;
-			proxy.onTrigger.AddListener(new UnityAction<Events.Event>(onTrigger));
+			proxy.onTrigger.AddListener(new UnityAction<Event>(onTrigger));
 			proxy.persistent = persistent;
 			proxy.debug = debug;
 			return proxy;
 		}
 
-		void OnEvent(Events.Event e)
+		void OnEvent(Event e)
 		{
 			if (!e.GetType().Equals(type.Type))
 				return;
@@ -89,10 +92,10 @@ namespace Stratus.Unity.Triggers
 		{
 			switch (scope)
 			{
-				case Events.Event.Scope.Target:
+				case Event.Scope.Target:
 					this.gameObject.Connect(this.OnEvent, this.type);
 					break;
-				case Events.Event.Scope.All:
+				case Event.Scope.All:
 					StratusScene.Connect(this.OnEvent, this.type);
 					break;
 			}

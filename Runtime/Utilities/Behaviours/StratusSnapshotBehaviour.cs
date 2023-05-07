@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Stratus.Unity;
+using Stratus.Unity.Extensions;
 
 namespace Stratus
 {

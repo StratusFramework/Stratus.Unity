@@ -1,0 +1,19 @@
+{
+    "name": "Stratus.Unity.Editor",
+    "rootNamespace": "Stratus.Unity.Editor",
+    "references": [
+        "Stratus.NET",
+        "Stratus.Unity"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,9 +1,12 @@
 using Stratus.Dependencies.TypeReferences;
 using Stratus.Models;
+using Stratus.Unity.Events;
 
 using System.Collections.Generic;
 
 using UnityEngine;
+
+using Event = Stratus.Events.Event;
 
 namespace Stratus.Unity.Triggers
 {
@@ -14,11 +17,11 @@ namespace Stratus.Unity.Triggers
 		//------------------------------------------------------------------------/
 		[Header("Event")]
 		[Tooltip("The scope of the event")]
-		public Events.Event.Scope eventScope;
-		[DrawIf(nameof(DispatchEventTriggerable.eventScope), Events.Event.Scope.Target, ComparisonType.Equals)]
+		public Event.Scope eventScope;
+		[DrawIf(nameof(DispatchEventTriggerable.eventScope), Event.Scope.Target, ComparisonType.Equals)]
 		[Tooltip("The GameObjects which we want to dispatch the event to")]
 		public List<GameObject> targets = new List<GameObject>();
-		[ClassExtends(typeof(Events.Event), Grouping = ClassGrouping.ByNamespace)]
+		[ClassExtends(typeof(Event), Grouping = ClassGrouping.ByNamespace)]
 		[Tooltip("What type of event this trigger will activate on")]
 		public ClassTypeReference type = new ClassTypeReference();
 
@@ -29,7 +32,7 @@ namespace Stratus.Unity.Triggers
 		// Properties
 		//------------------------------------------------------------------------/
 		public bool hasType => type.Type != null;
-		private Events.Event eventInstance { get; set; }
+		private Event eventInstance { get; set; }
 
 		public override string automaticDescription
 		{
@@ -46,7 +49,7 @@ namespace Stratus.Unity.Triggers
 		//------------------------------------------------------------------------/
 		protected override void OnAwake()
 		{
-			eventInstance = Events.Event.Instantiate(type, eventData);
+			eventInstance = Event.Instantiate(type, eventData);
 		}
 
 		protected override void OnReset()
@@ -58,14 +61,14 @@ namespace Stratus.Unity.Triggers
 		{
 			switch (eventScope)
 			{
-				case Events.Event.Scope.Target:
+				case Event.Scope.Target:
 					foreach (var target in targets)
 					{
 						if (target)
 							target.Dispatch(eventInstance, type.Type);
 					}
 					break;
-				case Events.Event.Scope.All:
+				case Event.Scope.All:
 					StratusScene.Dispatch(eventInstance, type.Type);
 					break;
 			}

@@ -3,6 +3,7 @@ using UnityEngine;
 using Stratus.Dependencies.TypeReferences;
 using System.Collections.Generic;
 using Stratus.Events;
+using Stratus.Unity.Events;
 
 namespace Stratus
 {

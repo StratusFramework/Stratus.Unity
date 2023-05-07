@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using Stratus.Unity;
 
 namespace Stratus
 {
@@ -153,14 +154,14 @@ namespace Stratus
 			skin = Resources.Load<GUISkin>("Stratus Skin");
 
 			// Load gui assets
-			Texture2D[] assets = Resources.LoadAll<Texture2D>(StratusCore.guiFolder);
+			Texture2D[] assets = Resources.LoadAll<Texture2D>(Constants.guiFolder);
 			foreach (var asset in assets)
 			{
 				textures.Add(asset.name, asset);
 			}
 
 			// Load fonts
-			Font[] fontAssets = Resources.LoadAll<Font>(StratusCore.fontFolder);
+			Font[] fontAssets = Resources.LoadAll<Font>(Constants.fontFolder);
 			foreach (var font in fontAssets)
 			{
 				fonts.Add(font.name, font);

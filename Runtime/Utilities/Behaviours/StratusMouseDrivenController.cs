@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Stratus.Utilities;
 using Stratus.Unity;
+using Stratus.Unity.Extensions;
 
 namespace Stratus
 {

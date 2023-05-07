@@ -1,15 +1,15 @@
 using System.Collections;
 using UnityEngine;
-using Stratus;
 using System.Linq;
 using NUnit.Framework;
+using Stratus.Unity.Extensions;
 
 namespace Stratus.Tests.Editor
 {
-    /// <summary>
-    /// Tests for <see cref="StratusRectExtensions"/>
-    /// (Sourced from rect-ex: (https://github.com/slavniyteo/rect-ex)
-    /// </summary>
+	/// <summary>
+	/// Tests for <see cref="RectExtensions"/>
+	/// (Sourced from rect-ex: (https://github.com/slavniyteo/rect-ex)
+	/// </summary>
 	public class StratusRectExtensionTests
 	{
 		#region Helpers

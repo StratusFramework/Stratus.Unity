@@ -29,7 +29,7 @@ namespace Stratus.Unity.Editor
 			this.treeView.TreeViewGUI(this.positionToGUI);
 		}
 
-		[MenuItem(StratusCore.rootMenu + "Save System")]
+		[MenuItem(Constants.rootMenu + "Save System")]
 		private static void OpenFromMenu() => OpenWindow("Stratus Save System", true);
 
 		private IEnumerable<DefaultTreeElement> BuildTree()

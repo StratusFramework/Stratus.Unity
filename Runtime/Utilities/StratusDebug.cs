@@ -2,6 +2,7 @@
 #if STRATUS_TRACE
 
 using Stratus.Extensions;
+using Stratus.Unity.Extensions;
 
 using System;
 using System.Diagnostics;

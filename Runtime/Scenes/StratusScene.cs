@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Stratus.Utilities;
 using Stratus.Events;
+using Stratus.Unity.Events;
 
 #if UNITY_EDITOR
 using UnityEditor.SceneManagement;

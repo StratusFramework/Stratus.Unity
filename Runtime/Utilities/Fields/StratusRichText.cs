@@ -1,4 +1,4 @@
-﻿using Stratus.Extensions;
+﻿using Stratus.Unity.Extensions;
 
 using System;
 

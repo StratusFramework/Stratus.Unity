@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using Stratus.Unity.Extensions;
+
+using UnityEditor;
 
 using UnityEngine;
 

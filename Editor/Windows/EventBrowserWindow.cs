@@ -13,6 +13,8 @@ using UnityEditor.IMGUI.Controls;
 
 using UnityEngine;
 
+using Event = Stratus.Events.Event;
+
 namespace Stratus.Unity.Editor
 {
 	/// <summary>
@@ -193,7 +195,7 @@ namespace Stratus.Unity.Editor
 			this.treeView.TreeViewGUI(this.positionToGUI);
 		}
 
-		[MenuItem(StratusCore.rootMenu + "Event Browser")]
+		[MenuItem(Constants.rootMenu + "Event Browser")]
 		private static void Open()
 		{
 			OpenWindow("Event Browser");
@@ -204,7 +206,7 @@ namespace Stratus.Unity.Editor
 		//------------------------------------------------------------------------/
 		private IList<EventTreeElement> BuildEventTree()
 		{
-			this.events = TypeUtility.SubclassesOf<Events.Event>();
+			this.events = TypeUtility.SubclassesOf<Event>();
 			EventInformation[] eventsInformation = new EventInformation[this.events.Length];
 			for (int i = 0; i < this.events.Length; ++i)
 			{

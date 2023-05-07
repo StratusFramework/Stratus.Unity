@@ -1,5 +1,5 @@
-using Stratus.Extensions;
 using Stratus.Models;
+using Stratus.Unity.Extensions;
 
 using UnityEngine;
 using UnityEngine.UI;

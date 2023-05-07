@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 
 using Stratus.Extensions;
+using Stratus.Unity.Extensions;
 using Stratus.Utilities;
 
 using UnityEngine;
