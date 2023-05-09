@@ -1,7 +1,7 @@
-﻿using Stratus.Unity.Scenes;
+﻿using Stratus.Models;
+using Stratus.Unity.Rendering;
+using Stratus.Unity.Scenes;
 using Stratus.Unity.Triggers;
-
-using System;
 
 using UnityEditor;
 
@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Stratus.Unity.Editor
 {
-	[LayoutViewDisplayAttribute("Scene Linker", 225f, 200f, StratusGUI.Anchor.TopLeft, StratusGUI.Dimensions.Absolute)]
+	[LayoutViewDisplayAttribute("Scene Linker", 225f, 200f, Anchor.TopLeft, Dimensions.Absolute)]
 	public class SceneLinkerDisplay : SingletonSceneViewDisplay<SceneLinker>
 	{
 		private Vector2 displayScrollPosition { get; set; } = Vector2.zero;

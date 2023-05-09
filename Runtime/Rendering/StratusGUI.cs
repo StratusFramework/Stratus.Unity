@@ -1,15 +1,13 @@
-using Stratus.Reflection;
 using Stratus.Unity.Behaviours;
 using Stratus.Unity.Scenes;
 using Stratus.Utilities;
 
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 
 using UnityEngine;
 
-namespace Stratus
+namespace Stratus.Unity.Rendering
 {
 	/// <summary>
 	/// A programmatic overlay for debugging use. You can use the preset window
@@ -21,22 +19,11 @@ namespace Stratus
 		//------------------------------------------------------------------------/
 		// Declarations
 		//------------------------------------------------------------------------/
-		public class OverlayWindows
-		{
-			public Window Watch;
-			public Window Buttons;
-			public Console Console;
-		}
-
 		public delegate void OnGUILayout(Rect rect);
 
 		//------------------------------------------------------------------------/
 		// Properties
 		//------------------------------------------------------------------------/
-		/// <summary>
-		/// Displays the current FPS
-		/// </summary>
-		public static bool showFPS { get; set; } = true;
 		/// <summary>
 		/// The current screen size of the game window
 		/// </summary>
@@ -58,24 +45,9 @@ namespace Stratus
 		// Fields
 		//------------------------------------------------------------------------/
 		/// <summary>
-		/// The anchored position of the default overlay window
-		/// </summary>
-		private OverlayWindows Windows = new OverlayWindows();
-
-		/// <summary>
 		/// All custom windows written by the user
 		/// </summary>
 		private Dictionary<string, Window> CustomWindows = new Dictionary<string, Window>();
-
-		/// <summary>
-		/// Displays the FPS in the game Window
-		/// </summary>
-		private FPSCounter fpsCounter = new FPSCounter();
-
-		///// <summary>
-		///// Draw requests
-		///// </summary>
-		//private List<OnGUILayout> drawRequests = new List<OnGUILayout>();
 
 		//------------------------------------------------------------------------/
 		// Messages
@@ -86,14 +58,6 @@ namespace Stratus
 			StratusScene.onSceneChanged += this.OnSceneChanged;
 		}
 
-		private void Update()
-		{
-			if (showFPS)
-			{
-				this.fpsCounter.Update();
-			}
-		}
-
 		private void OnGUI()
 		{
 			this.Draw();
@@ -102,64 +66,18 @@ namespace Stratus
 		//------------------------------------------------------------------------/
 		// Methods: Static
 		//------------------------------------------------------------------------/
-		/// <summary>
-		/// Keeps watch of a given property/field
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="varExpr">An expression of a given variable of the form: '(()=> foo')</param>
-		/// <param name="behaviour">The owner object of this variable</param>
-		/// <example>Overlay.Watch(()=> foo, this);</example>
-		public static void Watch<T>(Expression<Func<T>> varExpr, string description = null, MonoBehaviour behaviour = null)
-		{
-			MemberReference variableRef = ReflectionUtility.GetReference(varExpr);
-			Watcher watcher = new Watcher(variableRef, description, behaviour);
-			instance.Windows.Watch.Add(watcher);
-		}
-		/// <summary>
-		/// Adds a button to the overlay which invokes a function with no parameters.
-		/// </summary>
-		/// <param name="description">What description to use for the button</param>
-		/// <param name="onButtonDown">The function to be invoked when the button is pressed</param>
-		public static void AddButton(string description, Button.Callback onButtonDown)
-		{
-			Button button = new Button(description, onButtonDown);
-			instance.Windows.Buttons.Add(button);
-		}
-
-		/// <summary>
-		/// Adds a button to the overlay which invokes a function with no parameters
-		/// </summary>
-		/// <param name="onButtonDown"></param>
-		public static void AddButton(Button.Callback onButtonDown)
-		{
-			Button button = new Button(onButtonDown.Method.Name, onButtonDown);
-			instance.Windows.Buttons.Add(button);
-		}
-
-		/// <summary>
-		/// Adds a button to the overlay which invokes a function with any parameters.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="description">What description to use for the button</param>
-		/// <param name="onButtonDown">The function to be invoked when the button is pressed, using a lambda expresion to pass it: '()=>Foo(7)</param>
-		public static void AddButton<T>(string description, Button<T>.Callback onButtonDown)
-		{
-			Button<T> button = new Button<T>(description, onButtonDown);
-			instance.Windows.Buttons.Add(button);
-		}
-
 		public static void GUILayoutArea(Anchor anchor, Vector2 size, System.Action<Rect> onGUI)
 		{
 			Rect rect = StratusGUI.CalculateAnchoredPositionOnScreen(anchor, size);
-			UnityEngine.GUILayout.BeginArea(rect);
+			GUILayout.BeginArea(rect);
 			onGUI(rect);
-			UnityEngine.GUILayout.EndArea();
+			GUILayout.EndArea();
 		}
 
 		public static void GUILayoutArea(Anchor anchor, Vector2 size, GUIContent content, System.Action<Rect> onGUI)
 		{
 			Rect rect = StratusGUI.CalculateAnchoredPositionOnScreen(anchor, size);
-			UnityEngine.GUILayout.BeginArea(rect, content);
+			GUILayout.BeginArea(rect, content);
 			onGUI(rect);
 			UnityEngine.GUILayout.EndArea();
 		}
@@ -196,8 +114,6 @@ namespace Stratus
 			GUI.color = currentColor;
 		}
 
-
-
 		//------------------------------------------------------------------------/
 		// Methods: Private
 		//------------------------------------------------------------------------/
@@ -206,8 +122,6 @@ namespace Stratus
 		/// </summary>
 		private void Reset()
 		{
-			this.Windows.Watch = new Window("Watch", new Vector2(0.2f, 0.5f), Color.grey, Anchor.TopRight);
-			this.Windows.Buttons = new Window("Buttons", new Vector2(0.3f, 0.4f), Color.grey, Anchor.BottomRight);
 		}
 
 		/// <summary>
@@ -223,27 +137,178 @@ namespace Stratus
 		/// </summary>
 		private void Draw()
 		{
-			// Draw all the innate windows
-			this.Windows.Watch.Draw();
-			this.Windows.Buttons.Draw();
-
 			// Draw all custom windows
-			foreach (KeyValuePair<string, Window> window in this.CustomWindows)
+			foreach (KeyValuePair<string, Window> window in CustomWindows)
 			{
 				window.Value.Draw();
 			}
-
-			// Draw all custom content
-
-			// Show FPS
-			if (showFPS)
-			{
-				this.DisplayFPS();
-			}
 		}
 
-		private void DisplayFPS()
+		//------------------------------------------------------------------------/
+		// Properties
+		//------------------------------------------------------------------------/
+		public static Vector2 half { get; } = new Vector2(0.5f, 0.5f);
+		public static Vector2 quarter { get; } = new Vector2(0.25f, 0.25f);
+		public static Vector2 quarterScreen => CalculateRelativeDimensions(quarter, screenSize);
+
+		//------------------------------------------------------------------------/
+		// Methods
+		//------------------------------------------------------------------------/
+		/// <summary>
+		/// Calculate the dimensions relative to screen space, from a given percentage (0 to 1).
+		/// So for example if you wanted to cover 10% of the screen's width and 20% of its height,
+		/// you would pass in (0.1f, 0,2f)
+		/// </summary>
+		/// <param name="widthRatio">The relative width of the screen as a percentage (from 0 to 1)</param>
+		/// <param name="heightRatio">The relative height of the screen as a percentage (from 0 to 1)</param>
+		/// <returns></returns>
+		public static Vector2 CalculateRelativeDimensions(Vector2 sizeRatio, Vector2 screenSize)
 		{
+			if (sizeRatio.x < 0f || sizeRatio.x > 1f || sizeRatio.y < 0f || sizeRatio.y > 1f)
+				throw new ArgumentOutOfRangeException("Expected a value between 0 and 1!");
+			return new Vector2(screenSize.x * sizeRatio.x, screenSize.y * sizeRatio.y);
+		}
+
+		/// <summary>
+		/// Computes a proper rect from a given anchored position along with the width and height
+		/// </summary>
+		/// <param name="anchor">The relative position of the rect in screen space</param>
+		/// <param name="size">The dimensions of the rect, relative to the given screen size</param>
+		/// <returns></returns>
+		public static Rect CalculateAnchoredPositionOnScreen(Anchor anchor, Vector2 size)
+		{
+			return CalculateAnchoredPositionOnScreen(anchor, size, screenSize);
+		}
+
+		/// <summary>
+		/// Computes a proper rect from a given anchored position along with the width and height
+		/// </summary>
+		/// <param name="anchor">The relative position of the rect in screen space</param>
+		/// <param name="size">The dimensions of the rect, relative to the given screen size</param>
+		/// <param name="screenSize">The dimensions of the screen the rect will be in</param>
+		/// <returns></returns>
+		public static Rect CalculateAnchoredPositionOnScreen(Anchor anchor, Vector2 size, Vector2 screenSize)
+		{
+			var rect = new Rect();
+
+			float width = size.x;
+			float height = size.y;
+
+			float screenWidth = screenSize.x;
+			float screenHeight = screenSize.y;
+
+			const float padding = 8f;
+			// This is stupid. I couldn't figure out why it won't position properly otherwise if anchored to the bottom
+			const float bottomMultiplier = 3f;
+
+			// Find the x and y positions depending on the anchor
+			float x = 0f;
+			float y = 0f;
+
+			switch (anchor)
+			{
+				case Anchor.Center:
+					x = screenWidth / 2 - (width / 2);
+					y = screenHeight / 2 - (height / 2);
+					break;
+				case Anchor.Top:
+					x = screenWidth / 2 - (width / 2);
+					y = padding;
+					break;
+				case Anchor.TopLeft:
+					x = padding;
+					y = padding;
+					break;
+				case Anchor.TopRight:
+					x = screenWidth - width - padding;
+					y = padding;
+					break;
+				case Anchor.Left:
+					x = padding;
+					y = screenHeight / 2 - ((height / 2) - padding);
+					break;
+				case Anchor.Right:
+					x = screenWidth - width - padding;
+					y = screenHeight / 2 - ((height / 2) - padding);
+					break;
+				case Anchor.Bottom:
+					x = screenWidth / 2 - (width / 2);
+					y = screenHeight - height - (padding * bottomMultiplier);
+					break;
+				case Anchor.BottomLeft:
+					x = padding;
+					y = screenHeight - height - (padding * bottomMultiplier);
+					break;
+				case Anchor.BottomRight:
+					x = screenWidth - width - padding;
+					y = screenHeight - height - (padding * bottomMultiplier);
+					break;
+			}
+
+			// Set the values
+			rect.x = x;
+			rect.y = y;
+			rect.width = width;
+			rect.height = height;
+
+			return rect;
+		}
+
+		/// <summary>
+		/// Makes a texture
+		/// </summary>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		/// <param name="textureColor"></param>
+		/// <param name="border"></param>
+		/// <param name="bordercolor"></param>
+		/// <returns></returns>
+		private static Texture2D MakeTexture(int width, int height, Color textureColor, RectOffset border, Color bordercolor)
+		{
+			int widthInner = width;
+			width += border.left;
+			width += border.right;
+
+			Color[] pix = new Color[width * (height + border.top + border.bottom)];
+
+			for (int i = 0; i < pix.Length; i++)
+			{
+				if (i < (border.bottom * width))
+					pix[i] = bordercolor;
+				else if (i >= ((border.bottom * width) + (height * width)))  //Border Top
+					pix[i] = bordercolor;
+				else
+				{ //Center of Texture
+
+					if ((i % width) < border.left) // Border left
+						pix[i] = bordercolor;
+					else if ((i % width) >= (border.left + widthInner)) //Border right
+						pix[i] = bordercolor;
+					else
+						pix[i] = textureColor;    //Color texture
+				}
+			}
+
+			Texture2D result = new Texture2D(width, height + border.top + border.bottom);
+			result.SetPixels(pix);
+			result.Apply();
+
+
+			return result;
+		}
+
+		private static Texture2D MakeTexture(int width, int height, Color col)
+		{
+			Color[] pix = new Color[width * height];
+
+			for (int i = 0; i < pix.Length; i++)
+				pix[i] = col;
+
+			Texture2D result = new Texture2D(width, height);
+			result.SetPixels(pix);
+			result.Apply();
+
+			return result;
 		}
 
 	}

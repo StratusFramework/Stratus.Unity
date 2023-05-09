@@ -10,11 +10,7 @@ namespace Stratus.Unity.Rendering
 	/// </summary>
 	public static class Colors
 	{
-		//------------------------------------------------------------------------/
-		// Properties
-		//------------------------------------------------------------------------/
 		public static Color defaultFontColor { get; private set; }
-
 		/// <summary>
 		/// The main background color used by UI elmeents
 		/// </summary>

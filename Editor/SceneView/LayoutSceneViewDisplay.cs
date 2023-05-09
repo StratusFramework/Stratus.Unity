@@ -1,5 +1,7 @@
 ﻿using Stratus.Extensions;
+using Stratus.Models;
 using Stratus.Reflection;
+using Stratus.Unity.Rendering;
 
 using System;
 
@@ -20,7 +22,7 @@ namespace Stratus.Unity.Editor
 		[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
 		public sealed class LayoutViewDisplayAttributeAttribute : Attribute
 		{
-			public LayoutViewDisplayAttributeAttribute(string title, float width, float height, StratusGUI.Anchor anchor, StratusGUI.Dimensions dimensions)
+			public LayoutViewDisplayAttributeAttribute(string title, float width, float height, Anchor anchor, Dimensions dimensions)
 			{
 				this.title = title;
 				this.width = width;
@@ -32,8 +34,8 @@ namespace Stratus.Unity.Editor
 			private string title { get; set; }
 			private float width { get; set; }
 			private float height { get; set; }
-			private StratusGUI.Anchor anchor { get; set; }
-			private StratusGUI.Dimensions dimensions { get; set; }
+			private Anchor anchor { get; set; }
+			private Dimensions dimensions { get; set; }
 		}
 
 		//------------------------------------------------------------------------/
@@ -41,8 +43,8 @@ namespace Stratus.Unity.Editor
 		//------------------------------------------------------------------------/
 		public string title;
 		public Vector2 offset;
-		public StratusGUI.Anchor anchor;
-		public StratusGUI.Dimensions dimensions;
+		public Anchor anchor;
+		public Dimensions dimensions;
 		public Vector2 size;
 		public Vector2 scale;
 		private Vector2 scrollPos = Vector2.zero;
@@ -147,10 +149,10 @@ namespace Stratus.Unity.Editor
 			// Read and set the properties fron the attribute
 			this.title = settings.GetProperty<string>("title");
 			this.size = new Vector2(settings.GetProperty<float>("width"), settings.GetProperty<float>("height"));
-			this.anchor = settings.GetProperty<StratusGUI.Anchor>("anchor");
-			this.dimensions = settings.GetProperty<StratusGUI.Dimensions>("dimensions");
+			this.anchor = settings.GetProperty<Anchor>("anchor");
+			this.dimensions = settings.GetProperty<Dimensions>("dimensions");
 			// If the size is relative...
-			if (this.dimensions == StratusGUI.Dimensions.Relative)
+			if (this.dimensions == Dimensions.Relative)
 			{
 				this.scale = this.size;
 			}
@@ -162,18 +164,18 @@ namespace Stratus.Unity.Editor
 
 		protected override void OnInspect()
 		{
-			this.anchor = (StratusGUI.Anchor)EditorGUILayout.EnumPopup("Anchor", this.anchor);
-			this.dimensions = (StratusGUI.Dimensions)EditorGUILayout.EnumPopup("Dimensions", this.dimensions);
+			this.anchor = (Anchor)EditorGUILayout.EnumPopup("Anchor", this.anchor);
+			this.dimensions = (Dimensions)EditorGUILayout.EnumPopup("Dimensions", this.dimensions);
 			switch (this.dimensions)
 			{
-				case StratusGUI.Dimensions.Relative:
+				case Dimensions.Relative:
 					EditorGUI.indentLevel++;
 					this.scale.x = EditorGUILayout.Slider("Horizontal", this.scale.x, 0f, 1f);
 					this.scale.y = EditorGUILayout.Slider("Vertical", this.scale.y, 0f, 1f);
 					EditorGUI.indentLevel--;
 					//scale = EditorGUILayout.Slider("Scale", scale);
 					break;
-				case StratusGUI.Dimensions.Absolute:
+				case Dimensions.Absolute:
 					EditorGUI.indentLevel++;
 					this.size.x = EditorGUILayout.FloatField("Width", this.size.x);
 					this.size.y = EditorGUILayout.FloatField("Height", this.size.y);
@@ -188,10 +190,10 @@ namespace Stratus.Unity.Editor
 			Vector2 size = new Vector2();
 			switch (this.dimensions)
 			{
-				case StratusGUI.Dimensions.Relative:
+				case Dimensions.Relative:
 					size = StratusGUI.CalculateRelativeDimensions(this.scale, sceneView.position.size);
 					break;
-				case StratusGUI.Dimensions.Absolute:
+				case Dimensions.Absolute:
 					size = this.size;
 					break;
 			}

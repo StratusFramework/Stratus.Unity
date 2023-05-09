@@ -89,7 +89,7 @@ namespace Stratus.Unity.Inputs
 			{
 				if (inputLayers.hasLayers)
 				{
-					StratusGUI.GUILayoutArea(StratusGUI.Anchor.TopRight, StratusGUI.quarterScreen, (Rect rect) =>
+					StratusGUI.GUILayoutArea(Anchor.TopRight, StratusGUI.quarterScreen, (Rect rect) =>
 					{
 						GUILayout.Label(inputLayers.current.name, Styles.headerWhite);
 					});
