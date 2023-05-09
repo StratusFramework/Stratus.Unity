@@ -1,9 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System;
-using Stratus.Unity;
 
-namespace Stratus
+namespace Stratus.Unity.Rendering
 {
 	/// <summary>
 	/// Contains styles used by the Stratus framework
@@ -197,12 +195,12 @@ namespace Stratus
 		{
 			if (!unityDefaultFont)
 				unityDefaultFont = GUI.skin.font;
-			GUI.skin.font = StratusGUIStyles.defaultFont;
+			GUI.skin.font = defaultFont;
 		}
 
 		public static void RevertDefaultFont()
 		{
-			GUI.skin.font = StratusGUIStyles.unityDefaultFont;
+			GUI.skin.font = unityDefaultFont;
 		}
 
 		private static void CacheDefaultOptions()
@@ -227,7 +225,7 @@ namespace Stratus
 		/// <param name="color"></param>
 		public static void DrawBackgroundColor(Rect position, Color color)
 		{
-			if (UnityEngine.Event.current.type == EventType.Repaint)
+			if (Event.current.type == EventType.Repaint)
 			{
 				var prevColor = GUI.color;
 				GUI.color = color;
@@ -243,7 +241,7 @@ namespace Stratus
 		/// <param name="color"></param>
 		public static void DrawOutline(Rect position, Color color, Border border = Border.Full)
 		{
-			if (UnityEngine.Event.current.type == EventType.Repaint)
+			if (Event.current.type == EventType.Repaint)
 			{
 				var prevColor = GUI.color;
 				GUI.color = color;
@@ -316,10 +314,6 @@ namespace Stratus
 			}
 
 			return coloredTextures[color];
-		}
-
-
-
+		}		
 	}
-
 }

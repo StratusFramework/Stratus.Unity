@@ -2,6 +2,7 @@
 using Stratus.Extensions;
 using Stratus.Types;
 using Stratus.Unity.Behaviours;
+using Stratus.Unity.Rendering;
 
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,6 @@
 ﻿using Stratus.Collections;
 using Stratus.Editor;
+using Stratus.Unity.Rendering;
 using Stratus.Utilities;
 
 using System;

@@ -1,14 +1,17 @@
+using Stratus.Unity.Rendering;
+
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 
 namespace Stratus
 {
-  /// <summary>
-  /// Abstract class for all game view windows
-  /// </summary>
-  /// <typeparam name="T"></typeparam>
-  public abstract class StratusLayoutGameViewWindow<T> : MonoBehaviour where T : MonoBehaviour
+	/// <summary>
+	/// Abstract class for all game view windows
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	public abstract class StratusLayoutGameViewWindow<T> : MonoBehaviour where T : MonoBehaviour
   {
     //------------------------------------------------------------------------/
     // Fields

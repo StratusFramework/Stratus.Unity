@@ -1,65 +1,60 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
+﻿using UnityEngine;
 using System;
-using Stratus.Unity.Utility;
 using Stratus.Unity.Models;
+using Stratus.Unity.Utility;
 
-namespace Stratus
+namespace Stratus.Unity.Rendering
 {
-	public static partial class StratusGUIStyles
+	/// <summary>
+	/// Favorite colors used by the framework
+	/// </summary>
+	public static class Colors
 	{
+		//------------------------------------------------------------------------/
+		// Properties
+		//------------------------------------------------------------------------/
+		public static Color defaultFontColor { get; private set; }
+
 		/// <summary>
-		/// Favorite colors used by the framework
+		/// The main background color used by UI elmeents
 		/// </summary>
-		public static class Colors
-		{
-			//------------------------------------------------------------------------/
-			// Properties
-			//------------------------------------------------------------------------/
-			public static Color defaultFontColor { get; private set; }
+		public static Color backgroundColor => azure;
+		/// <summary>
+		/// The default color for connections
+		/// </summary>
+		public static Color connectedColor => jade;
+		/// <summary>
+		/// The default color for connections
+		/// </summary>
+		public static Color disconnectedColor => saffron;
+		/// <summary>
+		/// The default color for connections
+		/// </summary>
+		public static Color selectedColor => royalBlue;
+		/// <summary>
+		/// A light-blue color
+		/// </summary>
+		public static Color azure { get; internal set; }
+		/// <summary>
+		/// The main color triad for the framework, using azure as the dominant color
+		/// </summary>
+		public static ColorHarmony.Triad azureTriad { get; internal set; }
+		public static Color sanMarino { get; internal set; }
+		public static Color royalBlue { get; internal set; }
+		public static Color jade { get; internal set; }
+		public static Color aquaIsland { get; internal set; }
+		public static Color jacksonsPurple { get; internal set; }
+		public static Color cinnabar { get; internal set; }
+		public static Color valencia { get; internal set; }
+		public static Color chestnutRose { get; internal set; }
+		public static Color saffron { get; internal set; }
 
-			/// <summary>
-			/// The main background color used by UI elmeents
-			/// </summary>
-			public static Color backgroundColor => Colors.azure;
-			/// <summary>
-			/// The default color for connections
-			/// </summary>
-			public static Color connectedColor => Colors.jade;
-			/// <summary>
-			/// The default color for connections
-			/// </summary>
-			public static Color disconnectedColor => Colors.saffron;
-			/// <summary>
-			/// The default color for connections
-			/// </summary>
-			public static Color selectedColor => Colors.royalBlue;
-			/// <summary>
-			/// A light-blue color
-			/// </summary>
-			public static Color azure { get; internal set; }
-			/// <summary>
-			/// The main color triad for the framework, using azure as the dominant color
-			/// </summary>
-			public static ColorHarmony.Triad azureTriad { get; internal set; }
-			public static Color sanMarino { get; internal set; }
-			public static Color royalBlue { get; internal set; }
-			public static Color jade { get; internal set; }
-			public static Color aquaIsland { get; internal set; }
-			public static Color jacksonsPurple { get; internal set; }
-			public static Color cinnabar { get; internal set; }
-			public static Color valencia { get; internal set; }
-			public static Color chestnutRose { get; internal set; }
-			public static Color saffron { get; internal set; }
-
-			/// <summary>
-			/// 1024 distinct colors
-			/// </summary>
-			public static string[] distinct1024 => _distinct1024.Value;
-			private static Lazy<string[]> _distinct1024 = new Lazy<string[]>(() => new string[]
-		   {
+		/// <summary>
+		/// 1024 distinct colors
+		/// </summary>
+		public static string[] distinct1024 => _distinct1024.Value;
+		private static Lazy<string[]> _distinct1024 = new Lazy<string[]>(() => new string[]
+	   {
 				"#000000", "#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46", "#008941", "#006FA6", "#A30059",
 				"#FFDBE5", "#7A4900", "#0000A6", "#63FFAC", "#B79762", "#004D43", "#8FB0FF", "#997D87",
 				"#5A0007", "#809693", "#FEFFE6", "#1B4400", "#4FC601", "#3B5DFF", "#4A3B53", "#FF2F80",
@@ -188,14 +183,14 @@ namespace Stratus
 				"#69255C", "#D3BFFF", "#4A5132", "#7E9285", "#77733C", "#E7A0CC", "#51A288", "#2C656A",
 				"#4D5C5E", "#C9403A", "#DDD7F3", "#005844", "#B4A200", "#488F69", "#858182", "#D4E9B9",
 				"#3D7397", "#CAE8CE", "#D60034", "#AA6746", "#9E5585", "#BA6200"
-		 });
+	 });
 
-			/// <summary>
-			/// 56 distinct colors
-			/// </summary>
-			public static string[] distinct56 => _distinct56.Value;
-			private static Lazy<string[]> _distinct56 = new Lazy<string[]>(() => new string[]
-			{
+		/// <summary>
+		/// 56 distinct colors
+		/// </summary>
+		public static string[] distinct56 => _distinct56.Value;
+		private static Lazy<string[]> _distinct56 = new Lazy<string[]>(() => new string[]
+		{
 				"FF0000", "00FF00", "0000FF", "FFFF00", "FF00FF", "00FFFF", "000000",
 				"800000", "008000", "000080", "808000", "800080", "008080", "808080",
 				"C00000", "00C000", "0000C0", "C0C000", "C000C0", "00C0C0", "C0C0C0",
@@ -204,50 +199,47 @@ namespace Stratus
 				"600000", "006000", "000060", "606000", "600060", "006060", "606060",
 				"A00000", "00A000", "0000A0", "A0A000", "A000A0", "00A0A0", "A0A0A0",
 				"E00000", "00E000", "0000E0", "E0E000", "E000E0", "00E0E0", "E0E0E0",
-			});
+		});
 
-			//------------------------------------------------------------------------/
-			// CTOR
-			//------------------------------------------------------------------------/
-			static Colors()
-			{
-				Colors.defaultFontColor = new Color(0, 28, 0);
-				Colors.azure = new Color32(0, 191, 255, 255);
-				Colors.sanMarino = new Color32(66, 108, 179, 255);
-				Colors.royalBlue = new Color32(65, 131, 215, 255);
-				Colors.jacksonsPurple = new Color32(31, 58, 147, 255);
-				Colors.aquaIsland = new Color32(162, 222, 208, 255);
-				Colors.jade = new Color32(0, 177, 106, 255);
-				Colors.cinnabar = new Color32(240, 52, 52, 255);
-				Colors.valencia = new Color32(214, 69, 65, 255);
-				Colors.chestnutRose = new Color32(210, 77, 87, 255);
-				Colors.saffron = new Color32(244, 208, 63, 255);
-
-
-				Colors.azureTriad = new ColorHarmony.Triad(Colors.azure,
-					new Color32(250, 70, 162, 255),
-					new Color32(250, 223, 20, 255));
-			}
+		//------------------------------------------------------------------------/
+		// CTOR
+		//------------------------------------------------------------------------/
+		static Colors()
+		{
+			defaultFontColor = new Color(0, 28, 0);
+			azure = new Color32(0, 191, 255, 255);
+			sanMarino = new Color32(66, 108, 179, 255);
+			royalBlue = new Color32(65, 131, 215, 255);
+			jacksonsPurple = new Color32(31, 58, 147, 255);
+			aquaIsland = new Color32(162, 222, 208, 255);
+			jade = new Color32(0, 177, 106, 255);
+			cinnabar = new Color32(240, 52, 52, 255);
+			valencia = new Color32(214, 69, 65, 255);
+			chestnutRose = new Color32(210, 77, 87, 255);
+			saffron = new Color32(244, 208, 63, 255);
 
 
-			//------------------------------------------------------------------------/
-			// Methods
-			//------------------------------------------------------------------------/
-			/// <summary>
-			/// Gets a distinct color, given an index (up to 1024)
-			/// </summary>
-			/// <param name="index"></param>
-			/// <returns></returns>
-			public static Color GetDistinct(int index) => RenderingUtility.HexToColor(distinct1024[index]);
-
-			/// <summary>
-			/// Gets a distinct color, given an index (up to 1024)
-			/// </summary>
-			/// <param name="index"></param>
-			/// <returns></returns>
-			public static Color GetDistinct56(int index) => RenderingUtility.HexToColor(distinct56[index]);
+			azureTriad = new ColorHarmony.Triad(azure,
+				new Color32(250, 70, 162, 255),
+				new Color32(250, 223, 20, 255));
 		}
 
-	}
 
+		//------------------------------------------------------------------------/
+		// Methods
+		//------------------------------------------------------------------------/
+		/// <summary>
+		/// Gets a distinct color, given an index (up to 1024)
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		public static Color GetDistinct(int index) => RenderingUtility.HexToColor(distinct1024[index]);
+
+		/// <summary>
+		/// Gets a distinct color, given an index (up to 1024)
+		/// </summary>
+		/// <param name="index"></param>
+		/// <returns></returns>
+		public static Color GetDistinct56(int index) => RenderingUtility.HexToColor(distinct56[index]);
+	}
 }

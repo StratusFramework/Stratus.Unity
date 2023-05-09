@@ -2,6 +2,7 @@
 using Stratus.Extensions;
 using Stratus.Reflection;
 using Stratus.Unity.Editor;
+using Stratus.Unity.Rendering;
 
 using System;
 using System.Reflection;

@@ -1,3 +1,5 @@
+using Stratus.Unity.Rendering;
+
 using System.Collections.Generic;
 
 using UnityEditor;

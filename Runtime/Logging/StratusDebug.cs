@@ -3,6 +3,7 @@
 
 using Stratus.Extensions;
 using Stratus.Unity.Extensions;
+using Stratus.Unity.Rendering;
 
 using System;
 using System.Diagnostics;
@@ -50,17 +51,17 @@ namespace Stratus.Unity
 			/// The color used of the GameObject of the class being called
 			/// </summary>
 			public Color gameObjectLabelColor => _gameObjectLabelColor.Value;
-			private readonly Lazy<Color> _gameObjectLabelColor = new Lazy<Color>(() => isProSkin ? StratusGUIStyles.Colors.azureTriad.first.ScaleSaturation(0.5f) : StratusGUIStyles.Colors.azureTriad.first);
+			private readonly Lazy<Color> _gameObjectLabelColor = new Lazy<Color>(() => isProSkin ? Colors.azureTriad.first.ScaleSaturation(0.5f) : Colors.azureTriad.first);
 			/// <summary>
 			/// The color of the class the function being called belongs to
 			/// </summary>
 			public Color classLabelColor => _classLabelColor.Value;
-			private readonly Lazy<Color> _classLabelColor = new Lazy<Color>(() => isProSkin ? StratusGUIStyles.Colors.azureTriad.second.ScaleSaturation(0.5f) : StratusGUIStyles.Colors.azureTriad.second);
+			private readonly Lazy<Color> _classLabelColor = new Lazy<Color>(() => isProSkin ? Colors.azureTriad.second.ScaleSaturation(0.5f) : Colors.azureTriad.second);
 			/// <summary>
 			/// The color of the function being called
 			/// </summary>
 			public Color methodLabelColor => _methodLabelColor.Value;
-			private readonly Lazy<Color> _methodLabelColor = new Lazy<Color>(() => isProSkin ? StratusGUIStyles.Colors.azureTriad.third.ScaleSaturation(0.5f) : StratusGUIStyles.Colors.azureTriad.third);
+			private readonly Lazy<Color> _methodLabelColor = new Lazy<Color>(() => isProSkin ? Colors.azureTriad.third.ScaleSaturation(0.5f) : Colors.azureTriad.third);
 		}
 		/// <summary>
 		/// Debug settings

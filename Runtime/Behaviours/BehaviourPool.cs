@@ -8,7 +8,7 @@ using System.Linq;
 
 using UnityEngine;
 
-namespace Stratus.Unity
+namespace Stratus.Unity.Behaviours
 {
 	/// <summary>
 	/// Base class for behaviour pools

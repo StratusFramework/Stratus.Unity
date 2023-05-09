@@ -7,21 +7,24 @@ using UnityEngine.InputSystem;
 
 namespace Stratus.Unity.Inputs
 {
-	public enum StratusInputUIAction
+	public enum UserInterfaceAction
 	{
 		Navigate,
 		Submit,
 		Cancel,
+
 		Pause,
+
 		Next,
 		Previous,
+
 		Reset,
 	}
 
 	/// <summary>
 	/// Default input action map for UI
 	/// </summary>
-	public class StratusInputUIActionMap : ActionMapHandlerBase<InputAction.CallbackContext>
+	public class UserInterfaceActionMap : ActionMapHandlerBase<InputAction.CallbackContext>
 	{
 		public override string name => "UI";
 
@@ -35,13 +38,13 @@ namespace Stratus.Unity.Inputs
 		public Action onReset;
 		public Action onPause;
 
-		public const string navigationActionName = nameof(StratusInputUIAction.Navigate);// "Navigate";
-		public const string submitActionName = nameof(StratusInputUIAction.Submit);
-		public const string cancelActionName = nameof(StratusInputUIAction.Cancel);
-		public const string nextActionName = nameof(StratusInputUIAction.Next);
-		public const string previousActionName = nameof(StratusInputUIAction.Previous);
-		public const string resetActionName = nameof(StratusInputUIAction.Reset);
-		public const string pauseActionName = nameof(StratusInputUIAction.Pause);
+		public const string navigationActionName = nameof(UserInterfaceAction.Navigate);// "Navigate";
+		public const string submitActionName = nameof(UserInterfaceAction.Submit);
+		public const string cancelActionName = nameof(UserInterfaceAction.Cancel);
+		public const string nextActionName = nameof(UserInterfaceAction.Next);
+		public const string previousActionName = nameof(UserInterfaceAction.Previous);
+		public const string resetActionName = nameof(UserInterfaceAction.Reset);
+		public const string pauseActionName = nameof(UserInterfaceAction.Pause);
 
 		public override bool HandleInput(InputAction.CallbackContext context)
 		{
@@ -91,13 +94,13 @@ namespace Stratus.Unity.Inputs
 		}
 	}
 
-	public class StratusInputUILayer : UnityInputLayer<StratusInputUIActionMap>
+	public class UserInterfaceInputLayer : UnityInputLayer<UserInterfaceActionMap>
 	{
-		public StratusInputUILayer(string label) : base(label)
+		public UserInterfaceInputLayer(string label) : base(label)
 		{
 		}
 
-		public StratusInputUILayer(string label, StratusInputUIActionMap actions) : base(label, actions)
+		public UserInterfaceInputLayer(string label, UserInterfaceActionMap actions) : base(label, actions)
 		{
 		}
 

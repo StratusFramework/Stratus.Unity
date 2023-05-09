@@ -7,6 +7,7 @@ using Stratus.Timers;
 using Stratus.Unity.Behaviours;
 using Stratus.Unity.Extensions;
 using Stratus.Unity.Reflection;
+using Stratus.Unity.Rendering;
 using Stratus.Utilities;
 
 using System;

@@ -1,5 +1,6 @@
 using Stratus.Extensions;
 using Stratus.Unity.Extensions;
+using Stratus.Unity.Rendering;
 using Stratus.Unity.Triggers;
 
 using System;

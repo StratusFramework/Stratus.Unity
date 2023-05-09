@@ -1,5 +1,6 @@
 using Stratus.Editor;
 using Stratus.Types;
+using Stratus.Unity.Rendering;
 using Stratus.Unity.Triggers;
 
 using System;
@@ -57,9 +58,9 @@ namespace Stratus.Unity.Editor
 			triggerTypes = new TypeSelector(typeof(TriggerBehaviour), true);
 			triggerableTypes = new TypeSelector(typeof(TriggerableBehaviour), true);
 
-			selectedColor = StratusGUIStyles.Colors.selectedColor;
-			connectedColor = StratusGUIStyles.Colors.connectedColor;
-			disconnectedColor = StratusGUIStyles.Colors.disconnectedColor;
+			selectedColor = Colors.selectedColor;
+			connectedColor = Colors.connectedColor;
+			disconnectedColor = Colors.disconnectedColor;
 
 			selected = null;
 			selectedTrigger = null;
@@ -168,7 +169,7 @@ namespace Stratus.Unity.Editor
 						if (connectivityGroups.ContainsKey(triggerBase))
 						{
 							int colorIndex = connectivityGroups[triggerBase];
-							color = StratusGUIStyles.Colors.GetDistinct(colorIndex);
+							color = Colors.GetDistinct(colorIndex);
 						}
 
 					}
