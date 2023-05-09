@@ -142,7 +142,7 @@ namespace Stratus
         return;
 
       Rect layoutPosition = StratusGUI.CalculateAnchoredPositionOnScreen(anchor, size, screenSize);
-      GUILayout.BeginArea(layoutPosition, title, StratusGUIStyles.skin.window);
+      GUILayout.BeginArea(layoutPosition, title, Styles.skin.window);
       scrollPos = GUILayout.BeginScrollView(scrollPos, false, false);
       OnGUILayout(layoutPosition);
       GUILayout.EndScrollView();

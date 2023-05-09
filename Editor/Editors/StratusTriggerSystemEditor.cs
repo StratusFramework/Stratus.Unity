@@ -79,7 +79,7 @@ namespace Stratus.Unity.Editor
 
 		protected override void OnFirstUpdate()
 		{
-			buttonStyle = StratusGUIStyles.button;
+			buttonStyle = Styles.button;
 		}
 
 		protected override void OnBaseEditorGUI()

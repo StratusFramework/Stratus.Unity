@@ -49,7 +49,7 @@ namespace Stratus.Unity.Editor
 		#region Methods
 		public void Draw(Rect position, Vector2 drag)
 		{
-			StratusGUIStyles.DrawBackgroundColor(position, background);
+			Styles.DrawBackgroundColor(position, background);
 			offset += drag * 0.5f;
 			DrawGrid(position, innerGrid);
 			DrawGrid(position, outerGrid);

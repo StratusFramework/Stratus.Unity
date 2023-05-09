@@ -6,7 +6,7 @@ namespace Stratus.Unity.Rendering
 	/// <summary>
 	/// Contains styles used by the Stratus framework
 	/// </summary>
-	public static partial class StratusGUIStyles
+	public static class Styles
 	{
 		//------------------------------------------------------------------------/
 		// Declarations
@@ -137,7 +137,7 @@ namespace Stratus.Unity.Rendering
 		//------------------------------------------------------------------------/
 		// Methods
 		//------------------------------------------------------------------------/
-		static StratusGUIStyles()
+		static Styles()
 		{
 			// Load custom assets
 			LoadGUIAssets();

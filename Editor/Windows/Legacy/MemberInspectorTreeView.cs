@@ -45,7 +45,7 @@ namespace Stratus.Unity.Editor
 				case MemberInspectorWindow.Column.Watch:
 					column = new TreeViewColumn
 					{
-						headerContent = new GUIContent(StratusGUIStyles.starStackIcon, "Watch"),
+						headerContent = new GUIContent(Styles.starStackIcon, "Watch"),
 						headerTextAlignment = TextAlignment.Center,
 						sortedAscending = true,
 						sortingArrowAlignment = TextAlignment.Right,
@@ -137,7 +137,7 @@ namespace Stratus.Unity.Editor
 				case MemberInspectorWindow.Column.Watch:
 					if (watchList.Contains(item.element.data))
 					{
-						this.DrawIcon(cellRect, StratusGUIStyles.starIcon);
+						this.DrawIcon(cellRect, Styles.starIcon);
 					}
 
 					break;

@@ -32,8 +32,8 @@ namespace Stratus.Unity.Editor
 				EditorGUILayout.Separator();
 
 				GUILayout.BeginHorizontal();
-				GUILayout.Label("TRIGGERS", StratusGUIStyles.header);
-				GUILayout.Label("TRIGGERABLES", StratusGUIStyles.header);
+				GUILayout.Label("TRIGGERS", Styles.header);
+				GUILayout.Label("TRIGGERABLES", Styles.header);
 				GUILayout.EndHorizontal();
 
 				EditorGUILayout.Separator();
@@ -100,7 +100,7 @@ namespace Stratus.Unity.Editor
 			EditorGUILayout.BeginHorizontal();
 
 			// Add Menu
-			if (GUILayout.Button(StratusGUIStyles.addIcon, StratusGUIStyles.smallLayout))
+			if (GUILayout.Button(Styles.addIcon, Styles.smallLayout))
 			{
 				var menu = new GenericMenu();
 				menu.AddPopup("Add Trigger", triggerTypes.displayedOptions, (int index) =>
@@ -117,7 +117,7 @@ namespace Stratus.Unity.Editor
 			}
 
 			// Validation
-			if (GUILayout.Button(StratusGUIStyles.validateIcon, StratusGUIStyles.smallLayout))
+			if (GUILayout.Button(Styles.validateIcon, Styles.smallLayout))
 			{
 				var menu = new GenericMenu();
 				menu.AddItem(new GUIContent("Validate All"), false, () => Validate(ValidateAll));
@@ -128,7 +128,7 @@ namespace Stratus.Unity.Editor
 			}
 
 			// Options Menu
-			if (GUILayout.Button(StratusGUIStyles.optionsIcon, StratusGUIStyles.smallLayout))
+			if (GUILayout.Button(Styles.optionsIcon, Styles.smallLayout))
 			{
 				var menu = new GenericMenu();
 				menu.AddEnumToggle<TriggerSystem.ConnectionDisplay>(propertyMap[nameof(TriggerSystem.connectionDisplay)]);
@@ -273,7 +273,7 @@ namespace Stratus.Unity.Editor
 			{
 				button.backgroundColor = Color.white;
 				button.Draw(buttonStyle, columnWidth);
-				StratusGUIStyles.DrawOutline(button.rect, backgroundColor, baseTrigger is TriggerBehaviour ? StratusGUIStyles.Border.Right : StratusGUIStyles.Border.Left);
+				Styles.DrawOutline(button.rect, backgroundColor, baseTrigger is TriggerBehaviour ? Styles.Border.Right : Styles.Border.Left);
 			}
 			else
 			{

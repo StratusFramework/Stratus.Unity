@@ -91,7 +91,7 @@ namespace Stratus.Unity.Editor
 
 		public static bool ObjectFieldWithHeader<T>(Rect rect, ref T objectField, string label) where T : UnityEngine.Object
 		{
-			GUILayout.Label(label, StratusGUIStyles.header);
+			GUILayout.Label(label, Styles.header);
 			EditorGUI.BeginChangeCheck();
 			objectField = (T)EditorGUI.ObjectField(rect, objectField, typeof(T), true);
 			return EditorGUI.EndChangeCheck();

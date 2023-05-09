@@ -167,7 +167,7 @@ namespace Stratus.Unity.Editor
 
 		public override void OnInspectorGUI()
 		{
-			StratusGUIStyles.OverrideDefaultFont();
+			Styles.OverrideDefaultFont();
 
 			// Invoke the very first time
 			if (!this.doneFirstUpdate)
@@ -249,7 +249,7 @@ namespace Stratus.Unity.Editor
 
 				if (this.drawTypeLabels)
 				{
-					EditorGUILayout.LabelField(properties.Item1.GetNiceName(), StratusGUIStyles.headerWhite);
+					EditorGUILayout.LabelField(properties.Item1.GetNiceName(), Styles.headerWhite);
 				}
 
 				EditorGUILayout.BeginVertical(this.backgroundStyle);
@@ -262,7 +262,7 @@ namespace Stratus.Unity.Editor
 			{
 				if (this.drawTypeLabels)
 				{
-					EditorGUILayout.LabelField(this.declaredProperties.Item1.GetNiceName(), StratusGUIStyles.headerWhite);
+					EditorGUILayout.LabelField(this.declaredProperties.Item1.GetNiceName(), Styles.headerWhite);
 				}
 
 				EditorGUILayout.BeginVertical(this.backgroundStyle);
@@ -359,7 +359,7 @@ namespace Stratus.Unity.Editor
 
 			if (this.labelStyle == null)
 			{
-				this.labelStyle = StratusGUIStyles.skin.label;
+				this.labelStyle = Styles.skin.label;
 			}
 
 			this.OnFirstUpdate();

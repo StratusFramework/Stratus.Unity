@@ -164,7 +164,7 @@ namespace Stratus.Unity.Editor
 
 		public static bool ObjectFieldWithHeader<T>(ref T objectField, string label) where T : UnityEngine.Object
 		{
-			EditorGUILayout.LabelField(label, StratusGUIStyles.header);
+			EditorGUILayout.LabelField(label, Styles.header);
 			EditorGUI.BeginChangeCheck();
 			objectField = (T)EditorGUILayout.ObjectField(objectField, typeof(T), true);
 			return EditorGUI.EndChangeCheck();
@@ -172,7 +172,7 @@ namespace Stratus.Unity.Editor
 
 		public static bool Button(string label, Action onClick)
 		{
-			if (GUILayout.Button(label, StratusGUIStyles.button))
+			if (GUILayout.Button(label, Styles.button))
 			{
 				onClick();
 				return true;
@@ -325,7 +325,7 @@ namespace Stratus.Unity.Editor
 
 		public static void Header(string text)
 		{
-			EditorGUILayout.LabelField(text, StratusGUIStyles.header);
+			EditorGUILayout.LabelField(text, Styles.header);
 		}
 
 		public static bool ObjectField(FieldInfo field, object obj, GUIContent content = null)
@@ -382,16 +382,16 @@ namespace Stratus.Unity.Editor
 			switch (context)
 			{
 				case ContextMenuType.Add:
-					texture = StratusGUIStyles.addIcon;
+					texture = Styles.addIcon;
 					break;
 				case ContextMenuType.Validation:
-					texture = StratusGUIStyles.validateIcon;
+					texture = Styles.validateIcon;
 					break;
 				case ContextMenuType.Options:
-					texture = StratusGUIStyles.optionsIcon;
+					texture = Styles.optionsIcon;
 					break;
 			}
-			if (GUILayout.Button(texture, StratusGUIStyles.smallLayout))
+			if (GUILayout.Button(texture, Styles.smallLayout))
 			{
 				menu.ShowAsContext();
 			}
@@ -443,8 +443,8 @@ namespace Stratus.Unity.Editor
 			{
 				EditorGUILayout.BeginHorizontal();
 				{
-					GUILayout.Label(leftContent(element), StratusGUIStyles.listViewLabel, leftWidth, height);
-					EditorGUILayout.SelectableLabel(rightContent(element), StratusGUIStyles.textField, rightWidth, height);
+					GUILayout.Label(leftContent(element), Styles.listViewLabel, leftWidth, height);
+					EditorGUILayout.SelectableLabel(rightContent(element), Styles.textField, rightWidth, height);
 				}
 				EditorGUILayout.EndHorizontal();
 			}

@@ -171,7 +171,7 @@ namespace Stratus.Unity.Editor
 
 		private void DrawMenu(Rect rect)
 		{
-			GUIStyle style = StratusGUIStyles.button;
+			GUIStyle style = Styles.button;
 			Vector2 offset = Vector2.zero;
 
 			// Set dynamically

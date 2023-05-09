@@ -147,7 +147,7 @@ namespace Stratus.Unity.Editor
 				rect = GUILayoutUtility.GetLastRect();
 			}
 			if (backgroundColor != default) GUI.backgroundColor = Color.white;
-			if (outlineColor != default && isSelected) StratusGUIStyles.DrawOutline(rect, outlineColor);
+			if (outlineColor != default && isSelected) Styles.DrawOutline(rect, outlineColor);
 
 			// Keyboard
 			if (isSelected)

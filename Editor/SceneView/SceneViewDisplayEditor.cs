@@ -34,7 +34,7 @@ namespace Stratus.Unity.Editor
 
 		private void OnGUI()
 		{
-			EditorGUILayout.BeginVertical(StratusGUIStyles.box);
+			EditorGUILayout.BeginVertical(Styles.box);
 			globalExpanded = EditorGUILayout.Foldout(globalExpanded, "Global");
 			if (globalExpanded)
 			{
@@ -44,14 +44,14 @@ namespace Stratus.Unity.Editor
 			}
 			EditorGUILayout.EndVertical();
 
-			EditorGUILayout.BeginVertical(StratusGUIStyles.box);
+			EditorGUILayout.BeginVertical(Styles.box);
 			foreach (var display in SceneViewDisplay.displays)
 			{
 				expanded[display] = EditorGUILayout.Foldout(expanded[display], display.name);
 				if (expanded[display])
 				{
 					EditorGUI.indentLevel++;
-					EditorGUILayout.BeginVertical(StratusGUIStyles.box);
+					EditorGUILayout.BeginVertical(Styles.box);
 					display.Inspect();
 					EditorGUILayout.EndVertical();
 					EditorGUI.indentLevel--;

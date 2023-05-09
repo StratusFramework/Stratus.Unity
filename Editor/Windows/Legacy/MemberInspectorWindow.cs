@@ -363,7 +363,7 @@ namespace Stratus.Unity.Editor
 		private void DrawTargetSelector()
 		{
 			EditorGUILayout.Space();
-			EditorGUILayout.LabelField("Target", StratusGUIStyles.header);
+			EditorGUILayout.LabelField("Target", Styles.header);
 			GameObject target = null;
 			bool changed = StratusEditorUtility.CheckControlChange(() =>
 			{
