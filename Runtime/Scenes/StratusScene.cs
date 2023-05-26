@@ -289,7 +289,7 @@ namespace Stratus.Unity.Scenes
 		public static void Connect<TEvent>(Action<TEvent> func) where TEvent : Event
 		{
 			instance.Poke();
-			UnityStratusEventSystem.Connect(instance.gameObject, func);
+			UnityEventSystem.Connect(instance.gameObject, func);
 		}
 
 		/// <summary>
@@ -300,7 +300,7 @@ namespace Stratus.Unity.Scenes
 		public static void Connect(Action<Event> func, Type type)
 		{
 			instance.Poke();
-			UnityStratusEventSystem.Connect(instance.gameObject, type, func);
+			UnityEventSystem.Connect(instance.gameObject, type, func);
 		}
 
 		/// <summary>
@@ -311,7 +311,7 @@ namespace Stratus.Unity.Scenes
 		public static void Dispatch<T>(T eventObj) where T : Event
 		{
 			instance.Poke();
-			UnityStratusEventSystem.Dispatch<T>(instance.gameObject, eventObj);
+			UnityEventSystem.Dispatch<T>(instance.gameObject, eventObj);
 		}
 
 		/// <summary>
@@ -324,7 +324,7 @@ namespace Stratus.Unity.Scenes
 		public static void Dispatch(Event eventObj, Type type)
 		{
 			instance.Poke();
-			UnityStratusEventSystem.Dispatch(instance.gameObject, eventObj);
+			UnityEventSystem.Dispatch(instance.gameObject, eventObj);
 		}
 
 		/// <summary>

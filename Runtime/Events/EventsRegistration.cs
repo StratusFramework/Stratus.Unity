@@ -14,9 +14,9 @@ namespace Stratus.Unity.Events
 		private void Awake()
 		{
 			this.hideFlags = HideFlags.HideAndDontSave | HideFlags.DontSaveInEditor;
-			if (Application.isPlaying && !UnityStratusEventSystem.IsConnected(this.gameObject))
+			if (Application.isPlaying && !UnityEventSystem.IsConnected(this.gameObject))
 			{
-				UnityStratusEventSystem.Connect(this.gameObject);
+				UnityEventSystem.Connect(this.gameObject);
 			}
 		}
 
@@ -24,7 +24,7 @@ namespace Stratus.Unity.Events
 		{
 			if (Application.isPlaying)
 			{
-				UnityStratusEventSystem.Disconnect(this.gameObject);
+				UnityEventSystem.Disconnect(this.gameObject);
 			}
 		}
 

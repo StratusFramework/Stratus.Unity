@@ -169,11 +169,29 @@ namespace Stratus.Unity.Extensions
 			return result;
 		}
 
-		public static UnityEngine.Vector3Int ToUnity(this Numerics.Vector3Int value)
-			=> new UnityEngine.Vector3Int(value.x, value.y, value.z);
+		public static Vector2Int ToVector2Int(this Vector3Int value)
+			=> new Vector2Int(value.x, value.y);
 
-		public static Numerics.Vector3Int FromUnity(this UnityEngine.Vector3Int value)
+		public static Vector3Int ToVector3Int(this Vector2Int value)
+			=> new Vector3Int(value.x, value.y);
+
+		public static Numerics.Vector3Int ToNumericVector3Int(this Vector3Int value)
 			=> new Numerics.Vector3Int(value.x, value.y, value.z);
+
+		public static Numerics.Vector2Int ToNumericVector2Int(this Vector3Int value)
+			=> new Numerics.Vector2Int(value.x, value.y);
+
+		public static Numerics.Vector2Int ToNumericVector2Int(this Vector2Int value)
+			=> new Numerics.Vector2Int(value.x, value.y);
+
+		public static Vector2Int ToUnityVector2Int(this Numerics.Vector2Int value)
+			=> new Vector2Int(value.x, value.y);
+
+		public static Vector3Int ToUnityVector3Int(this Numerics.Vector2Int value)
+			=> new Vector3Int(value.x, value.y);
+
+		public static Vector3Int ToUnityVector3Int(this Numerics.Vector3Int value)
+			=> new Vector3Int(value.x, value.y, value.z);
 
 		public static CellLayout FromUnity(this GridLayout.CellLayout value)
 		{

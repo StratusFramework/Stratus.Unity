@@ -17,7 +17,7 @@ namespace Stratus.Unity.Events
 		public static void Connect<TEvent>(this GameObject gameObj, Action<TEvent> func)
 			where TEvent : Event
 		{
-			UnityStratusEventSystem.Connect(gameObj, func);
+			UnityEventSystem.Connect(gameObj, func);
 		}
 
 		/// <summary>
@@ -28,7 +28,7 @@ namespace Stratus.Unity.Events
 		/// <param name="type"></param>
 		public static void Connect(this GameObject gameObj, Action<Event> func, Type type)
 		{
-			UnityStratusEventSystem.Connect(gameObj, type, func);
+			UnityEventSystem.Connect(gameObj, type, func);
 		}
 
 		/// <summary>
@@ -38,7 +38,7 @@ namespace Stratus.Unity.Events
 		/// <param name="gameObj"></param>
 		public static void Disconnect(this MonoBehaviour component)
 		{
-			UnityStratusEventSystem.Disconnect(component.gameObject);
+			UnityEventSystem.Disconnect(component.gameObject);
 		}
 
 		/// <summary>
@@ -51,7 +51,7 @@ namespace Stratus.Unity.Events
 		public static void Dispatch<TEvent>(this GameObject gameObj, TEvent eventObj)
 			where TEvent : Event
 		{
-			UnityStratusEventSystem.Dispatch<TEvent>(gameObj, eventObj);
+			UnityEventSystem.Dispatch<TEvent>(gameObj, eventObj);
 		}
 
 		/// <summary>
@@ -63,7 +63,7 @@ namespace Stratus.Unity.Events
 		/// <param name="nextFrame">Whether the event should be sent next frame.</param>
 		public static void Dispatch(this GameObject gameObj, Event eventObj, Type type)
 		{
-			UnityStratusEventSystem.Dispatch(gameObj, eventObj);
+			UnityEventSystem.Dispatch(gameObj, eventObj);
 		}
 
 		/// <summary>
@@ -74,7 +74,7 @@ namespace Stratus.Unity.Events
 		/// <param name="eventObj">The event object. </param>
 		public static void DispatchDown<TEvent>(this GameObject gameObj, TEvent eventObj) where TEvent : Event
 		{
-			UnityStratusEventSystem.DispatchDown<TEvent>(gameObj, eventObj);
+			UnityEventSystem.DispatchDown<TEvent>(gameObj, eventObj);
 		}
 
 		/// <summary>
@@ -85,7 +85,7 @@ namespace Stratus.Unity.Events
 		/// <param name="eventObj">The event object. </param>
 		public static void DispatchUp<TEvent>(this GameObject gameObj, TEvent eventObj) where TEvent : Event
 		{
-			UnityStratusEventSystem.DispatchUp<TEvent>(gameObj, eventObj);
+			UnityEventSystem.DispatchUp<TEvent>(gameObj, eventObj);
 		}
 	}
 }

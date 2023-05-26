@@ -10,7 +10,7 @@ using Event = Stratus.Events.Event;
 
 namespace Stratus.Unity.Events
 {
-	public class UnityStratusEventSystem : EventSystem<GameObject>
+	public class UnityEventSystem : EventSystem<GameObject>
 	{
 		protected override void OnConnect(GameObject obj)
 		{

@@ -4,7 +4,8 @@
     "references": [
         "Unity.InputSystem",
         "Stratus.OdinSerializer",
-        "Stratus.NET"
+        "Stratus.NET",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
