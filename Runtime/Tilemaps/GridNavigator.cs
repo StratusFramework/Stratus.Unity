@@ -1,4 +1,5 @@
 using Stratus.Logging;
+using Stratus.Models.Maps;
 using Stratus.Unity.Events;
 using Stratus.Unity.Extensions;
 
@@ -10,15 +11,7 @@ using Event = Stratus.Events.Event;
 
 namespace Stratus.Unity.Tilemaps
 {
-	public class NavigateGridEvent : Event
-	{
-		public Vector2 direction { get; }
 
-		public NavigateGridEvent(Vector2 direction)
-		{
-			this.direction = direction;
-		}
-	}
 
 	public class GridNavigationRange
 	{
@@ -36,7 +29,7 @@ namespace Stratus.Unity.Tilemaps
 
 	public interface IGridNavigation
 	{
-		GridBehaviour grid { get; }
+		MapBehaviour grid { get; }
 		void NavigateToCellPosition(Vector2Int position);
 		Vector2Int currentCellPosition { get; }
 	}
@@ -44,11 +37,11 @@ namespace Stratus.Unity.Tilemaps
 	public class GridNavigator : StratusBehaviour, IGridNavigation
 	{
 		[SerializeField]
-		private GridInput input;
+		private MapInput input;
 		[SerializeField]
 		private SpriteRenderer cursor;
 
-		public GridBehaviour grid => input.grid.current;
+		public MapBehaviour grid => input.map.current;
 		public Vector2Int currentCellPosition { get; private set; }
 		public Vector2Int? previousCellPosition { get; private set; }
 		public GridNavigationRange navigationRange
@@ -79,7 +72,7 @@ namespace Stratus.Unity.Tilemaps
 			}));
 			this.gameObject.Connect<NavigateGridEvent>(e =>
 			{
-				NavigateCellDirection(e.direction);
+				NavigateCellDirection(e.direction.ToUnityVector2Int());
 			});
 		}
 
@@ -95,7 +88,7 @@ namespace Stratus.Unity.Tilemaps
 
 		private void Reset()
 		{
-			input = GetComponent<GridInput>();
+			input = GetComponent<MapInput>();
 		}
 
 		private void OnStratusTileSelectionEvent(TileSelectionEvent e)

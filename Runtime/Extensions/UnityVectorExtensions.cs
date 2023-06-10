@@ -6,6 +6,7 @@ namespace Stratus.Unity.Extensions
 {
 	public static class UnityVectorExtensions
 	{
+		#region General
 		/// <summary>
 		/// Checks the specified value is within the range of this vector
 		/// </summary>
@@ -142,7 +143,8 @@ namespace Stratus.Unity.Extensions
 		public static Vector3 WithZ(this Vector3 vec, float z)
 		{
 			return new Vector3(vec.x, vec.y, z);
-		}
+		} 
+		#endregion
 
 		/// <summary>
 		/// Attempts to parse a Rect in either the format:
@@ -168,6 +170,9 @@ namespace Stratus.Unity.Extensions
 
 			return result;
 		}
+
+		public static Stratus.Numerics.Vector2Int ToVector2Int(this Vector2 value)
+			=> new Stratus.Numerics.Vector2Int((int)value.x, (int)value.y);
 
 		public static Vector2Int ToVector2Int(this Vector3Int value)
 			=> new Vector2Int(value.x, value.y);

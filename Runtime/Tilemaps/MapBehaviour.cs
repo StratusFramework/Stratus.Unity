@@ -2,6 +2,7 @@
 using Stratus.Logging;
 using Stratus.Models;
 using Stratus.Models.Maps;
+using Stratus.Numerics;
 using Stratus.Search;
 using Stratus.Unity.Events;
 using Stratus.Unity.Extensions;
@@ -12,6 +13,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
+using UnityEngine.Tilemaps;
+
+using Vector3Int = UnityEngine.Vector3Int;
 
 namespace Stratus.Unity.Tilemaps
 {
@@ -19,12 +23,11 @@ namespace Stratus.Unity.Tilemaps
 	/// Manages a <see cref="Grid"/>
 	/// </summary>
 	[RequireComponent(typeof(Grid))]
-	public abstract class GridBehaviour : StratusBehaviour
+	public abstract class MapBehaviour : StratusBehaviour
 	{
 		#region Fields
 		[SerializeField]
-		private Grid _behaviour;
-
+		private Grid _grid;
 
 		#endregion
 		public Map2D map { get; private set; }
@@ -33,16 +36,16 @@ namespace Stratus.Unity.Tilemaps
 		/// <summary>
 		/// The grid component
 		/// </summary>
-		public Grid behaviour => _behaviour;
+		public Grid grid => _grid;
 		/// <summary>
 		/// The base layer for the grid (usually its terrain)
 		/// </summary>
-		public abstract StratusTilemap baseLayer { get; }
+		public abstract TilemapBehaviour baseLayer { get; }
 		/// <summary>
 		/// Each tilemap is a layer in this grid. These are by convention
 		/// defined as fields then returned here.
 		/// </summary>
-		public abstract IStratusTilemap[] layers { get; }
+		public abstract ITilemapBehaviour[] layers { get; }
 		/// <summary>
 		/// Camera used for the tilemap
 		/// </summary>
@@ -53,7 +56,7 @@ namespace Stratus.Unity.Tilemaps
 		private Dictionary<UnityEngine.Vector3Int, GameObject> spawnedGameObjects { get; set; }
 			= new Dictionary<UnityEngine.Vector3Int, GameObject>();
 
-		public Vector3 cellSize => behaviour.cellSize;
+		public Vector3 cellSize => grid.cellSize;
 		#endregion
 
 		#region Virtual
@@ -84,13 +87,13 @@ namespace Stratus.Unity.Tilemaps
 		#region Message
 		private void Awake()
 		{
-			this.gameObject.Connect<TileBehaviourAddEvent>(OnBehaviourInstancedEvent);
-			this.gameObject.Connect<TileBehaviourRemovedEvent>(OnBehaviourDestroyedEvent);
+			this.gameObject.Connect<TileBehaviour.AddEvent>(OnBehaviourInstancedEvent);
+			this.gameObject.Connect<TileBehaviour.RemoveEvent>(OnBehaviourDestroyedEvent);
 		}
 
 		private void Reset()
 		{
-			_behaviour = GetComponent<Grid>();
+			_grid = GetComponent<Grid>();
 			OnReset();
 		}
 
@@ -101,12 +104,12 @@ namespace Stratus.Unity.Tilemaps
 		#endregion
 
 		#region Behaviour Management
-		private void OnBehaviourInstancedEvent(TileBehaviourAddEvent e)
+		private void OnBehaviourInstancedEvent(TileBehaviour.AddEvent e)
 		{
 			InitializeBehaviourInstance(e.behaviour as TileBehaviour);
 		}
 
-		private void OnBehaviourDestroyedEvent(TileBehaviourRemovedEvent e)
+		private void OnBehaviourDestroyedEvent(TileBehaviour.RemoveEvent e)
 		{
 			RemoveBehaviourInstance(e.behaviour as TileBehaviour);
 		}
@@ -161,10 +164,10 @@ namespace Stratus.Unity.Tilemaps
 
 		#region Setup
 		/// <summary>
-		/// To be invoked by the <see cref="IGridManager"/>
+		/// To be invoked by the <see cref="IMapManager"/>
 		/// </summary>
 		/// <param name="camera"></param>
-		public void Initialize(IGridManager manager)
+		public void Initialize(IMapManager manager)
 		{
 			this.tilemapCamera = manager.camera;
 			baseLayer.Initialize(tilemapCamera);
@@ -174,7 +177,7 @@ namespace Stratus.Unity.Tilemaps
 			}
 			OnInitialize();
 			baseLayer.tilemap.CompressBounds();
-			var grid = new Grid2D(layers.Select(l => l.name).Cast<Enumerated>(),
+			var grid = new Grid2D(layers.Select(l => new Enumerated(l.name)),
 				new Bounds2D(baseLayer.bounds.size.ToNumericVector2Int()),
 				CellLayout.Rectangle);
 		}
@@ -240,22 +243,22 @@ namespace Stratus.Unity.Tilemaps
 
 		public Vector3 CellToWorld(UnityEngine.Vector3Int pos)
 		{
-			return behaviour.CellToWorld(pos);
+			return grid.CellToWorld(pos);
 		}
 
 		public UnityEngine.Vector3Int WorldToCell(Vector3 world)
 		{
-			return behaviour.WorldToCell(world);
+			return grid.WorldToCell(world);
 		}
 
 		public Vector3 WorldToLocal(Vector3 world)
 		{
-			return behaviour.WorldToLocal(world);
+			return grid.WorldToLocal(world);
 		}
 
 		public UnityEngine.Vector3Int LocalToCell(Vector3 world)
 		{
-			return behaviour.LocalToCell(world);
+			return grid.LocalToCell(world);
 		}
 
 		public Vector3 GetWorldPosition(UnityEngine.Vector3Int cellPosition)
@@ -278,6 +281,16 @@ namespace Stratus.Unity.Tilemaps
 			spawnedGameObjects.Add(position, instance);
 			return instance;
 		}
+
+		public void SnapToPosition(Transform transform, Numerics.Vector2Int position)
+		{
+			Vector3 worldPosition = grid.GetCellCenterWorld(position.ToUnityVector3Int());
+			transform.position = worldPosition;
+		}
+		#endregion
+
+		#region Tilemap
+
 		#endregion
 	}
 
@@ -285,11 +298,11 @@ namespace Stratus.Unity.Tilemaps
 	/// A grid with strongly-typed layers
 	/// </summary>
 	/// <typeparam name="TLayer"></typeparam>
-	public abstract class GridBehaviour<TLayer> : GridBehaviour
+	public abstract class MapBehaviour<TLayer> : MapBehaviour
 		where TLayer : Enum
 	{
 		[Serializable]
-		private class LayerTilemap : StratusTilemap
+		private class LayerTilemap : TilemapBehaviour
 		{
 			[ReadOnly]
 			[SerializeField]
@@ -302,6 +315,12 @@ namespace Stratus.Unity.Tilemaps
 				this._layer = layer;
 			}
 
+			public LayerTilemap(string layer, Tilemap tilemap)
+				: this(layer)
+			{
+				Set(tilemap);
+			}
+
 			public override string ToString()
 			{
 				return _layer;
@@ -311,15 +330,37 @@ namespace Stratus.Unity.Tilemaps
 		[SerializeField]
 		private List<LayerTilemap> _layers;
 
+		private static string[] layerNames => EnumUtility.Names<TLayer>();
+
 		protected override void OnReset()
 		{
-			_layers = new List<LayerTilemap>();
-			_layers.AddRange(EnumUtility.Names<TLayer>().Select(l => new LayerTilemap(l)));
+			RefreshLayers();
 		}
 
-		public override IStratusTilemap[] layers => _layers.ToArray();
-		public override StratusTilemap baseLayer => _layers.FirstOrDefault();
+		[InvokeMethod]
+		public void RefreshLayers()
+		{
+			var layers = EnumUtility.Names<TLayer>().Select(l => new LayerTilemap(l));
 
+			_layers = new List<LayerTilemap>();
+
+			foreach (var child in this.transform.Children())
+			{
+				var tileMap = child.gameObject.GetComponent<Tilemap>();
+				if (tileMap == null)
+				{
+					continue;
+				}
+
+				bool hasLayer = layerNames.Contains(child.name, StringComparer.InvariantCultureIgnoreCase);
+				if (hasLayer)
+				{
+					_layers.Add(new LayerTilemap(child.name, tileMap));
+				}
+			}
+		}
+
+		public override ITilemapBehaviour[] layers => _layers.ToArray();
+		public override TilemapBehaviour baseLayer => _layers.FirstOrDefault();
 	}
-
 }

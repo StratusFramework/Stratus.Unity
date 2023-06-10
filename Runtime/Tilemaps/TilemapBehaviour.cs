@@ -11,7 +11,7 @@ namespace Stratus.Unity.Tilemaps
 	/// <summary>
 	/// A wrapper for a <see cref="Tilemap"/>, containing various utility functions
 	/// </summary>
-	public interface IStratusTilemap
+	public interface ITilemapBehaviour
     {
 		string name { get; }
         void Initialize(Camera camera);
@@ -23,7 +23,7 @@ namespace Stratus.Unity.Tilemaps
     /// </summary>
     /// <typeparam name="TileType"></typeparam>
     [Serializable]
-    public class StratusTilemap : IStratusTilemap, IStratusLogger
+    public class TilemapBehaviour : ITilemapBehaviour, IStratusLogger
     {
 		#region Fields
 		[SerializeField]
@@ -36,7 +36,7 @@ namespace Stratus.Unity.Tilemaps
 		public TilemapRenderer tilemapRenderer => tilemap.GetComponent<TilemapRenderer>();
 		public Vector3Int mousePositionToCell => WorldToCell(camera.GetMousePositionToWorld());
 		public BoundsInt bounds => tilemap.cellBounds;
-		string IStratusTilemap.name => _tilemap.name;
+		string ITilemapBehaviour.name => _tilemap.name;
 		#endregion
 
 		#region Messages
@@ -52,7 +52,7 @@ namespace Stratus.Unity.Tilemaps
             this.camera = camera;
         }
 
-        public void Load(Tilemap tilemap)
+        public void Set(Tilemap tilemap)
         {
             _tilemap = tilemap;
         }
@@ -138,16 +138,6 @@ namespace Stratus.Unity.Tilemaps
 		public void ClearTiles()
 		{
 			tilemap.ClearAllTiles();
-		}
-
-		void IStratusTilemap.Initialize(Camera camera)
-		{
-			throw new NotImplementedException();
-		}
-
-		TileSelection IStratusTilemap.GetTile(Vector3Int position)
-		{
-			throw new NotImplementedException();
 		}
 		#endregion
 	}

@@ -17,7 +17,7 @@ namespace Stratus.Unity.Inputs
 	/// Base class for inputs that work with Unity's newer InputSystem
 	/// </summary>
 	[StratusSingleton(instantiate = false)]
-	public abstract class PlayerInput<T> : SingletonBehaviour<T>, IStratusPlayerInput
+	public abstract class LayeredPlayerInput<T> : SingletonBehaviour<T>, IStratusPlayerInput
 		where T : SingletonBehaviour<T>
 	{
 		#region Fields
@@ -67,6 +67,10 @@ namespace Stratus.Unity.Inputs
 		{
 			StratusScene.Connect<InputLayer.PushEvent>(OnPushLayerEvent);
 			StratusScene.Connect<InputLayer.PopEvent>(OnPopLayerEvent);
+			if (playerInput.notificationBehavior != PlayerNotifications.InvokeCSharpEvents)
+			{
+				throw new Exception($"The player input must be set to {PlayerNotifications.InvokeCSharpEvents}");
+			}
 			playerInput.onActionTriggered += OnInputActionTriggered;
 			playerInput.onControlsChanged += this.OnControlsChanged;
 			inputLayers.onLayerToggled += this.OnInputLayerChanged;
@@ -240,6 +244,10 @@ namespace Stratus.Unity.Inputs
 			}
 			return result;
 		}
+
+		public static void SwitchMap(string name)
+		{
+		}
 		#endregion
 
 		#region Procedures
@@ -305,6 +313,23 @@ namespace Stratus.Unity.Inputs
 			}
 		}
 		#endregion
+	}
+
+	public class LayeredPlayerInput : LayeredPlayerInput<LayeredPlayerInput>
+	{
+		protected override void OnInputAwake()
+		{
+		}
+
+		protected override void OnInputSchemeChanged(StratusInputScheme inputScheme)
+		{
+		}
+	}
+
+	public static class LayeredPlayerInputExtensions
+	{
+		public static void Push(this UnityInputLayer layer) => LayeredPlayerInput.DispatchPushLayerEvent(layer);
+		public static void Pop(this UnityInputLayer layer) => LayeredPlayerInput.DispatchPopLayerEvent(layer);
 	}
 
 	public enum StratusInputScheme

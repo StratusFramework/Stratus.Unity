@@ -6,19 +6,19 @@ using UnityEngine;
 
 namespace Stratus.Unity.Tilemaps
 {
-	[RequireComponent(typeof(IGridManager))]
+	[RequireComponent(typeof(IMapManager))]
 	public class GridText : StratusBehaviour
 	{
 		[SerializeField]
 		private TextMeshPro tileTextPrefab;
 		[SerializeField]
-		private IGridManager grid;
+		private IMapManager grid;
 
 		private Dictionary<Vector3Int, TextMeshPro> tileTextInstances = new Dictionary<Vector3Int, TextMeshPro>();
 
 		private void Reset()
 		{
-			grid = GetComponent<IGridManager>();
+			grid = GetComponent<IMapManager>();
 		}
 
 		public void SetTileText(Vector3Int position, string text)

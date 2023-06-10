@@ -18,7 +18,7 @@ namespace Stratus.Unity.Tilemaps
 		/// <summary>
 		/// The grid this behaviour belongs to
 		/// </summary>
-		GridBehaviour grid { get; }
+		MapBehaviour grid { get; }
 		/// <summary>
 		/// The position this behaviour belongs to within a <see cref="Grid"/>
 		/// </summary>
@@ -28,7 +28,7 @@ namespace Stratus.Unity.Tilemaps
 		/// </summary>
 		Enumerated layer { get; }
 
-		void Bind(GridBehaviour grid);
+		void Bind(MapBehaviour grid);
 		void Shutdown();
 		void MoveToPosition(Numerics.Vector2Int targetPosition, bool animate, Action onFinished = null);
 
@@ -49,54 +49,30 @@ namespace Stratus.Unity.Tilemaps
 		{
 			this.behaviour = behaviour;
 		}
-
 	}
 
-	public class TileBehaviourAddEvent : TileBehaviourEvent
+	/// <summary>
+	/// Used by a <see cref="GameObject"/> that is a child of a <see cref="UnityEngine.Tilemaps.Tilemap"/>
+	/// </summary>
+	public class TileBehaviour : StratusBehaviour, ITileBehaviour, IObject2D
 	{
-		public Action<GridBehaviour> initializer { get; private set; }
-		public TileBehaviourAddEvent(ITileBehaviour behaviour, Action<GridBehaviour> initializer) : base(behaviour)
+		#region Event Declarations
+		public class AddEvent : TileBehaviourEvent
 		{
-			this.initializer = initializer;
+			public Action<MapBehaviour> initializer { get; private set; }
+			public AddEvent(ITileBehaviour behaviour, Action<MapBehaviour> initializer) : base(behaviour)
+			{
+				this.initializer = initializer;
+			}
 		}
-	}
 
-	public class TileBehaviourRemovedEvent : TileBehaviourEvent
-	{
-		public TileBehaviourRemovedEvent(ITileBehaviour behaviour) : base(behaviour)
+		public class RemoveEvent : TileBehaviourEvent
 		{
+			public RemoveEvent(ITileBehaviour behaviour) : base(behaviour)
+			{
+			}
 		}
-	}
 
-	public abstract class TileBehaviour : StratusBehaviour, ITileBehaviour, IObject2D
-	{
-		public GridBehaviour grid { get; protected set; }
-		public Numerics.Vector2Int cellPosition { get; protected set; }
-		public abstract Enumerated layer { get; }
-
-		public event Action<Numerics.Vector2Int, Numerics.Vector2Int> onMoved;
-
-		public abstract void Select();
-		public abstract void Deselect();
-		/// <summary>
-		/// Binds the given tile behaviour onto the grid it logically belongs to
-		/// </summary>
-		public abstract void Bind(GridBehaviour grid);
-		public abstract void Shutdown();
-		public abstract void MoveToPosition(Numerics.Vector2Int targetPosition, bool animate, Action onFinished = null);
-
-		protected void NotifyMoved(Numerics.Vector2Int from, Numerics.Vector2Int to) => onMoved?.Invoke(from, to);
-	}
-
-	[RequireComponent(typeof(SpriteRenderer))]
-	[RequireComponent(typeof(Collider2D))]
-
-	public abstract class TileBehaviour<TileType> : TileBehaviour, ITileBehaviour<TileType>
-		where TileType : StratusTile
-	{
-		//-------------------------------------------------------------------------//
-		// Events
-		//-------------------------------------------------------------------------//
 		public class SelectedEvent : TileBehaviourEvent
 		{
 			public SelectedEvent(ITileBehaviour behaviour) : base(behaviour)
@@ -110,20 +86,25 @@ namespace Stratus.Unity.Tilemaps
 			{
 			}
 		}
+		#endregion
 
-		//-------------------------------------------------------------------------//
-		// Virtual
-		//-------------------------------------------------------------------------//
-		protected abstract void OnTileBehaviourInitialize();
-		protected abstract void OnTileBehaviourShutdown();
-		protected abstract void OnMoveToPosition(Numerics.Vector2Int cellPosition);
-
-		//-------------------------------------------------------------------------//
-		// Fields
-		//-------------------------------------------------------------------------//
+		#region Fields
 		public bool registerAtStart = true;
 		public bool destroyOnShutdown = true;
 		private bool assignedInitialPosition;
+		#endregion
+
+		#region Properties
+		public MapBehaviour grid { get; protected set; }
+		public Numerics.Vector2Int cellPosition { get; protected set; }
+		public Enumerated layer { get; set; }
+		#endregion
+
+		#region Events
+		public event Action<Numerics.Vector2Int, Numerics.Vector2Int> onMoved;
+		public event Action onInitialize;
+		public event Action onShutdown;
+		#endregion
 
 		//-------------------------------------------------------------------------//
 		// Properties
@@ -140,11 +121,9 @@ namespace Stratus.Unity.Tilemaps
 		/// <summary>
 		/// Whether this behaviour has been shutdown
 		/// </summary>
-		public bool shutdown { get; private set; }		
+		public bool shutdown { get; private set; }
 
-		//-------------------------------------------------------------------------//
-		// Messages
-		//-------------------------------------------------------------------------//
+		#region Messages
 		private void Start()
 		{
 			if (registerAtStart)
@@ -162,12 +141,11 @@ namespace Stratus.Unity.Tilemaps
 		{
 			return $"{name} cell {cellPosition}";
 		}
+		#endregion
 
-		//-------------------------------------------------------------------------//
-		// Methods: Initialization
-		//-------------------------------------------------------------------------//
+		#region Initialization
 		/// <summary>
-		/// Registers this behaviour as belonging to a layer within a <see cref="GridBehaviour"/>
+		/// Registers this behaviour as belonging to a layer within a <see cref="MapBehaviour"/>
 		/// </summary>
 		protected void Register()
 		{
@@ -176,21 +154,21 @@ namespace Stratus.Unity.Tilemaps
 				return;
 			}
 			registered = true;
-			this.gameObject.DispatchUp(new TileBehaviourAddEvent(this, Bind));
+			this.gameObject.DispatchUp(new AddEvent(this, Bind));
 			if (initialized)
 			{
-				OnTileBehaviourInitialize();
+				onInitialize?.Invoke();
 				ToggleVisibility(true);
 				this.Log($"Initialized {this} at {cellPosition}");
 			}
 			else
 			{
-				this.LogError("Failed to initialize");
+				this.LogError("Failed to register to a tilemap");
 			}
 		}
 
 		/// <summary>
-		/// Removes this behaviour from a layer within a <see cref="GridBehaviour"/>
+		/// Removes this behaviour from a layer within a <see cref="MapBehaviour"/>
 		/// </summary>
 		protected void Unregister()
 		{
@@ -199,10 +177,10 @@ namespace Stratus.Unity.Tilemaps
 				return;
 			}
 			registered = false;
-			this.gameObject.DispatchUp(new TileBehaviourRemovedEvent(this));
+			this.gameObject.DispatchUp(new RemoveEvent(this));
 			if (shutdown)
 			{
-				OnTileBehaviourShutdown();
+				onShutdown?.Invoke();
 				ToggleVisibility(false);
 				this.Log("Shutdown");
 				if (destroyOnShutdown)
@@ -213,7 +191,7 @@ namespace Stratus.Unity.Tilemaps
 			}
 		}
 
-		public override void Bind(GridBehaviour grid)
+		public void Bind(MapBehaviour grid)
 		{
 			this.grid = grid;
 			UpdateInternalPosition();
@@ -222,7 +200,7 @@ namespace Stratus.Unity.Tilemaps
 			initialized = true;
 		}
 
-		public override void Shutdown()
+		public void Shutdown()
 		{
 			if (shutdown)
 			{
@@ -230,6 +208,21 @@ namespace Stratus.Unity.Tilemaps
 			}
 			shutdown = true;
 		}
+		#endregion
+
+		#region Interface
+		public virtual void MoveToPosition(Numerics.Vector2Int targetPosition, bool animate, Action onFinished = null)
+		{
+			if (grid.map.grid.Contains(this.layer, targetPosition))
+			{
+				this.LogWarning($"A behaviour is already present at {targetPosition} in the same layer ({layer}) as this behaviour");
+				return;
+			}
+
+			this.Log($"Moving agent to {targetPosition}. Animate ? {animate}");
+			StartCoroutine(MoveToPositionRoutine(targetPosition, animate, onFinished));
+		}
+		#endregion
 
 		//-------------------------------------------------------------------------//
 		// Methods
@@ -249,21 +242,9 @@ namespace Stratus.Unity.Tilemaps
 		{
 			if (!assignedInitialPosition)
 			{
-				cellPosition = grid.behaviour.WorldToCell(this.transform.position).ToNumericVector2Int();
+				cellPosition = grid.grid.WorldToCell(this.transform.position).ToNumericVector2Int();
 			}
 			SnapToPosition(cellPosition);
-		}
-
-		public override void MoveToPosition(Numerics.Vector2Int targetPosition, bool animate, Action onFinished = null)
-		{
-			if (grid.map.grid.Contains(this.layer, targetPosition))
-			{
-				this.LogWarning($"A behaviour is already present at {targetPosition} in the same layer ({layer}) as this behaviour");
-				return;
-			}
-
-			this.Log($"Moving agent to {targetPosition}. Animate ? {animate}");
-			StartCoroutine(MoveToPositionRoutine(targetPosition, animate, onFinished));
 		}
 
 		protected IEnumerator MoveToPositionRoutine(Numerics.Vector2Int targetPosition,
@@ -272,27 +253,27 @@ namespace Stratus.Unity.Tilemaps
 			var sourcePosition = this.cellPosition;
 
 			// TODO: Implement
-			//if (animate)
-			//{
-			//	// Get the path
-			//	Vector3Int[] path = grid.GetPath(sourcePosition, targetPosition);
-			//	yield return AnimatedMoveToPosition(path);
-			//}
-			//else
-			//{
-			//}
+			if (animate)
+			{
+				// Get the path
+				//Vector3Int[] path = grid.GetPath(sourcePosition, targetPosition);
+				//yield return AnimatedMoveToPosition(path);
+			}
+			else
+			{
 				SnapToPosition(targetPosition);
+			}
 
+			var oldPosition = cellPosition;
 			yield return new WaitForEndOfFrame();
 			this.cellPosition = targetPosition;
-			OnMoveToPosition(targetPosition);
 			NotifyMoved(sourcePosition, targetPosition);
 			onFinished?.Invoke();
 		}
 
 		private void SnapToPosition(Numerics.Vector2Int cellPosition)
 		{
-			Vector3 worldPosition = grid.behaviour.GetCellCenterWorld(cellPosition.ToUnityVector3Int());
+			Vector3 worldPosition = grid.grid.GetCellCenterWorld(cellPosition.ToUnityVector3Int());
 			transform.position = worldPosition;
 		}
 
@@ -301,7 +282,7 @@ namespace Stratus.Unity.Tilemaps
 			const float defaultTimeBetweenPoints = 0.1f;
 			foreach (var point in path)
 			{
-				Vector3 pointWorldPosition = grid.behaviour.GetCellCenterWorld(point.ToUnityVector3Int());
+				Vector3 pointWorldPosition = grid.grid.GetCellCenterWorld(point.ToUnityVector3Int());
 				//this.Log($"Moving to point {pointWorldPosition}");
 				yield return TransformRoutines.MoveTo(transform, pointWorldPosition, defaultTimeBetweenPoints);
 			}
@@ -311,27 +292,18 @@ namespace Stratus.Unity.Tilemaps
 		{
 		}
 
-		public override void Select()
+		public void Select()
 		{
 			this.Log("Selecting");
 			StratusScene.Dispatch<SelectedEvent>(new SelectedEvent(this));
 		}
 
-		public override void Deselect()
+		public void Deselect()
 		{
 			this.Log("Deselecting");
 			StratusScene.Dispatch<DeselectedEvent>(new DeselectedEvent(this));
 		}
+
+		protected void NotifyMoved(Numerics.Vector2Int from, Numerics.Vector2Int to) => onMoved?.Invoke(from, to);
 	}
-
-	public abstract class StratusTileBehaviour<TBaseTile, TLayer> : TileBehaviour<TBaseTile>
-		where TBaseTile : StratusTile
-		where TLayer : Enum
-	{
-		[SerializeField]
-		private TLayer _layer = default;
-		public override Enumerated layer => _layer.ToString();
-	}
-
-
 }
