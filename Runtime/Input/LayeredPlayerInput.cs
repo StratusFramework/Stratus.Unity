@@ -255,26 +255,29 @@ namespace Stratus.Unity.Inputs
 		{
 			if (hasInputLayer)
 			{
-				// Update the current input device if it has changed
-				string deviceName = context.control.device.name;
-				if (inputSchemes.ContainsKey(deviceName))
+				try
 				{
-					var device = inputSchemes[deviceName];
-					if (latestInputSchemeUsed != device)
+					// Update the current input device if it has changed
+					string deviceName = context.control.device.name;
+					if (inputSchemes.ContainsKey(deviceName))
 					{
-						UpdateLatestInputDevice(device);
+						var device = inputSchemes[deviceName];
+						if (latestInputSchemeUsed != device)
+						{
+							UpdateLatestInputDevice(device);
+						}
+					}
+
+					bool handled = currentInputLayer.HandleInput(context);
+
+					if (logInputCallback)
+					{
+						this.Log($"[{(handled ? "HANDLED" : "UNHANDLED")}] {context}");
 					}
 				}
+				catch (Exception ex) 
+				{
 
-				// Handle the input
-				if (logInputCallback)
-				{
-					bool handled = currentInputLayer.HandleInput(context);
-					this.Log($"[{(handled ? "HANDLED" : "UNHANDLED")}] {context}");
-				}
-				else
-				{
-					currentInputLayer.HandleInput(context);
 				}
 			}
 			else

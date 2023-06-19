@@ -15,7 +15,7 @@ namespace Stratus.Unity.Tilemaps
     {
 		string name { get; }
         void Initialize(Camera camera);
-        TileSelection GetTile(Vector3Int position);
+        CellSelection GetTile(Vector3Int position);
     }
 
     /// <summary>
@@ -57,26 +57,26 @@ namespace Stratus.Unity.Tilemaps
             _tilemap = tilemap;
         }
 
-        public TileSelection GetTile<TileType>(Vector3Int position)
+        public CellSelection GetTile<TileType>(Vector3Int position)
             where TileType : StratusTile
         {
-            TileSelection selection = null;
+            CellSelection selection = null;
             TileType tile = tilemap.GetTile<TileType>(position);
             if (tile != null)
             {
-                selection = new TileSelection(tile, position.ToVector2Int());
+                selection = new CellSelection(tile, position.ToVector2Int());
             }
             return selection;
         }
 
-        public TileSelection GetTile(Vector3Int position)
+        public CellSelection GetTile(Vector3Int position)
             => GetTile<StratusTile>(position);
 
         public void ToggleVisibility(bool toggle)
         {
             tilemapRenderer.enabled = toggle;
         }
-		public TileSelection GetTileAtMousePosition()
+		public CellSelection GetTileAtMousePosition()
 		{
 			Vector3 mousePos = camera.GetMousePositionToWorld();
 			Vector3Int cellPos = WorldToCell(mousePos);
@@ -97,7 +97,7 @@ namespace Stratus.Unity.Tilemaps
 
 		public void MoveToTile(Transform transform, Vector3Int position)
 		{
-			TileSelection tile = GetTile(position);
+			CellSelection tile = GetTile(position);
 			MoveToTile(transform, tile);
 		}
 
@@ -129,7 +129,7 @@ namespace Stratus.Unity.Tilemaps
 			tilemap.SetColor(position, Color.white);
 		}
 
-		public void MoveToTile(Transform transform, TileSelection tile)
+		public void MoveToTile(Transform transform, CellSelection tile)
 		{
 			var targetPos = tilemap.GetCellCenterWorld(tile.position.ToVector3Int());
 			transform.position = targetPos;

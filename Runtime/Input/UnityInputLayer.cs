@@ -23,11 +23,11 @@ namespace Stratus.Unity.Inputs
 		{
 		}
 
-		public UnityInputLayer(string label) : this(label, new TActionMap())
+		public UnityInputLayer(string name) : this(name, new TActionMap())
 		{
 		}
 
-		public UnityInputLayer(string label, TActionMap actions) : base(label)
+		public UnityInputLayer(string name, TActionMap actions) : base(name)
 		{
 			this.actions = actions;
 		}

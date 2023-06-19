@@ -81,7 +81,7 @@ namespace Stratus.Unity.Tilemaps
 		#endregion
 
 		#region Events
-		public event Action<TileSelection> onSelectTile;
+		public event Action<CellSelection> onSelectTile;
 		#endregion
 
 		#region Message
@@ -188,7 +188,7 @@ namespace Stratus.Unity.Tilemaps
 		/// Selects the behaviour or tile at the given world position (such as by a mouse)
 		/// </summary>
 		/// <param name="world"></param>
-		public TileSelection SelectFromWorld(Vector3 world)
+		public CellSelection SelectFromWorld(Vector3 world)
 		{
 			var local = WorldToLocal(world);
 			var pos = LocalToCell(local);
@@ -199,7 +199,7 @@ namespace Stratus.Unity.Tilemaps
 		/// Selects the behaviour or tile at the cell position
 		/// </summary>
 		/// <param name="cellPos"></param>
-		public TileSelection Select(Vector3Int cellPos)
+		public CellSelection Select(Vector3Int cellPos)
 		{
 			// Get the tiel
 			var tile = SelectTileAt(cellPos);
@@ -210,7 +210,7 @@ namespace Stratus.Unity.Tilemaps
 				var target = map.grid.Get(layer.name, cellPos.ToNumericVector2Int());
 				if (target != null)
 				{
-					return new TileSelection(tile.tile, tile.position);
+					return new CellSelection(tile.tile, tile.position);
 				}
 			}
 
@@ -221,11 +221,11 @@ namespace Stratus.Unity.Tilemaps
 		/// Selects the tile at the given position
 		/// </summary>
 		/// <param name="cellPos"></param>
-		public TileSelection SelectTileAt(Vector3Int cellPos)
+		public CellSelection SelectTileAt(Vector3Int cellPos)
 		{
 			foreach (var layer in layers.Reverse())
 			{
-				TileSelection selection = layer.GetTile(cellPos);
+				CellSelection selection = layer.GetTile(cellPos);
 				if (selection != null)
 				{
 					return selection;

@@ -5,22 +5,22 @@ using Event = Stratus.Events.Event;
 namespace Stratus.Unity.Tilemaps
 {
 	/// <summary>
-	/// The selection if a single tile within a tilemap
+	/// The selection of a single tile within a tilemap
 	/// </summary>
-	public class TileSelection
+	public class CellSelection
 	{
 		public StratusTile tile { get; }
 		public TileBehaviour behaviour { get; }
 		public Vector2Int position { get; }
 		public bool hasBehaviour => behaviour != null;
 
-		public TileSelection(StratusTile tile, Vector2Int position)
+		public CellSelection(StratusTile tile, Vector2Int position)
 		{
 			this.tile = tile;
 			this.position = position;
 		}
 
-		public TileSelection(StratusTile tile, Vector2Int position, TileBehaviour behaviour)
+		public CellSelection(StratusTile tile, Vector2Int position, TileBehaviour behaviour)
 			: this(tile, position)
 		{
 			this.behaviour = behaviour;
@@ -43,7 +43,7 @@ namespace Stratus.Unity.Tilemaps
 				return false;
 			}
 
-			TileSelection other = (TileSelection)obj;
+			CellSelection other = (CellSelection)obj;
 
 			if (this.tile != other.tile)
 			{
@@ -67,17 +67,29 @@ namespace Stratus.Unity.Tilemaps
 		}
 	}
 
-	public class TileSelectionEvent : Event
+	public abstract class CellSelectionEventBase : Event
 	{
-		public TileSelection selection { get; }
+		public CellSelection selection { get; }
 
-		public TileSelectionEvent(TileSelection selection)
+		protected CellSelectionEventBase(CellSelection selection)
 		{
 			this.selection = selection;
 		}
 	}
 
-	public class TileDeselectionEvent : Event
+	public class CellSelectionEvent : CellSelectionEventBase
 	{
+		public CellSelectionEvent(CellSelection selection)
+			: base(selection)
+		{
+		}
+	}
+
+	public class CellDeselectionEvent : CellSelectionEventBase
+	{
+		public CellDeselectionEvent(CellSelection selection)
+			: base(selection)
+		{
+		}
 	}
 }

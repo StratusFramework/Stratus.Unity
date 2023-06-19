@@ -7,6 +7,7 @@ using Stratus.Unity.Inputs;
 using System;
 
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace Stratus.Unity.Tilemaps
@@ -44,25 +45,28 @@ namespace Stratus.Unity.Tilemaps
 		[SerializeField]
 		private SpriteRenderer _cursor;
 
+		[Header("Inputs")]
 		[SerializeField]
-		private InputActionReference onSelect;
+		private InputActionReference select;
 		[SerializeField]
-		private InputActionReference onCancel;
+		private InputActionReference cancel;
 		[SerializeField]
-		private InputActionReference onNavigate;
+		private InputActionReference navigate;
 
 		public MapManager map => _map;
-		public TileSelection currentSelection { get; private set; }
+		public CellSelection currentSelection { get; private set; }
+		private MapInputLayer inputLayer { get; set; }
 
-		private MapInputLayer inputLayer;
+		public event Action<CellSelection> onSelect;
+		public event Action<CellSelection> onDeselect;
 
 		private void Awake()
 		{
 			inputLayer = new MapInputLayer("Map");
 
-			onSelect.action.performed += this.Select;
-			onCancel.action.performed += this.Deselect;
-			onNavigate.action.performed += this.Navigate;
+			select.action.performed += this.Select;
+			cancel.action.performed += this.Deselect;
+			navigate.action.performed += this.Navigate;
 
 			map.onLoad += inputLayer.Push;
 			map.onUnload += inputLayer.Pop;
@@ -75,12 +79,12 @@ namespace Stratus.Unity.Tilemaps
 
 		private void OnEnable()
 		{
-			onSelect.action.Enable();
+			select.action.Enable();
 		}
 
 		private void OnDisable()
 		{
-			onSelect.action.Disable();
+			select.action.Disable();
 		}
 
 		private void Select(InputAction.CallbackContext ctx)
@@ -89,11 +93,12 @@ namespace Stratus.Unity.Tilemaps
 			if (selection != null)
 			{
 				this.Log($"Selecting {selection}");
-				this.gameObject.Dispatch(new TileSelectionEvent(selection));
+				currentSelection = selection;
+				UnityEventSystem.Broadcast(new CellSelectionEvent(selection));
 			}
 		}
 
-		private TileSelection GetTileAtCurrentMousePosition()
+		private CellSelection GetTileAtCurrentMousePosition()
 		{
 			var world = _map.camera.GetMousePositionToWorld();
 			return _map.current.SelectFromWorld(world);
@@ -101,7 +106,10 @@ namespace Stratus.Unity.Tilemaps
 
 		private void Deselect(InputAction.CallbackContext obj)
 		{
-			this.gameObject.Dispatch(new TileDeselectionEvent());
+			this.Log($"Deselect {currentSelection}");
+			onDeselect?.Invoke(currentSelection);
+			UnityEventSystem.Broadcast(new CellDeselectionEvent(currentSelection));
+			currentSelection = null;
 		}
 
 		private void Navigate(InputAction.CallbackContext obj)

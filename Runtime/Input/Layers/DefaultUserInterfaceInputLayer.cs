@@ -14,9 +14,6 @@ namespace Stratus.Unity.Inputs
 		Cancel,
 	}
 
-	/// <summary>
-	/// Default input action map for UI
-	/// </summary>
 	public class DefaultUserInterfaceActionMap : ActionMapHandlerBase<InputAction.CallbackContext>
 	{
 		public override string name => "UI";
@@ -26,10 +23,6 @@ namespace Stratus.Unity.Inputs
 		public Action<Vector2> onNavigate;
 		public Action onSubmit;
 		public Action onCancel;
-		public Action onNext;
-		public Action onPrevious;
-		public Action onReset;
-		public Action onPause;
 
 		public const string navigationActionName = nameof(DefaultUserInterfaceAction.Navigate);// "Navigate";
 		public const string submitActionName = nameof(DefaultUserInterfaceAction.Submit);
@@ -65,11 +58,11 @@ namespace Stratus.Unity.Inputs
 
 	public class DefaultUserInterfaceInputLayer : UnityInputLayer<DefaultUserInterfaceActionMap>
 	{
-		public DefaultUserInterfaceInputLayer(string label) : base(label)
+		public DefaultUserInterfaceInputLayer() : base("UI")
 		{
 		}
 
-		public DefaultUserInterfaceInputLayer(string label, DefaultUserInterfaceActionMap actions) : base(label, actions)
+		public DefaultUserInterfaceInputLayer(DefaultUserInterfaceActionMap actions) : base("UI", actions)
 		{
 		}
 

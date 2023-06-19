@@ -62,11 +62,11 @@ namespace Stratus.Unity.Tilemaps
 
 		private void Awake()
 		{
-			this.gameObject.Connect<TileSelectionEvent>(e =>
+			this.gameObject.Connect<CellSelectionEvent>(e =>
 			{
 				SetCellPosition(e.selection.position);
 			});
-			this.gameObject.Connect((Action<TileDeselectionEvent>)(e =>
+			this.gameObject.Connect((Action<CellDeselectionEvent>)(e =>
 			{
 				HideCursor();
 			}));
@@ -91,7 +91,7 @@ namespace Stratus.Unity.Tilemaps
 			input = GetComponent<MapInput>();
 		}
 
-		private void OnStratusTileSelectionEvent(TileSelectionEvent e)
+		private void OnStratusTileSelectionEvent(CellSelectionEvent e)
 		{
 
 		}
