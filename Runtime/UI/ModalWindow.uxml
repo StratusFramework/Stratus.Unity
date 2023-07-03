@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/Stratus.Unity/Runtime/UI/ModalWindow.uss?fileID=7433441132597879392&amp;guid=8621572587232a44bbd5aff5d741b954&amp;type=3#ModalWindow" />
+    <ui:VisualElement name="Background" style="background-color: rgba(63, 57, 57, 0.5); width: 100%; height: 100%; justify-content: center; align-items: center;">
+        <ui:VisualElement name="Frame" style="width: 40%; left: auto; justify-content: center; align-items: center; background-color: rgb(131, 137, 142); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; top: auto; padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px;">
+            <ui:Label text="Message here..." display-tooltip-when-elided="true" name="Message" enable-rich-text="true" style="font-size: 36px;" />
+            <ui:ScrollView mode="Horizontal" name="Buttons" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
