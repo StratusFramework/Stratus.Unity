@@ -37,7 +37,5 @@ namespace Stratus.Unity.Editor
 		{
 			this.target = base.target as T;
 		}
-
 	}
-
 }

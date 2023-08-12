@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <uie:Toolbar style="padding-left: 2px; padding-right: 2px; padding-top: 2px; padding-bottom: 2px;">
+        <uie:ToolbarBreadcrumbs />
+        <uie:ToolbarSearchField focusable="true" name="Input" style="width: 50%; flex-grow: 1;" />
+        <uie:ToolbarButton text="Submit" display-tooltip-when-elided="true" name="Submit" style="-unity-text-align: middle-left;" />
+        <uie:ToolbarMenu tabindex="-1" display-tooltip-when-elided="true" name="AutoComplete" />
+        <uie:ToolbarButton text="Clear History" display-tooltip-when-elided="true" name="Clear" style="-unity-text-align: middle-left;" />
+    </uie:Toolbar>
+    <ui:ListView focusable="true" name="View" virtualization-method="DynamicHeight" show-border="false" show-alternating-row-backgrounds="ContentOnly" show-foldout-header="false" style="height: 100%; margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px;" />
+</ui:UXML>

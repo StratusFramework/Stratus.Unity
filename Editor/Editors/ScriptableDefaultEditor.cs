@@ -4,8 +4,8 @@ using UnityEditor;
 
 namespace Stratus.Unity.Editor
 {
-	[CanEditMultipleObjects]
-	[CustomEditor(typeof(StratusScriptable), true)]
+	//[CanEditMultipleObjects]
+	//[CustomEditor(typeof(StratusScriptable), true)]
 	public class ScriptableDefaultEditor : ScriptableEditor<StratusScriptable>
 	{
 		protected override void OnStratusEditorEnable()

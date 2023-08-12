@@ -7,7 +7,6 @@ using Stratus.Unity.Inputs;
 using System;
 
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 namespace Stratus.Unity.Tilemaps

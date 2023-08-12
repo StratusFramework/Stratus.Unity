@@ -16,12 +16,23 @@ namespace Stratus.Editor
 	/// </summary>
 	public abstract class StratusEditorWindow : EditorWindow, IStratusLogger
 	{
-		//------------------------------------------------------------------------/
-		// Properties
-		//------------------------------------------------------------------------/
 		protected const string rootMenu = "Stratus/";
+		protected const string windowMenu = rootMenu + "Windows/";
+
 		protected SerializedObject serializedObject { get; set; }
 		protected StratusSerializedPropertyMap serializedPropertyMap { get; set; }
+
+		/// <summary>
+		/// Opens the editor window, such as from a <see cref="MenuItem"/>
+		/// </summary>
+		/// <param name="title"></param>
+		/// <param name="utility"></param>
+		protected static void OpenWindow<T>(string title = null, bool utility = false)
+		{
+			Type type = typeof(T);
+			title = title != null ? title : type.Name;
+			var wnd = GetWindow(type, utility, title);
+		}
 	}
 
 	/// <summary>
@@ -29,9 +40,7 @@ namespace Stratus.Editor
 	/// </summary>
 	public abstract class StratusEditorWindow<T> : StratusEditorWindow where T : EditorWindow
 	{
-		//------------------------------------------------------------------------/
-		// Properties
-		//------------------------------------------------------------------------/
+		#region Properties
 		/// <summary>
 		/// The active instance for this editor window
 		/// </summary>
@@ -76,21 +85,16 @@ namespace Stratus.Editor
 		}
 
 		public static float padding => StratusEditorGUI.standardPadding;
-		public static float lineHeight => StratusEditorUtility.lineHeight;
+		public static float lineHeight => StratusEditorUtility.lineHeight; 
+		#endregion
 
-		//------------------------------------------------------------------------/
-		// Methods
-		//------------------------------------------------------------------------/
+		#region Virtual
 		protected abstract void OnWindowEnable();
 		protected abstract void OnWindowGUI();
-		protected virtual MenuBarGUIObject OnSetMenuBar()
-		{
-			return null;
-		}
+		protected virtual MenuBarGUIObject OnSetMenuBar() => null; 
+		#endregion
 
-		//------------------------------------------------------------------------/
-		// Messages
-		//------------------------------------------------------------------------/
+		#region Messages
 		private void OnEnable()
 		{
 			instance = this as T;
@@ -127,7 +131,9 @@ namespace Stratus.Editor
 		protected virtual void OnWindowUpdate()
 		{
 		}
+		#endregion
 
+		#region Static
 		/// <summary>
 		/// Opens the editor window, such as from a <see cref="MenuItem"/>
 		/// </summary>
@@ -139,10 +145,9 @@ namespace Stratus.Editor
 			title = title != null ? title : type.Name;
 			EditorWindow.GetWindow(type, utility, title);
 		}
+		#endregion
 
-		//------------------------------------------------------------------------/
-		// Methods: Drawing
-		//------------------------------------------------------------------------/
+		#region GUI
 		protected void InspectProperties(string label = "Properties")
 		{
 			this.InspectProperties(label, this.serializedPropertyMap.properties);
@@ -221,9 +226,6 @@ namespace Stratus.Editor
 			return changed;
 		}
 
-		//------------------------------------------------------------------------/
-		// Methods: Setup
-		//------------------------------------------------------------------------/
 		protected AnimBool[] GenerateAnimBools(int count, bool value)
 		{
 			List<AnimBool> bools = new List<AnimBool>();
@@ -234,13 +236,7 @@ namespace Stratus.Editor
 				bools.Add(animBool);
 			}
 			return bools.ToArray();
-		}
-
-
-
-
-
-
+		} 
+		#endregion
 	}
-
 }

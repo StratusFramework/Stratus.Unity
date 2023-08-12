@@ -1,4 +1,6 @@
-﻿using Stratus.Logging;
+﻿using Stratus.Events;
+using Stratus.Logging;
+using Stratus.Unity.Events;
 using Stratus.Unity.Extensions;
 
 using System;
@@ -22,6 +24,29 @@ namespace Stratus.Unity.Tilemaps
 	/// </summary>
 	public class MapManager : StratusBehaviour, IMapManager
 	{
+		#region Declarations
+		/// <summary>
+		/// A map was loaded
+		/// </summary>
+		public class LoadedEvent : Stratus.Events.Event
+		{
+		}
+
+		/// <summary>
+		/// A request to unload the current map
+		/// </summary>
+		public class UnloadEvent : Stratus.Events.Event
+		{
+		}
+
+		/// <summary>
+		/// A map was unloaded
+		/// </summary>
+		public class UnloadedEvent : Stratus.Events.Event
+		{
+		}
+		#endregion
+
 		#region Fields
 		[SerializeField]
 		private Camera _camera;
@@ -51,6 +76,7 @@ namespace Stratus.Unity.Tilemaps
 		#region Virtual
 		protected virtual void OnAwake()
 		{
+			UnityEventSystem.Connect<UnloadEvent>(e => Unload());
 		}
 		#endregion
 
@@ -80,7 +106,9 @@ namespace Stratus.Unity.Tilemaps
 			map.Initialize(this);
 			this.Log($"Loaded grid [{map}]");
 			onFinished?.Invoke();
+
 			onLoad?.Invoke();
+			UnityEventSystem.Broadcast<LoadedEvent>();
 		}
 
 		public void Load()
@@ -124,8 +152,6 @@ namespace Stratus.Unity.Tilemaps
 			return _grid.GetCellCenterWorld(cell.ToVector3Int());
 		}
 
-
-
 		public bool Unload()
 		{
 			if (current == null)
@@ -134,10 +160,13 @@ namespace Stratus.Unity.Tilemaps
 				return false;
 			}
 
-			this.Log($"Unloading grid [{current}]");
+			this.Log($"Unloading map [{current}]");
 			Destroy(current.gameObject);
 			current = null;
+
 			onUnload?.Invoke();
+			UnityEventSystem.Broadcast<UnloadedEvent>();
+
 			return true;
 		}
 		#endregion
