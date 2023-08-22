@@ -15,7 +15,7 @@ namespace Stratus.Unity.Editor
 
 		public static ScriptableObject AddInstanceToAsset(this ScriptableObject assetObject, Type type)
 		{
-			return AssetUtility.AddInstanceToAsset(assetObject, type);
+			return Stratus.Unity.Utility.AssetUtility.AddInstanceToAsset(assetObject, type);
 		}
 	}
 

@@ -195,7 +195,7 @@ namespace Stratus.Unity.Editor
 			this.treeView.TreeViewGUI(this.positionToGUI);
 		}
 
-		[MenuItem(Constants.rootMenu + "Event Browser")]
+		[MenuItem(windowMenu + "Event Browser")]
 		private static void Open()
 		{
 			OpenWindow("Event Browser");

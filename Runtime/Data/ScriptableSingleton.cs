@@ -114,7 +114,6 @@ namespace Stratus.Unity.Data
 				{
 					LoadOrCreate();
 				}
-
 				return _serializedObject;
 			}
 		}

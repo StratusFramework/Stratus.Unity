@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <uie:Toolbar style="margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px;" />
+    <ui:VisualElement name="Main" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0); flex-direction: row; height: 100%;">
+        <ui:ListView focusable="true" name="List" style="min-width: 160px; height: 100%;" />
+        <ui:VisualElement name="View" style="flex-grow: 1; background-color: rgb(32, 32, 32); height: 100%;" />
+    </ui:VisualElement>
+</ui:UXML>
