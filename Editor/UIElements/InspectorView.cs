@@ -2,8 +2,10 @@ using Newtonsoft.Json.Linq;
 
 using Stratus.Extensions;
 using Stratus.Reflection;
+using Stratus.Types;
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,7 +16,7 @@ using UnityEngine.UIElements;
 
 namespace Stratus.Unity.Editor.UIElements
 {
-	public class JsonInspector : VisualElement
+	public class InspectorView : VisualElement
 	{
 		public enum Mode
 		{
@@ -42,7 +44,7 @@ namespace Stratus.Unity.Editor.UIElements
 
 		public Mode mode { get; private set; }
 
-		public JsonInspector()
+		public InspectorView()
 		{
 			var toolbar = new Toolbar();
 			saveButton = new ToolbarButton(Save);
@@ -54,6 +56,12 @@ namespace Stratus.Unity.Editor.UIElements
 			Add(view);
 		}
 
+		public void Save()
+		{
+			save?.Invoke();
+		}
+
+		#region Class
 		public void Set(object target, Action onSave)
 		{
 			view.Clear();
@@ -62,16 +70,104 @@ namespace Stratus.Unity.Editor.UIElements
 			var inspector = new Inspector(target);
 			foreach (var node in inspector.nodes)
 			{
-				var visualElement = Get(node);
-				if (visualElement != null)
-				{
-					view.Add(visualElement);
-				}
+				Add(node, view);
 			}
 
 			save = onSave;
 		}
 
+		private void Add(Node node, VisualElement parent)
+		{
+			var visualElement = Get(node);
+			if (visualElement != null)
+			{
+				parent.Add(visualElement);
+				foreach (var child in node.children.Values)
+				{
+					Add(child, visualElement);
+				}
+			}
+		}
+
+		private VisualElement Get(Node node)
+		{
+			if (node.type == typeof(string))
+			{
+				var textField = new TextField();
+				textField.label = DisplayName(node.name);
+				textField.value = node.Get<string>();
+				textField.RegisterValueChangedCallback(e =>
+				{
+					node.value = e.newValue;
+				});
+
+				return textField;
+			}
+			else if (node.type == typeof(int))
+			{
+				var intField = new IntegerField(name);
+				intField.value = node.Get<int>();
+				intField.RegisterValueChangedCallback(e =>
+				{
+					node.value = e.newValue;
+				});
+				return intField;
+			}
+			else if (node.isCollection)
+			{
+				var foldout = new Foldout();
+				foldout.text = DisplayName(node.name);
+				switch (node.collectionType)
+				{
+					case CollectionType.Unsupported:
+						foldout.Add(new Label($"Unsupported collection type {node.type}"));
+						break;
+
+					case CollectionType.List:
+						{
+							var values = node.Get<IList>();
+							var listView = new ListView();
+							listView.showAddRemoveFooter = true;
+							listView.itemsSource = values;
+							listView.makeItem = () => new TextField(string.Empty);
+							listView.bindItem = (ve, i) =>
+							{
+								var textField = ve as TextField;
+								textField.label = null;
+								textField.value = (string)values[i];
+								textField.RegisterValueChangedCallback(e =>
+								{
+									values[i] = e.newValue;
+								});
+							};
+							foldout.Add(listView);
+						}
+						break;
+
+					case CollectionType.Dictionary:
+						{
+							var dictView = new DictionaryView();
+							var dictionary = node.Get<IDictionary>();
+							dictView.itemsSource = dictionary;
+							dictView.showAddRemoveFooter = true;
+							foldout.Add(dictView);
+						}
+						break;
+				}
+				return foldout;
+			}
+			else if (node.hasChildren)
+			{
+				var foldout = new Foldout();
+				foldout.text = DisplayName(node.name);
+				return foldout;
+			}
+
+			return null;
+		}
+		#endregion
+
+		#region Tokenized
 		public void Set(string json, Action<string> onSave)
 		{
 			view.Clear();
@@ -89,11 +185,6 @@ namespace Stratus.Unity.Editor.UIElements
 				var serialization = jo.ToString();
 				onSave(serialization);
 			};
-		}
-
-		public void Save()
-		{
-			save?.Invoke();
 		}
 
 		private void Add(JObject jo, string name = null, JObject parent = null)
@@ -138,17 +229,17 @@ namespace Stratus.Unity.Editor.UIElements
 					{
 						var foldout = new Foldout();
 						foldout.text = DisplayName(name);
-						var arrayView = new ListView();
-						foldout.Add(arrayView);
+						var listView = new ListView();
+						foldout.Add(listView);
 
 						var container = parent[name] as JContainer;
 						var tokens = container.Values();
 						List<string> values = new List<string>();
 						values.AddRange(tokens.Select(t => t.Value<string>()));
 
-						arrayView.itemsSource = values;
-						arrayView.makeItem = () => new TextField(string.Empty);
-						arrayView.bindItem = (ve, i) =>
+						listView.itemsSource = values;
+						listView.makeItem = () => new TextField(string.Empty);
+						listView.bindItem = (ve, i) =>
 						{
 							var textField = ve as TextField;
 							textField.label = null;
@@ -159,13 +250,13 @@ namespace Stratus.Unity.Editor.UIElements
 								container.ElementAt(i).Replace(e.newValue);
 							});
 						};
-						arrayView.showAddRemoveFooter = true;
-						arrayView.itemsAdded += indeces =>
+						listView.showAddRemoveFooter = true;
+						listView.itemsAdded += indeces =>
 						{
 							var replacement = values.Cast<object>().ToArray();
 							container.ReplaceAll(replacement);
 						};
-						arrayView.itemsRemoved += indeces =>
+						listView.itemsRemoved += indeces =>
 						{
 							var replacement = values.Cast<object>().ToArray();
 							container.ReplaceAll(replacement);
@@ -234,24 +325,9 @@ namespace Stratus.Unity.Editor.UIElements
 
 			return null;
 		}
+		#endregion
 
-		private VisualElement Get(Node node)
-		{
-			if (node.type == typeof(string))
-			{
-				var textField = new TextField();
-				textField.label = DisplayName(node.name);
-				textField.value = node.Get<string>();
-				textField.RegisterValueChangedCallback(e =>
-				{
-					node.value = e.newValue;
-				});
 
-				return textField;
-			}
-
-			return null;
-		}
 
 		private static string DisplayName(string name)
 			 => ObjectNames.NicifyVariableName(name);

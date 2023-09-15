@@ -33,7 +33,7 @@ namespace Stratus.Unity.Editor.Packages
 		public string displayName;
 		public string description;
 		public string unity;
-		public Dictionary<string, string> dependencies = new Dictionary<string, string>();
+		public Dictionary<string, string> dependencies = new();
 		public List<string> keywords = new ();
 		public Author author = new Author();
 	}
@@ -64,7 +64,7 @@ namespace Stratus.Unity.Editor.Packages
 
 			public void Save()
 			{
-				var serialization = JsonConvert.SerializeObject(manifest);
+				var serialization = JsonConvert.SerializeObject(manifest, Formatting.Indented);
 				Save(serialization);
 			}
 
@@ -119,7 +119,7 @@ namespace Stratus.Unity.Editor.Packages
 			list.bindItem = BindItem;
 			list.selectionChanged += OnSelectionChanged;
 			view = main.Q("View");
-			view.Add(new JsonInspector());
+			view.Add(new InspectorView());
 
 			Refresh();
 		}
@@ -132,7 +132,7 @@ namespace Stratus.Unity.Editor.Packages
 
 		private void Display(Entry entry)
 		{
-			var inspector = view.Q<JsonInspector>();
+			var inspector = view.Q<InspectorView>();
 			entry.Load();
 
 			if (!entry.loaded)
@@ -142,7 +142,8 @@ namespace Stratus.Unity.Editor.Packages
 
 			try
 			{
-				inspector.Set(entry.json, entry.Save);
+				inspector.Set(entry.manifest, entry.Save);
+				//inspector.Set(entry.json, entry.Save);
 			}
 			catch (Exception e)
 			{
